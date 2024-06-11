@@ -1,0 +1,18 @@
+<div class="movie-list">
+   <div class="movie-list__container">
+      <div class="movie-list__movies">
+         <app-movie-card [movie]="movies[0]" (addFavorite)="handleAddFavorite($event)"
+            (addWatchList)="handleWatchList($event)"></app-movie-card>
+         <app-movie-card [movie]="movies[1]" (addFavorite)="handleAddFavorite($event)"
+            (addWatchList)="handleWatchList($event)"></app-movie-card>
+         <app-movie-card [movie]="movies[2]" (addFavorite)="handleAddFavorite($event)"
+            (addWatchList)="handleWatchList($event)"></app-movie-card>
+      </div>
+      <div class="movie-list__item favorite-movies">
+         <h2 class="favorite-movies__title">Favorite movies</h2>
+      </div>
+      <div class="movie-list__item watch-movies">
+         <h2 class="watch-movies__title">Watch later</h2>
+      </div>
+   </div>
+</div>

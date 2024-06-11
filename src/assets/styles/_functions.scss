@@ -1,0 +1,9 @@
+@function toREM($num1, $num2: 16) {
+  $res: math.div($num1, $num2) + rem;
+  @return $res;
+}
+
+@function toEM($num1, $num2: 16) {
+  $res: math.div($num1, $num2) + em;
+  @return $res;
+}

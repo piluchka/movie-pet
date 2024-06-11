@@ -1,0 +1,85 @@
+.movie-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 0.9375rem;
+}
+.movie-card__poster {
+  position: relative;
+}
+.movie-card__action-button {
+  max-width: 3.125rem;
+  background-color: rgba(255, 255, 255, 0.678);
+  border-radius: 50%;
+  position: absolute;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+@media (any-hover: hover) {
+  .movie-card__action-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}
+.movie-card__action-button img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.movie-card__img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 350/480;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.movie-card__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 0.625rem;
+  font-size: 1.25rem;
+}
+.movie-card__title {
+  font-size: 1.875rem;
+  font-weight: 800;
+}
+.movie-card__description {
+  font-style: italic;
+  margin-bottom: 0.9375rem;
+}
+.movie-card__more-button {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+  padding: 1.25rem 1.875rem;
+  background-color: #0c3b3d;
+  font-weight: 700;
+  border-radius: 1.25rem;
+  color: #fff;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+@media (any-hover: hover) {
+  .movie-card__more-button:hover {
+    background-color: #062021;
+  }
+}
+
+.favorite-button {
+  top: 1.25rem;
+  left: 6.25rem;
+}
+
+.watch-later-button {
+  top: 1.25rem;
+  left: 1.25rem;
+}

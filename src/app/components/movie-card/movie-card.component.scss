@@ -1,0 +1,89 @@
+@use "sass:math";
+@import "../../../assets/styles/_functions.scss";
+
+.movie-card {
+  display: flex;
+  flex-direction: column;
+  gap: toREM(15);
+
+  &__poster {
+    position: relative;
+  }
+
+  &__action-button {
+    max-width: toREM(50);
+    background-color: rgba(255, 255, 255, 0.678);
+    border-radius: 50%;
+    position: absolute;
+
+    transition: all 0.3s;
+
+    @media (any-hover: hover) {
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 350 / 480;
+    object-fit: cover;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: toREM(10);
+
+    font-size: toREM(20);
+  }
+
+  &__title {
+    font-size: toREM(30);
+    font-weight: 800;
+  }
+
+  &__genre {
+  }
+
+  &__rating {
+  }
+
+  &__description {
+    font-style: italic;
+    // ! Разобраться в будущем
+    margin-bottom: toREM(15);
+  }
+
+  &__more-button {
+    align-items: start;
+    padding: toREM(20) toREM(30);
+    background-color: #0c3b3d;
+    font-weight: 700;
+    border-radius: toREM(20);
+    color: #fff;
+    transition: all 0.3s;
+
+    @media (any-hover: hover) {
+      &:hover {
+        background-color: #062021;
+      }
+    }
+  }
+}
+.favorite-button {
+  top: toREM(20);
+  left: toREM(100);
+}
+.watch-later-button {
+  top: toREM(20);
+  left: toREM(20);
+}

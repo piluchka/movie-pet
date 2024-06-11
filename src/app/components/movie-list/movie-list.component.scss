@@ -1,0 +1,28 @@
+@use "sass:math";
+@import "../../../assets/styles/_functions.scss";
+.movie-list {
+  &__container {
+    padding: toREM(30) toREM(15);
+  }
+
+  &__movies {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(toREM(300), 1fr));
+    column-gap: toREM(30);
+    row-gap: toREM(40);
+  }
+
+  &__item {
+    h2 {
+      font-size: toREM(50);
+    }
+  }
+}
+// .favorite-movies {
+//   &__title {
+//   }
+// }
+// .watch-movies {
+//   &__title {
+//   }
+// }

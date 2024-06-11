@@ -1,0 +1,18 @@
+<div class="movie-card">
+   <div class="movie-card__poster">
+      <button (click)="addToFavorite()" class="movie-card__action-button favorite-button">
+         <img src="assets/icons/active-fav.svg" alt="favorite"></button>
+      <button (click)="addToWatchList()" class="movie-card__action-button watch-later-button">
+         <img src="assets/icons/active-eye.svg" alt="watch later"></button>
+      <img class="movie-card__img" [src]="movie.posterImgPath" alt="movie">
+   </div>
+   <div class="movie-card__content">
+      <h2 class="movie-card__title">{{movie.title}} <span>({{movie.year}})</span></h2>
+      <p class="movie-card__director">Director: {{movie.director}}</p>
+      <p class="movie-card__genre">Genre: {{movie.genre}}</p>
+      <p class="movie-card__rating">Rating: {{movie.rating}}</p>
+      <p class="movie-card__duration">Duration: {{movie.minDuration}} min</p>
+      <p class="movie-card__description">{{movie.overview}}</p>
+      <button class="movie-card__more-button">Show more</button>
+   </div>
+</div>
