@@ -11,7 +11,7 @@
       <p class="movie-card__director">Director: {{movie.director}}</p>
       <p class="movie-card__genre">Genre: {{movie.genre}}</p>
       <p class="movie-card__rating">Rating: {{movie.rating}}</p>
-      <p class="movie-card__duration">Duration: {{movie.minDuration}} min</p>
+      <p class="movie-card__duration">Duration: {{movie.minDuration | formatingTime}}h</p>
       <p class="movie-card__description">{{movie.overview}}</p>
       <button class="movie-card__more-button">Show more</button>
    </div>
