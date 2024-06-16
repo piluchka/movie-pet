@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormatingTimePipe } from '../../pipes/formatingTime/formating-time.pipe';
 
 @Component({
   selector: 'app-movie-card',
   standalone: true,
-  imports: [],
+  imports: [FormatingTimePipe],
   templateUrl: './movie-card.component.html',
   styleUrl: './movie-card.component.scss',
 })
