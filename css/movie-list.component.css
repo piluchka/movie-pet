@@ -1,5 +1,13 @@
 .movie-list__container {
   padding: 1.875rem 0.9375rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1.875rem;
 }
 .movie-list__movies {
   display: grid;
@@ -11,4 +19,13 @@
 }
 .movie-list__item h2 {
   font-size: 3.125rem;
+}
+.movie-list__item .favorite-movies__content,
+.movie-list__item .watch-movies__content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
+  -webkit-column-gap: 1.875rem;
+     -moz-column-gap: 1.875rem;
+          column-gap: 1.875rem;
+  row-gap: 2.5rem;
 }

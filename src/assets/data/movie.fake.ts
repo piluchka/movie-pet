@@ -9,6 +9,7 @@ export let movies = [
     director: 'Nicolas Winding Refn',
     minDuration: 100,
     posterImgPath: 'assets/img/movie_1.webp',
+    id: 1,
   },
   {
     title: 'The Neon Demon',
@@ -20,6 +21,7 @@ export let movies = [
     director: 'Nicolas Winding Refn',
     minDuration: 117,
     posterImgPath: 'assets/img/movie_2.webp',
+    id: 2,
   },
   {
     title: 'The Dark Knight',
@@ -31,5 +33,6 @@ export let movies = [
     director: 'Christopher Nolan',
     minDuration: 152,
     posterImgPath: 'assets/img/movie_3.webp',
+    id: 3,
   },
 ];

@@ -3,6 +3,9 @@
 .movie-list {
   &__container {
     padding: toREM(30) toREM(15);
+    display: flex;
+    flex-direction: column;
+    gap: toREM(30);
   }
 
   &__movies {
@@ -16,13 +19,15 @@
     h2 {
       font-size: toREM(50);
     }
+
+    .favorite-movies__content,
+    .watch-movies__content {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(toREM(300), 1fr));
+      column-gap: toREM(30);
+      row-gap: toREM(40);
+    }
   }
 }
-// .favorite-movies {
-//   &__title {
-//   }
-// }
-// .watch-movies {
-//   &__title {
-//   }
-// }
+
+// Fav
