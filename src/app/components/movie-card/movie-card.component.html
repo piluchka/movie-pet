@@ -1,6 +1,5 @@
 <p-card
-  header="{{ movie.title }} ({{ movie.year }})"
-  subheader="{{ movie.genre }}"
+  [header]="movie.title + ' ' + '(' + movie.year + ')'"
   [styleClass]="'movie-card'"
 >
   <ng-template pTemplate="header">
@@ -15,7 +14,7 @@
         [rounded]="true"
         styleClass="w-full"
         icon="pi pi-heart"
-        [ngClass]="{ addedToFav: movie.addedToFav }"
+        [ngClass]="{ 'added-to-fav': movie.addedToFav }"
         (click)="addToFavorite()"
       />
       <p-button
@@ -23,26 +22,28 @@
         icon="pi pi-eye"
         styleClass="w-full"
         severity="secondary"
-        [ngClass]="{ addedToWatch: movie.addedToWatch }"
+        [ngClass]="{ 'added-to-watch': movie.addedToWatch }"
         (click)="addToWatchList()"
       />
     </div>
   </ng-template>
-  <p class="movie-card__director">
-    <span class="movie-card__underline-text">Director:</span>
-    {{ movie.director }}
-  </p>
-  <p class="movie-card__genre">
-    <span class="movie-card__underline-text">Genre:</span> {{ movie.genre }}
-  </p>
-  <p class="movie-card__rating">
-    <span class="movie-card__underline-text">Rating:</span> {{ movie.rating }}
-  </p>
-  <p class="movie-card__duration">
-    <span class="movie-card__underline-text">Duration:</span>
-    {{ movie.minDuration | formatingTime }}h
-  </p>
-  <p class="movie-card__description">{{ movie.overview }}</p>
+  <ng-template pTemplate="content">
+    <p class="movie-card__director">
+      <span class="movie-card__underline-text">Director:</span>
+      {{ movie.director }}
+    </p>
+    <p class="movie-card__genre">
+      <span class="movie-card__underline-text">Genre:</span> {{ movie.genre }}
+    </p>
+    <p class="movie-card__rating">
+      <span class="movie-card__underline-text">Rating:</span> {{ movie.rating }}
+    </p>
+    <p class="movie-card__duration">
+      <span class="movie-card__underline-text">Duration:</span>
+      {{ movie.minDuration | formatingTime }}h
+    </p>
+    <p class="movie-card__description">{{ movie.overview }}</p>
+  </ng-template>
   <ng-template pTemplate="footer">
     <p-button label="Show more" severity="info" />
   </ng-template>
