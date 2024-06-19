@@ -14,6 +14,7 @@
       <div class="favorite-movies__content">
         @for (favMovie of favoriteList; track favMovie.id) {
         <app-movie-card
+          [isFavorite]="true"
           [movie]="favMovie"
           (addFavorite)="handleAddFavorite($event)"
           (addWatchList)="handleWatchList($event)"
@@ -26,6 +27,7 @@
       <div class="watch-movies__content">
         @for (watchLaterMovie of watchLaterList; track watchLaterMovie.id) {
         <app-movie-card
+          [isInWatchList]="true"
           [movie]="watchLaterMovie"
           (addFavorite)="handleAddFavorite($event)"
           (addWatchList)="handleWatchList($event)"

@@ -14,7 +14,7 @@
         [rounded]="true"
         styleClass="w-full"
         icon="pi pi-heart"
-        [ngClass]="{ 'added-to-fav': movie.addedToFav }"
+        [ngClass]="{ 'added-to-fav': isFavorite }"
         (click)="addToFavorite()"
       />
       <p-button
@@ -22,7 +22,7 @@
         icon="pi pi-eye"
         styleClass="w-full"
         severity="secondary"
-        [ngClass]="{ 'added-to-watch': movie.addedToWatch }"
+        [ngClass]="{ 'added-to-watch': isInWatchList }"
         (click)="addToWatchList()"
       />
     </div>
