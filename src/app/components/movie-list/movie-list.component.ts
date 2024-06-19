@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
 import { movies } from '../../../assets/data/movie.fake';
-
 @Component({
   selector: 'app-movie-list',
   standalone: true,
@@ -12,24 +11,27 @@ import { movies } from '../../../assets/data/movie.fake';
 })
 export class MovieListComponent {
   moviesList = movies;
-  favoriteList: string[] = [];
-  watchLaterList: string[] = [];
+  favoriteList: any[] = [];
+  watchLaterList: any[] = [];
 
-  handleAddFavorite(title: string) {
-    if (!this.favoriteList.includes(title)) {
-      this.favoriteList.push(title);
+  handleAddFavorite(movie: any): any {
+    const movieIndex = this.favoriteList.findIndex((obj) => obj === movie);
+    if (movieIndex !== -1) {
+      this.favoriteList.splice(movieIndex, 1);
+      movie.addedToFav = false;
     } else {
-      const removableMovieIndex = this.favoriteList.indexOf(title);
-      this.favoriteList.splice(removableMovieIndex, 1);
+      this.favoriteList.push(movie);
+      movie.addedToFav = true;
     }
   }
-  handleWatchList(title: string) {
-    if (!this.watchLaterList.includes(title)) {
-      this.watchLaterList.push(title);
+  handleWatchList(movie: any) {
+    const movieIndex = this.watchLaterList.findIndex((obj) => obj === movie);
+    if (movieIndex !== -1) {
+      this.watchLaterList.splice(movieIndex, 1);
+      movie.addedToWatch = false;
     } else {
-      const removableMovieIndex = this.watchLaterList.indexOf(title);
-      this.watchLaterList.splice(removableMovieIndex, 1);
+      this.watchLaterList.push(movie);
+      movie.addedToWatch = true;
     }
   }
-
 }

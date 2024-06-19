@@ -1,18 +1,49 @@
-<div class="movie-card">
-   <div class="movie-card__poster">
-      <button (click)="addToFavorite()" class="movie-card__action-button favorite-button">
-         <img src="assets/icons/active-fav.svg" alt="favorite"></button>
-      <button (click)="addToWatchList()" class="movie-card__action-button watch-later-button">
-         <img src="assets/icons/active-eye.svg" alt="watch later"></button>
-      <img class="movie-card__img" [src]="movie.posterImgPath" alt="movie">
-   </div>
-   <div class="movie-card__content">
-      <h2 class="movie-card__title">{{movie.title}} <span>({{movie.year}})</span></h2>
-      <p class="movie-card__director">Director: {{movie.director}}</p>
-      <p class="movie-card__genre">Genre: {{movie.genre}}</p>
-      <p class="movie-card__rating">Rating: {{movie.rating}}</p>
-      <p class="movie-card__duration">Duration: {{movie.minDuration | formatingTime}}h</p>
-      <p class="movie-card__description">{{movie.overview}}</p>
-      <button class="movie-card__more-button">Show more</button>
-   </div>
-</div>
+<p-card
+  header="{{ movie.title }} ({{ movie.year }})"
+  subheader="{{ movie.genre }}"
+  [styleClass]="'movie-card'"
+>
+  <ng-template pTemplate="header">
+    <img
+      class="movie-card__img"
+      alt="Card"
+      [src]="movie.posterImgPath"
+      alt="movie"
+    />
+    <div class="movie-card__buttons">
+      <p-button
+        [rounded]="true"
+        styleClass="w-full"
+        icon="pi pi-heart"
+        [ngClass]="{ addedToFav: movie.addedToFav }"
+        (click)="addToFavorite()"
+      />
+      <p-button
+        [rounded]="true"
+        icon="pi pi-eye"
+        styleClass="w-full"
+        severity="secondary"
+        [ngClass]="{ addedToWatch: movie.addedToWatch }"
+        (click)="addToWatchList()"
+      />
+    </div>
+  </ng-template>
+  <p class="movie-card__director">
+    <span class="movie-card__underline-text">Director:</span>
+    {{ movie.director }}
+  </p>
+  <p class="movie-card__genre">
+    <span class="movie-card__underline-text">Genre:</span> {{ movie.genre }}
+  </p>
+  <p class="movie-card__rating">
+    <span class="movie-card__underline-text">Rating:</span> {{ movie.rating }}
+  </p>
+  <p class="movie-card__duration">
+    <span class="movie-card__underline-text">Duration:</span>
+    {{ movie.minDuration | formatingTime }}h
+  </p>
+  <p class="movie-card__description">{{ movie.overview }}</p>
+  <ng-template pTemplate="footer">
+    <p-button label="Show more" severity="info" />
+  </ng-template>
+</p-card>
