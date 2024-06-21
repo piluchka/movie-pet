@@ -1,1 +1,11 @@
-<app-movie-list></app-movie-list>
+<div class="wrapper">
+  <header>HEADER</header>
+  <main>
+    <aside><app-movie-sidebar></app-movie-sidebar></aside>
+    <router-outlet></router-outlet>
+    <div class="fav-watch-page-wrapper">
+      <router-outlet name="outlet2"></router-outlet>
+    </div>
+  </main>
+  <footer>FOOTER</footer>
+</div>

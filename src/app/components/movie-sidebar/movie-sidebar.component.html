@@ -1,0 +1,19 @@
+<p-sidebar [(visible)]="sidebarVisible">
+  <nav class="sidebar">
+    <ul class="sidebar__list">
+      <li class="sidebar__item">
+        <a href="#" class="sidebar__link">Now Playing</a>
+      </li>
+      <li class="sidebar__item">
+        <a href="#" class="sidebar__link">Popular</a>
+      </li>
+      <li class="sidebar__item">
+        <a href="#" class="sidebar__link">Top Rate</a>
+      </li>
+      <li class="sidebar__item" icon="pi pi-arrow-right">
+        <a href="#" class="sidebar__link">Upcoming</a>
+      </li>
+    </ul>
+  </nav>
+</p-sidebar>
+<p-button (click)="sidebarVisible = true" icon="pi pi-arrow-right" />

@@ -1,0 +1,14 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: clip;
+
+  > main {
+    flex-grow: 1;
+
+    display: flex;
+    flex: 1;
+    overflow: auto;
+  }
+}

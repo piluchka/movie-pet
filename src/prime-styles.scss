@@ -1,0 +1,46 @@
+@use "sass:math";
+@import "assets/styles/_functions.scss";
+
+// For cards
+.p-card-title {
+  font-size: toREM(24);
+}
+.p-card-header {
+  position: relative;
+}
+.p-card-subtitle {
+  margin: 0;
+}
+.p-button-icon {
+  &::before {
+    font-size: toREM(23);
+    color: #ffffff;
+  }
+}
+.added-to-fav {
+  .p-button {
+    background: #df2563;
+    border: 1px solid #df2563;
+  }
+}
+.added-to-watch {
+  .p-button {
+    background: #485961;
+    border: 1px solid #485961;
+  }
+}
+.p-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+.p-card-content {
+  display: flex;
+  flex-direction: column;
+  row-gap: toREM(10);
+  font-size: toREM(14);
+  padding: 0;
+}
+.p-card-footer {
+  margin-top: auto;
+}

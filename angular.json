@@ -31,6 +31,7 @@
               "src/prime-styles.scss",
               "src/assets/styles/_reset.scss",
               "src/assets/styles/_functions.scss",
+              "src/prime-styles.scss",
               "src/styles.scss"
             ],
             "scripts": []
