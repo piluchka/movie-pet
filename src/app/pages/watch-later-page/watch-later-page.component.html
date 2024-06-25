@@ -1,0 +1,7 @@
+@for (movie of watchList; track movie.id) {
+<app-movie-card
+  (addWatchList)="handleWatchList($event)"
+  [isInWatchList]="true"
+  [movie]="movie"
+></app-movie-card>
+}

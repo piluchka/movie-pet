@@ -1,14 +1,28 @@
+@use "sass:math";
+@import "../assets/styles/_functions.scss";
+
 .wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: clip;
 
+  max-width: toREM(1350);
+  padding: toREM(0) toREM(15);
+  margin: 0 auto;
+
   > main {
     flex-grow: 1;
-
-    display: flex;
-    flex: 1;
-    overflow: auto;
   }
+}
+.content {
+  padding-top: toREM(90);
+  position: relative;
+
+  display: flex;
+  gap: toREM(10);
+}
+main {
+  flex: 1;
+  overflow: auto;
 }

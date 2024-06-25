@@ -1,11 +1,9 @@
 <div class="wrapper">
-  <header>HEADER</header>
+  <app-movie-sidebar></app-movie-sidebar>
   <main>
-    <aside><app-movie-sidebar></app-movie-sidebar></aside>
     <router-outlet></router-outlet>
     <div class="fav-watch-page-wrapper">
-      <router-outlet name="outlet2"></router-outlet>
+      <router-outlet name="favAndWatch"></router-outlet>
     </div>
   </main>
-  <footer>FOOTER</footer>
 </div>

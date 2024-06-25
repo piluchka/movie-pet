@@ -1,0 +1,28 @@
+<header class="header">
+  <div class="header__top">
+    <img class="header__logo" src="../../../assets/icons/logo.svg" alt="logo" />
+    <div class="header__name">P-theater</div>
+  </div>
+  <nav class="header__list">
+    <li class="header__item">
+      <button
+        pButton
+        class="header__link"
+        (click)="navigateWithData(favoriteMovies, 'favorite')"
+      >
+        <p class="pi pi-heart-fill"></p>
+        Favorite Movies
+      </button>
+    </li>
+    <li class="header__item">
+      <button
+        pButton
+        class="header__link"
+        (click)="navigateWithData(watchLaterMovies)"
+      >
+        <p class="pi pi-eye"></p>
+        Watch Later
+      </button>
+    </li>
+  </nav>
+</header>

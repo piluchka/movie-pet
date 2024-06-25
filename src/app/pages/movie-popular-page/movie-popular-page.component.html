@@ -1,0 +1,16 @@
+<div class="popular-wrapper">
+  <app-movie-header
+    [favoriteMovies]="favoriteList"
+    [watchLaterMovies]="watchLaterList"
+  ></app-movie-header>
+  <h1 class="title">Popular movies</h1>
+  <div class="popular">
+    @for (movie of popularMovieList; track movie.id) {
+    <app-movie-card
+      [movie]="movie"
+      (addFavorite)="handleAddFavorite($event)"
+      (addWatchList)="handleWatchList($event)"
+    ></app-movie-card>
+    }
+  </div>
+</div>
