@@ -1,3 +1,7 @@
 @use "sass:math";
 @import "assets/styles/_reset.scss";
 @import "assets/styles/_functions.scss";
+
+body {
+  background-color: #161616;
+}

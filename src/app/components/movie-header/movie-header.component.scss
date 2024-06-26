@@ -1,0 +1,77 @@
+@use "sass:math";
+@import "../../../assets/styles/_functions.scss";
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: toREM(20);
+  padding: toREM(10) toREM(10);
+  background-color: #343434;
+  justify-content: space-between;
+
+  &__top {
+    display: flex;
+    align-items: center;
+  }
+
+  &__logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    max-width: toREM(70);
+  }
+
+  &__name {
+    font-size: toREM(22);
+    color: #d1d1d1;
+  }
+
+  &__list {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    column-gap: toREM(20);
+    row-gap: toREM(10);
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    font-size: toREM(25);
+    color: #dedede;
+  }
+
+  &__link {
+    padding: toREM(10);
+    transition: all 0.3s;
+    @media (any-hover: hover) {
+      &:hover {
+        p {
+          &.pi-heart-fill {
+            color: #df2563;
+          }
+          &.pi-eye {
+            color: #6b828c;
+          }
+        }
+      }
+    }
+    p {
+      transition: all 0.3s;
+      font-size: toREM(20);
+      &.pi-heart-fill {
+        color: #f48fb1;
+      }
+      &.pi-eye {
+        color: #ffffff;
+      }
+    }
+  }
+}
+.pi-heart {
+}
+.pi-eye {
+}

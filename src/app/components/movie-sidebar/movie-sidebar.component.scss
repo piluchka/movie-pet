@@ -1,0 +1,35 @@
+@use "sass:math";
+@import "../../../assets/styles/_functions.scss";
+
+.sidebar {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  &__item {
+    font-size: toREM(24);
+    color: #dedede;
+    text-align: center;
+
+    &:nth-child(odd) {
+      background-color: #f48fb1;
+      color: #ffffff;
+    }
+  }
+
+  &__link {
+    width: 100%;
+    padding: toREM(20);
+    transition: all 0.3s;
+
+    @media (any-hover: hover) {
+      &:nth-child(odd) {
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.234);
+        }
+      }
+    }
+  }
+}

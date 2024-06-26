@@ -1,12 +1,9 @@
-<p-card
-  [header]="movie.title + ' ' + '(' + movie.year + ')'"
-  [styleClass]="'movie-card'"
->
+<p-card [header]="movie.title" [styleClass]="'movie-card'">
   <ng-template pTemplate="header">
     <img
       class="movie-card__img"
+      [src]="STATIC_IMAGE_PATH + movie.poster_path"
       alt="Card"
-      [src]="movie.posterImgPath"
       alt="movie"
     />
     <div class="movie-card__buttons">
@@ -14,7 +11,7 @@
         [rounded]="true"
         styleClass="w-full"
         icon="pi pi-heart"
-        [ngClass]="{ 'added-to-fav': movie.addedToFav }"
+        [ngClass]="{ 'added-to-fav': isFavorite }"
         (click)="addToFavorite()"
       />
       <p-button
@@ -22,29 +19,30 @@
         icon="pi pi-eye"
         styleClass="w-full"
         severity="secondary"
-        [ngClass]="{ 'added-to-watch': movie.addedToWatch }"
+        [ngClass]="{ 'added-to-watch': isInWatchList }"
         (click)="addToWatchList()"
       />
     </div>
   </ng-template>
   <ng-template pTemplate="content">
-    <p class="movie-card__director">
-      <span class="movie-card__underline-text">Director:</span>
-      {{ movie.director }}
-    </p>
-    <p class="movie-card__genre">
-      <span class="movie-card__underline-text">Genre:</span> {{ movie.genre }}
+    <p class="movie-card__release">
+      <span class="movie-card__underline-text">Release:</span>
+      {{ movie.release_date }}
     </p>
     <p class="movie-card__rating">
-      <span class="movie-card__underline-text">Rating:</span> {{ movie.rating }}
+      <span class="movie-card__underline-text">Rating:</span>
+      {{ movie.vote_average | mathRound }}
     </p>
-    <p class="movie-card__duration">
-      <span class="movie-card__underline-text">Duration:</span>
-      {{ movie.minDuration | formatingTime }}h
+    <ng-content></ng-content>
+    @if (this.isShortDescriptionNeeded === true) {
+    <p class="movie-card__description">
+      {{ movie.overview | reduceString }}
     </p>
+    }@else {
     <p class="movie-card__description">{{ movie.overview }}</p>
+    }
   </ng-template>
   <ng-template pTemplate="footer">
-    <p-button label="Show more" severity="info" />
+    <a [routerLink]="'/movie/' + movie.id" [queryParams]="movie">Show more</a>
   </ng-template>
 </p-card>

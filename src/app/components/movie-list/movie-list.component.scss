@@ -2,7 +2,6 @@
 @import "../../../assets/styles/_functions.scss";
 .movie-list {
   &__container {
-    padding: toREM(30) toREM(15);
     display: flex;
     flex-direction: column;
     gap: toREM(30);
@@ -10,7 +9,7 @@
 
   &__movies {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(toREM(280), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(toREM(250), 1fr));
     column-gap: toREM(30);
     row-gap: toREM(40);
   }

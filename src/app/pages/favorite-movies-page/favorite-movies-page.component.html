@@ -1,0 +1,7 @@
+@for (movie of favMovies; track movie.id) {
+<app-movie-card
+  (addFavorite)="handleAddFavorite($event)"
+  [isFavorite]="true"
+  [movie]="movie"
+></app-movie-card>
+}

@@ -1,1 +1,10 @@
-<p>HELLO I AM DETAILS</p>
+<app-movie-card [isShortDescriptionNeeded]="false" [movie]="movieData">
+  <p>
+    <span class="movie-card__underline-text">Age:</span>@if (movieData.adult ===
+    true) { 18+}@else { 0+ }
+  </p>
+  <p>
+    <span class="movie-card__underline-text">Original language:</span>
+    {{ movieData.original_language }}
+  </p>
+</app-movie-card>

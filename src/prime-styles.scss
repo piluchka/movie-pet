@@ -1,7 +1,14 @@
 @use "sass:math";
 @import "assets/styles/_functions.scss";
 
-// For cards
+// For movie-cards and cards
+.movie-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: stretch;
+}
+
 .p-card-title {
   font-size: toREM(24);
 }
@@ -43,4 +50,12 @@
 }
 .p-card-footer {
   margin-top: auto;
+}
+
+// For sidebar
+.p-sidebar {
+  border: none;
+}
+.p-sidebar-content {
+  padding: 0;
 }

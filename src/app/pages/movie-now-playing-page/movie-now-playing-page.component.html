@@ -1,0 +1,16 @@
+<div class="playing-wrapper">
+  <app-movie-header
+    [favoriteMovies]="favoriteList"
+    [watchLaterMovies]="watchLaterList"
+  ></app-movie-header>
+  <h1 class="title">Now playing movies</h1>
+  <div class="now-playing">
+    @for (movie of nowPlayingMovieList; track movie.id) {
+    <app-movie-card
+      [movie]="movie"
+      (addFavorite)="handleAddFavorite($event)"
+      (addWatchList)="handleWatchList($event)"
+    ></app-movie-card>
+    }
+  </div>
+</div>
