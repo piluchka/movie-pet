@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
+import { MovieService } from '../../services/movie/movie.service';
 
 @Component({
   selector: 'app-watch-later-page',
@@ -11,23 +11,11 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
   styleUrl: './watch-later-page.component.scss',
 })
 export class WatchLaterPageComponent implements OnInit {
-  constructor(private router: ActivatedRoute) {}
-  watchList: any[] = [];
+  watchLaterMovieList: any[] = [];
+
+  constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    const movieData = JSON.parse(this.router.snapshot.queryParams['data']);
-    if (movieData.length !== -1) {
-      for (let i = 0; i < movieData.length; i++) {
-        this.watchList.push(movieData[i]);
-      }
-    }
-  }
-  handleWatchList(movie: any) {
-    const movieIndex = this.watchList.findIndex((obj) => obj === movie);
-    if (movieIndex !== -1) {
-      this.watchList.splice(movieIndex, 1);
-    } else {
-      this.watchList.push(movie);
-    }
+    this.watchLaterMovieList = this.movieService.getWatchLaterMovieList();
   }
 }

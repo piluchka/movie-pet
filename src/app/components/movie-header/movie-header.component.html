@@ -5,24 +5,16 @@
   </div>
   <nav class="header__list">
     <li class="header__item">
-      <button
-        pButton
-        class="header__link"
-        (click)="navigateWithData(favoriteMovies, 'favorite')"
-      >
+      <a routerLink="favorite" class="header__link">
         <p class="pi pi-heart-fill"></p>
         Favorite Movies
-      </button>
+      </a>
     </li>
     <li class="header__item">
-      <button
-        pButton
-        class="header__link"
-        (click)="navigateWithData(watchLaterMovies)"
-      >
+      <a routerLink="watch-later" class="header__link">
         <p class="pi pi-eye"></p>
         Watch Later
-      </button>
+      </a>
     </li>
   </nav>
 </header>

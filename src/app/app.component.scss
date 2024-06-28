@@ -15,14 +15,16 @@
     flex-grow: 1;
   }
 }
-.content {
-  padding-top: toREM(90);
-  position: relative;
-
-  display: flex;
-  gap: toREM(10);
-}
 main {
   flex: 1;
   overflow: auto;
+
+  padding-top: toREM(90);
+
+  display: flex;
+  gap: toREM(10);
+  width: 100%;
 }
+main {
+}
+

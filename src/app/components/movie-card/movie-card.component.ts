@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormatingTimePipe } from '../../pipes/formatingTime/formating-time.pipe';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
 import { ReduceStringPipe } from '../../pipes/reduceString/reduce-string.pipe';
 import { RouterLink } from '@angular/router';
+import { MovieService } from '../../services/movie/movie.service';
 
 export class MyApplicationModule {}
 
@@ -28,19 +29,27 @@ export class MovieCardComponent {
   public STATIC_IMAGE_PATH = 'https://image.tmdb.org/t/p/w500/';
 
   @Input() movie: any;
-  @Input() isFavorite = false;
-  @Input() isInWatchList = false;
   @Input() isShortDescriptionNeeded = true;
 
-  @Output() addFavorite = new EventEmitter();
-  @Output() addWatchList = new EventEmitter();
+  constructor(private movieService: MovieService) {}
 
-  addToFavorite() {
-    this.isFavorite = !this.isFavorite;
-    this.addFavorite.emit(this.movie);
+  // Funcs for favorites
+  setToFavoriteMovieList() {
+    this.movie.addedToFavoriteList = true;
+    this.movieService.setToFavoriteMovieList(this.movie);
   }
-  addToWatchList() {
-    this.isInWatchList = !this.isInWatchList;
-    this.addWatchList.emit(this.movie);
+  deleteMovieFromFavoriteMovieList() {
+    this.movie.addedToFavoriteList = false;
+    this.movieService.deleteMovieFromFavoriteMovieList(this.movie);
+  }
+
+  // Func for watch later
+  setToWatchLaterMovieList() {
+    this.movie.addedToWatchLaterList = true;
+    this.movieService.setToWatchLaterMovieList(this.movie);
+  }
+  deleteMovieWatchLaterMovieList() {
+    this.movie.addedToWatchLaterList = false;
+    this.movieService.deleteMovieWatchLaterMovieList(this.movie);
   }
 }

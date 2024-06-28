@@ -7,21 +7,42 @@
       alt="movie"
     />
     <div class="movie-card__buttons">
+      @if (!movie.addedToFavoriteList) {
       <p-button
         [rounded]="true"
         styleClass="w-full"
         icon="pi pi-heart"
-        [ngClass]="{ 'added-to-fav': isFavorite }"
-        (click)="addToFavorite()"
+        (click)="setToFavoriteMovieList()"
+        [ngClass]="{ 'added-to-favorite': movie.addedToFavoriteList }"
       />
+      }@else {
+      <p-button
+        [rounded]="true"
+        styleClass="w-full"
+        icon="pi pi-heart-fill"
+        (click)="deleteMovieFromFavoriteMovieList()"
+        [ngClass]="{ 'added-to-favorite': movie.addedToFavoriteList }"
+      />
+      } @if (!movie.addedToWatchLaterList ) {
       <p-button
         [rounded]="true"
         icon="pi pi-eye"
         styleClass="w-full"
         severity="secondary"
-        [ngClass]="{ 'added-to-watch': isInWatchList }"
-        (click)="addToWatchList()"
+        (click)="setToWatchLaterMovieList()"
+        [ngClass]="{ 'added-to-watchlater': movie.addedToWatchLaterList }"
       />
+      }@else {
+      <p-button
+        [rounded]="true"
+        icon="pi 
+        pi-eye-slash"
+        styleClass="w-full"
+        severity="secondary"
+        (click)="deleteMovieWatchLaterMovieList()"
+        [ngClass]="{ 'added-to-watchlater': movie.addedToWatchLaterList }"
+      />
+      }
     </div>
   </ng-template>
   <ng-template pTemplate="content">

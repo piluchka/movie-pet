@@ -1,12 +1,6 @@
 @use "sass:math";
 @import "../../../assets/styles/_functions.scss";
 
-.rate-movies {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(toREM(200), 1fr));
-  column-gap: toREM(30);
-  row-gap: toREM(40);
-}
 .title {
   color: #fff;
   text-align: center;
