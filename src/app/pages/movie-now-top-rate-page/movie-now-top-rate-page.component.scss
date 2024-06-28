@@ -1,8 +1,6 @@
 @use "sass:math";
 @import "../../../assets/styles/_functions.scss";
 
-.title {
-  color: #fff;
-  text-align: center;
-  margin-bottom: toREM(20);
+:host {
+  width: 100%;
 }

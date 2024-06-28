@@ -12,6 +12,12 @@ import {
 export class MovieService {
   favoriteMovieList: object[] = [];
   watchLaterMovieList: object[] = [];
+  allMovieList: any[] = [
+    ...this.getNowPlayingMovies(),
+    ...this.getPopularMovies(),
+    ...this.getTopRatedMovies(),
+    ...this.getUpcomingMovies(),
+  ];
 
   constructor() {}
 
@@ -63,5 +69,10 @@ export class MovieService {
   deleteMovieWatchLaterMovieList(movie: object) {
     const deletingMovieIndex = this.watchLaterMovieList.indexOf(movie);
     this.watchLaterMovieList.splice(deletingMovieIndex, 1);
+  }
+
+  // Func for details
+  getMovieById(id: number) {
+    return this.allMovieList.find((el) => el.id === id);
   }
 }

@@ -17,9 +17,9 @@
 }
 main {
   flex: 1;
-  overflow: auto;
+  // overflow: auto;
 
-  padding-top: toREM(90);
+  padding-top: toREM(50);
 
   display: flex;
   gap: toREM(10);
@@ -27,4 +27,3 @@ main {
 }
 main {
 }
-

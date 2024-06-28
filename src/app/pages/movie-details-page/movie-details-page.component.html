@@ -1,10 +1,22 @@
-<app-movie-card [isShortDescriptionNeeded]="false" [movie]="movieData">
-  <p>
-    <span class="movie-card__underline-text">Age:</span>
-    @if (movieData.adult === true) { 18+}@else { 0+ }
-  </p>
-  <p>
-    <span class="movie-card__underline-text">Original language:</span>
-    {{ movieData.original_language }}
-  </p>
-</app-movie-card>
+<div class="detail-page">
+  <img
+    class="detail-page__img"
+    [src]="STATIC_IMAGE_PATH + movieData.poster_path"
+    [alt]="movieData.title"
+  />
+  <div class="detail-page__content">
+    <div class="detail-page__header">
+      <h1 class="detail-page__title">{{ movieData.title }}</h1>
+      <p class="detail-page__subtitle">({{ movieData.original_title }})</p>
+    </div>
+    <div class="detail-page__body">
+      <p><span>Release:</span> {{ movieData.release_date }}</p>
+      <p><span>Rating:</span> {{ movieData.vote_average | mathRound }}</p>
+      <p><span>Age:</span> @if (movieData.adult) { 18+}@else{ 0+}</p>
+      <p><span>Original language:</span> {{ movieData.original_language }}</p>
+    </div>
+    <div class="detail-page__footer">
+      <p>{{ movieData.overview }}</p>
+    </div>
+  </div>
+</div>

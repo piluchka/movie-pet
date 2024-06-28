@@ -11,7 +11,9 @@
 
 // Cards
 .p-card-title {
-  font-size: toREM(24);
+  font-size: toREM(22);
+  margin-bottom: toREM(15);
+  line-height: 1.2;
 }
 .p-card-header {
   position: relative;

@@ -64,6 +64,8 @@
     }
   </ng-template>
   <ng-template pTemplate="footer">
-    <a [routerLink]="'/movie/' + movie.id" [queryParams]="movie">Show more</a>
+    <a pButton class="show-more-link" [routerLink]="'/movie/' + movie.id"
+      >Show more</a
+    >
   </ng-template>
 </p-card>
