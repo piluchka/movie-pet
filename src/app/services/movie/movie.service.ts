@@ -44,7 +44,6 @@ export class MovieService {
     if (movieIndex === -1) {
       this.favoriteMovieList.push(movie);
     }
-    console.log('FAV', this.favoriteMovieList);
   }
   getFavoriteMovieList() {
     return this.favoriteMovieList;
@@ -61,7 +60,6 @@ export class MovieService {
     if (movieIndex === -1) {
       this.watchLaterMovieList.push(movie);
     }
-    console.log('WATCH', this.watchLaterMovieList);
   }
   getWatchLaterMovieList() {
     return this.watchLaterMovieList;
