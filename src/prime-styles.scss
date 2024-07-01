@@ -9,32 +9,17 @@
   justify-content: stretch;
 }
 
+// Cards
 .p-card-title {
-  font-size: toREM(24);
+  font-size: toREM(22);
+  margin-bottom: toREM(15);
+  line-height: 1.2;
 }
 .p-card-header {
   position: relative;
 }
 .p-card-subtitle {
   margin: 0;
-}
-.p-button-icon {
-  &::before {
-    font-size: toREM(23);
-    color: #ffffff;
-  }
-}
-.added-to-fav {
-  .p-button {
-    background: #df2563;
-    border: 1px solid #df2563;
-  }
-}
-.added-to-watch {
-  .p-button {
-    background: #485961;
-    border: 1px solid #485961;
-  }
 }
 .p-card-body {
   display: flex;
@@ -50,6 +35,28 @@
 }
 .p-card-footer {
   margin-top: auto;
+}
+
+// Button-icon
+.p-button-icon {
+  &::before {
+    font-size: toREM(23);
+    color: #ffffff;
+  }
+}
+
+// Added buttons
+.added-to-favorite {
+  .p-button {
+    background: #df2563;
+    border: 1px solid #df2563;
+  }
+}
+.added-to-watchlater {
+  .p-button {
+    background: #485961;
+    border: 1px solid #485961;
+  }
 }
 
 // For sidebar

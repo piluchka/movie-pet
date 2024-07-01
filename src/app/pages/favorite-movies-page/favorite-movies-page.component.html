@@ -1,7 +1,16 @@
-@for (movie of favMovies; track movie.id) {
-<app-movie-card
-  (addFavorite)="handleAddFavorite($event)"
-  [isFavorite]="true"
-  [movie]="movie"
-></app-movie-card>
-}
+<div class="favorite">
+  <h1 class="page-title">your Favorite Movies</h1>
+  @if (this.favoriteMovieList.length === 0) {
+  <div class="empty">
+    <img class="empty__img" src="../../../assets/icons/empty-icon.svg" alt="" />
+    <p class="empty__text">
+      Oops... Nothing is here yet! Please, add some movies.
+    </p>
+  </div>
+  }
+  <div class="movie-list">
+    @for (movie of favoriteMovieList; track movie.id) {
+    <app-movie-card [movie]="movie"></app-movie-card>
+    }
+  </div>
+</div>

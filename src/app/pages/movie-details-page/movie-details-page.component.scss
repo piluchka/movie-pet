@@ -1,3 +1,54 @@
-.movie-card__underline-text {
-  text-decoration: underline;
+@use "sass:math";
+@import "../../../assets/styles/_functions.scss";
+
+.detail-page {
+  display: flex;
+  gap: toREM(20);
+  color: var(--text-color);
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    max-width: toREM(500);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: toREM(20);
+  }
+
+  &__header {
+  }
+
+  &__title {
+    font-size: toREM(50);
+    &:not(:last-child) {
+      margin-bottom: toREM(7);
+    }
+  }
+
+  &__subtitle {
+    font-size: toREM(20);
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: toREM(7);
+
+    p {
+      font-size: toREM(18);
+    }
+    span {
+      text-decoration: underline;
+    }
+  }
+
+  &__footer {
+    p {
+      font-size: toREM(24);
+    }
+  }
 }

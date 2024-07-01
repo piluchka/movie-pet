@@ -1,7 +1,16 @@
-@for (movie of watchList; track movie.id) {
-<app-movie-card
-  (addWatchList)="handleWatchList($event)"
-  [isInWatchList]="true"
-  [movie]="movie"
-></app-movie-card>
-}
+<div class="watch-later">
+  <h1 class="page-title">Your Watch later Movies</h1>
+  @if (this.watchLaterMovieList.length === 0) {
+  <div class="empty">
+    <img class="empty__img" src="../../../assets/icons/empty-icon.svg" alt="" />
+    <p class="empty__text">
+      Oops... Nothing is here yet! Please, add some movies.
+    </p>
+  </div>
+  }
+  <div class="movie-list">
+    @for (movie of watchLaterMovieList; track movie.id) {
+    <app-movie-card [movie]="movie"></app-movie-card>
+    }
+  </div>
+</div>

@@ -1,9 +1,7 @@
 <div class="wrapper">
-  <app-movie-sidebar></app-movie-sidebar>
+  <app-movie-header></app-movie-header>
   <main>
+    <app-movie-sidebar></app-movie-sidebar>
     <router-outlet></router-outlet>
-    <div class="fav-watch-page-wrapper">
-      <router-outlet name="favAndWatch"></router-outlet>
-    </div>
   </main>
 </div>
