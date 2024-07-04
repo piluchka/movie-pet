@@ -17,11 +17,6 @@ export class MovieListPageComponent implements OnInit {
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.allMovieList = [
-      ...this.movieService.getNowPlayingMovies(),
-      ...this.movieService.getPopularMovies(),
-      ...this.movieService.getTopRatedMovies(),
-      ...this.movieService.getUpcomingMovies(),
-    ];
+    this.allMovieList = this.movieService.getAllMoviesList();
   }
 }

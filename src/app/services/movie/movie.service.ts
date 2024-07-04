@@ -12,12 +12,6 @@ import {
 export class MovieService {
   favoriteMovieList: object[] = [];
   watchLaterMovieList: object[] = [];
-  allMovieList: any[] = [
-    ...this.getNowPlayingMovies(),
-    ...this.getPopularMovies(),
-    ...this.getTopRatedMovies(),
-    ...this.getUpcomingMovies(),
-  ];
 
   constructor() {}
 
@@ -35,6 +29,15 @@ export class MovieService {
 
   getUpcomingMovies() {
     return upcomingMovies;
+  }
+
+  getAllMoviesList() {
+    return [
+      ...this.getNowPlayingMovies(),
+      ...this.getPopularMovies(),
+      ...this.getTopRatedMovies(),
+      ...this.getUpcomingMovies(),
+    ];
   }
 
   // Funcs for Favorite
@@ -71,6 +74,6 @@ export class MovieService {
 
   // Func for details
   getMovieById(id: number) {
-    return this.allMovieList.find((el) => el.id === id);
+    return this.getAllMoviesList().find((el) => el.id === id);
   }
 }
