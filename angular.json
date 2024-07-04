@@ -28,9 +28,8 @@
               "primeng/resources/themes/luna-pink/theme.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/primeng.min.css",
-              "src/prime-styles.scss",
               "src/assets/styles/_reset.scss",
-              "src/assets/styles/_functions.scss",
+              "src/general.scss",
               "src/prime-styles.scss",
               "src/styles.scss"
             ],

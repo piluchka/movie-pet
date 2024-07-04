@@ -1,0 +1,47 @@
+@use "sass:math";
+@import "assets/styles/_functions.scss";
+
+// Body styling
+body {
+  background-color: var(--gray-900);
+}
+
+// Styles for card-lists (grid)
+
+.movie-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(toREM(200), 1fr));
+  column-gap: toREM(30);
+  row-gap: toREM(40);
+
+  width: 100%;
+}
+
+// Styles for page-components titles
+.page-title {
+  color: var(--pink-100);
+  font-size: toREM(50);
+  text-align: center;
+  margin-bottom: toREM(20);
+  text-transform: capitalize;
+}
+
+// Styles for empty pages
+.empty {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: toREM(15);
+  &__img {
+    max-width: toREM(50);
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &__text {
+    color: var(--gray-50);
+    font-size: toREM(24);
+  }
+}

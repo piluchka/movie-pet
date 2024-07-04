@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { MovieService } from '../../services/movie/movie.service';
 
 @Component({
   selector: 'app-favorite-movies-page',
@@ -11,24 +11,11 @@ import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
   styleUrl: './favorite-movies-page.component.scss',
 })
 export class FavoriteMoviesPageComponent implements OnInit {
-  constructor(private router: ActivatedRoute) {}
-  favMovies: any[] = [];
+  favoriteMovieList: any[] = [];
 
-  ngOnInit() {
-    const movieData: any = JSON.parse(this.router.snapshot.queryParams['data']);
-    if (movieData.length !== -1) {
-      for (let i = 0; i < movieData.length; i++) {
-        this.favMovies.push(movieData[i]);
-      }
-    }
-  }
+  constructor(private movieService: MovieService) {}
 
-  handleAddFavorite(movie: any): any {
-    const movieIndex = this.favMovies.findIndex((obj) => obj === movie);
-    if (movieIndex !== -1) {
-      this.favMovies.splice(movieIndex, 1);
-    } else {
-      this.favMovies.push(movie);
-    }
+  ngOnInit(): void {
+    this.favoriteMovieList = this.movieService.getFavoriteMovieList();
   }
 }

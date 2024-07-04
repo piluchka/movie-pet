@@ -1,16 +1,9 @@
-<div class="rate-wrapper">
-  <app-movie-header
-    [favoriteMovies]="favoriteList"
-    [watchLaterMovies]="watchLaterList"
-  ></app-movie-header>
-  <h1 class="title">Top-rated movies</h1>
-  <div class="rate-movies">
+<div class="top-rated">
+  <h1 class="page-title">Top rated movies</h1>
+
+  <div class="movie-list">
     @for (movie of topRatedMovieList; track movie.id) {
-    <app-movie-card
-      [movie]="movie"
-      (addFavorite)="handleAddFavorite($event)"
-      (addWatchList)="handleWatchList($event)"
-    ></app-movie-card>
+    <app-movie-card [movie]="movie"></app-movie-card>
     }
   </div>
 </div>
