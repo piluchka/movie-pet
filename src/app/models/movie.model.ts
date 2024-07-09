@@ -1,3 +1,4 @@
+// Interfaces for general movies
 export interface Movie {
   adult: boolean;
   backdrop_path: string;
@@ -20,4 +21,14 @@ export interface MovieList {
   results: Movie[];
   total_pages: number;
   total_results: number;
+}
+
+// Interfaces for movie genres
+export interface MovieGenre {
+  id: number;
+  name: string;
+}
+
+export interface MovieGenreList {
+  genres: MovieGenre[];
 }

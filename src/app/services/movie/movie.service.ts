@@ -5,6 +5,8 @@ import {
   topRatedMovies,
   upcomingMovies,
 } from '../../../assets/data/mock-data';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +15,7 @@ export class MovieService {
   favoriteMovieList: object[] = [];
   watchLaterMovieList: object[] = [];
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getNowPlayingMovies() {
     return nowPlayingMovies;

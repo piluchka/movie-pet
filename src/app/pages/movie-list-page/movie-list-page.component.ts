@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MovieListComponent } from '../../components/movie-list/movie-list.component';
 import { MovieService } from '../../services/movie/movie.service';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 
@@ -12,7 +11,7 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
   imports: [CommonModule, MovieCardComponent],
 })
 export class MovieListPageComponent implements OnInit {
-  allMovieList: any[] = [];
+  allMovieList: object[] = [];
 
   constructor(private movieService: MovieService) {}
 
