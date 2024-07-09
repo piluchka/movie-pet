@@ -23,6 +23,6 @@ export class MovieDetailsPageComponent implements OnInit {
 
   ngOnInit(): void {
     const incomingMovieId = Number(this.router.snapshot.params['id']);
-    this.movieData = this.movieService.getMovieById(incomingMovieId);
+    // this.movieData = this.movieService.getMovieById(incomingMovieId);
   }
 }

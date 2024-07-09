@@ -4,6 +4,7 @@ import { MovieHeaderComponent } from '../../components/movie-header/movie-header
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { topRatedMovies } from '../../../assets/data/mock-data';
 import { MovieService } from '../../services/movie/movie.service';
+import { Movie } from '../../models/movie.model';
 
 @Component({
   selector: 'app-movie-now-top-rate-page',
@@ -13,11 +14,16 @@ import { MovieService } from '../../services/movie/movie.service';
   styleUrl: './movie-now-top-rate-page.component.scss',
 })
 export class MovieNowTopRatePageComponent implements OnInit {
-  topRatedMovieList: any[] = [];
+  topRatedMovieList: Movie[] = [];
 
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.topRatedMovieList = this.movieService.getTopRatedMovies();
+    this.movieService.getTopRatedMovies().subscribe({
+      next: (movies: Movie[]) => {
+        this.topRatedMovieList = movies;
+      },
+      error: (error) => console.error(error),
+    });
   }
 }

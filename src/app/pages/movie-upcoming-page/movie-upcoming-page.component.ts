@@ -4,6 +4,7 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
 import { MovieHeaderComponent } from '../../components/movie-header/movie-header.component';
 import { upcomingMovies } from '../../../assets/data/mock-data';
 import { MovieService } from '../../services/movie/movie.service';
+import { Movie } from '../../models/movie.model';
 @Component({
   selector: 'app-movie-upcoming-page',
   standalone: true,
@@ -12,11 +13,16 @@ import { MovieService } from '../../services/movie/movie.service';
   styleUrl: './movie-upcoming-page.component.scss',
 })
 export class MovieUpcomingPageComponent implements OnInit {
-  upcomingMovieList: any[] = [];
+  upcomingMovieList: Movie[] = [];
 
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.upcomingMovieList = this.movieService.getUpcomingMovies();
+    this.movieService.getUpcomingMovies().subscribe({
+      next: (movies: Movie[]) => {
+        this.upcomingMovieList = movies;
+      },
+      error: (error) => console.error(error),
+    });
   }
 }

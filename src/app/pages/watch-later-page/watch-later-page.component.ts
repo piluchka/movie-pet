@@ -16,6 +16,6 @@ export class WatchLaterPageComponent implements OnInit {
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.watchLaterMovieList = this.movieService.getWatchLaterMovieList();
+    // this.watchLaterMovieList = this.movieService.getWatchLaterMovieList();
   }
 }

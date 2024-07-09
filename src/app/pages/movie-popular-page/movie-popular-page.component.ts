@@ -4,6 +4,7 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
 import { MovieHeaderComponent } from '../../components/movie-header/movie-header.component';
 import { popularMovies } from '../../../assets/data/mock-data';
 import { MovieService } from '../../services/movie/movie.service';
+import { Movie, MovieList } from '../../models/movie.model';
 @Component({
   selector: 'app-movie-popular-page',
   standalone: true,
@@ -17,6 +18,11 @@ export class MoviePopularPageComponent implements OnInit {
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.popularMovieList = this.movieService.getPopularMovies();
+    this.movieService.getPopularMovies().subscribe({
+      next: (movies: Movie[]) => {
+        this.popularMovieList = movies;
+      },
+      error: (error) => console.error(error),
+    });
   }
 }

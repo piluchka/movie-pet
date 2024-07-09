@@ -36,20 +36,20 @@ export class MovieCardComponent {
   // Funcs for favorites
   setToFavoriteMovieList() {
     this.movie.addedToFavoriteList = true;
-    this.movieService.setToFavoriteMovieList(this.movie);
+    // this.movieService.setToFavoriteMovieList(this.movie);
   }
   deleteMovieFromFavoriteMovieList() {
     this.movie.addedToFavoriteList = false;
-    this.movieService.deleteMovieFromFavoriteMovieList(this.movie);
+    // this.movieService.deleteMovieFromFavoriteMovieList(this.movie);
   }
 
   // Func for watch later
   setToWatchLaterMovieList() {
     this.movie.addedToWatchLaterList = true;
-    this.movieService.setToWatchLaterMovieList(this.movie);
+    // this.movieService.setToWatchLaterMovieList(this.movie);
   }
   deleteMovieWatchLaterMovieList() {
     this.movie.addedToWatchLaterList = false;
-    this.movieService.deleteMovieWatchLaterMovieList(this.movie);
+    // this.movieService.deleteMovieWatchLaterMovieList(this.movie);
   }
 }

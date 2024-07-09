@@ -16,6 +16,6 @@ export class FavoriteMoviesPageComponent implements OnInit {
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.favoriteMovieList = this.movieService.getFavoriteMovieList();
+    // this.favoriteMovieList = this.movieService.getFavoriteMovieList();
   }
 }
