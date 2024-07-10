@@ -5,6 +5,7 @@ import { nowPlayingMovies } from '../../../assets/data/mock-data';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { MovieService } from '../../services/movie/movie.service';
 import { Movie, MovieList } from '../../models/movie.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-movie-now-playing-page',
@@ -15,7 +16,7 @@ import { Movie, MovieList } from '../../models/movie.model';
 })
 export class MovieNowPlayingPageComponent implements OnInit, OnDestroy {
   nowPlayingMovieList: Movie[] = [];
-  subscription: any;
+  subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
 

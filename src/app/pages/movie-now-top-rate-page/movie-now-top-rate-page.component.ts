@@ -5,6 +5,7 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
 import { topRatedMovies } from '../../../assets/data/mock-data';
 import { MovieService } from '../../services/movie/movie.service';
 import { Movie } from '../../models/movie.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-movie-now-top-rate-page',
@@ -15,7 +16,7 @@ import { Movie } from '../../models/movie.model';
 })
 export class MovieNowTopRatePageComponent implements OnInit, OnDestroy {
   topRatedMovieList: Movie[] = [];
-  subscription: any;
+  subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
 

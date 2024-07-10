@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieService } from '../../services/movie/movie.service';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { Movie } from '../../models/movie.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-movie-list-page',
@@ -13,7 +14,7 @@ import { Movie } from '../../models/movie.model';
 })
 export class MovieListPageComponent implements OnInit, OnDestroy {
   allMovieList: Movie[] = [];
-  subscription: any;
+  subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
 

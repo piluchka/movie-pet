@@ -5,6 +5,7 @@ import { MovieHeaderComponent } from '../../components/movie-header/movie-header
 import { upcomingMovies } from '../../../assets/data/mock-data';
 import { MovieService } from '../../services/movie/movie.service';
 import { Movie } from '../../models/movie.model';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-movie-upcoming-page',
   standalone: true,
@@ -14,7 +15,7 @@ import { Movie } from '../../models/movie.model';
 })
 export class MovieUpcomingPageComponent implements OnInit, OnDestroy {
   upcomingMovieList: Movie[] = [];
-  subscription: any;
+  subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
 

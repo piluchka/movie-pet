@@ -5,6 +5,7 @@ import { MovieHeaderComponent } from '../../components/movie-header/movie-header
 import { popularMovies } from '../../../assets/data/mock-data';
 import { MovieService } from '../../services/movie/movie.service';
 import { Movie, MovieList } from '../../models/movie.model';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-movie-popular-page',
   standalone: true,
@@ -14,7 +15,7 @@ import { Movie, MovieList } from '../../models/movie.model';
 })
 export class MoviePopularPageComponent implements OnInit, OnDestroy {
   popularMovieList: any[] = [];
-  subscription: any;
+  subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
 
