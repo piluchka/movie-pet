@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieService } from '../../services/movie/movie.service';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
-import { Movie, MovieList } from '../../models/movie.model';
+import { Movie } from '../../models/movie.model';
 
 @Component({
   selector: 'app-movie-list-page',
@@ -11,17 +11,21 @@ import { Movie, MovieList } from '../../models/movie.model';
   styleUrl: './movie-list-page.component.scss',
   imports: [CommonModule, MovieCardComponent],
 })
-export class MovieListPageComponent implements OnInit {
+export class MovieListPageComponent implements OnInit, OnDestroy {
   allMovieList: Movie[] = [];
+  subscription: any;
 
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.movieService.getAllMovies().subscribe({
-      next: (movies: Movie[]) => {
+    this.subscription = this.movieService
+      .getAllMovies()
+      .subscribe((movies: Movie[]) => {
         this.allMovieList = movies;
-      },
-      error: (error) => console.error(error),
-    });
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

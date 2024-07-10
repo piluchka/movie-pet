@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { MovieHeaderComponent } from '../../components/movie-header/movie-header.component';
 import { upcomingMovies } from '../../../assets/data/mock-data';
@@ -12,17 +12,21 @@ import { Movie } from '../../models/movie.model';
   templateUrl: './movie-upcoming-page.component.html',
   styleUrl: './movie-upcoming-page.component.scss',
 })
-export class MovieUpcomingPageComponent implements OnInit {
+export class MovieUpcomingPageComponent implements OnInit, OnDestroy {
   upcomingMovieList: Movie[] = [];
+  subscription: any;
 
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.movieService.getUpcomingMovies().subscribe({
-      next: (movies: Movie[]) => {
+    this.subscription = this.movieService
+      .getUpcomingMovies()
+      .subscribe((movies: Movie[]) => {
         this.upcomingMovieList = movies;
-      },
-      error: (error) => console.error(error),
-    });
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
