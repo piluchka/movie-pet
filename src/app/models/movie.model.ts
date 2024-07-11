@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs';
-
 // Interfaces for general movies
 export interface Movie {
   adult: boolean;

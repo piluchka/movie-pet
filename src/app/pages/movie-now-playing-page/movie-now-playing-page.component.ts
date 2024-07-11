@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieHeaderComponent } from '../../components/movie-header/movie-header.component';
-import { nowPlayingMovies } from '../../../assets/data/mock-data';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { MovieService } from '../../services/movie/movie.service';
 import { Movie, MovieList } from '../../models/movie.model';
