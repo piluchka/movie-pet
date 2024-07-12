@@ -42,7 +42,6 @@ export class AppComponent implements OnInit {
     this.authService.authenticateAndGetAccountId().subscribe(
       (accountId) => {
         this.movieService.setAccountId(accountId);
-        console.log('Account ID:', accountId);
       },
       (error) => {
         console.error('Authentication failed:', error);

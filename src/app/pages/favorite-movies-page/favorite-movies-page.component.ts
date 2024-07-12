@@ -17,13 +17,14 @@ export class FavoriteMoviesPageComponent implements OnInit {
   private subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
+  // ! ЗАКОНЧИЛА ТУТ
 
   ngOnInit(): void {
-    this.subscription = this.movieService.favoriteMoviesSubject.subscribe(
-      (movies) => {
+    this.subscription = this.movieService
+      .getMovieFavoriteList()
+      .subscribe((movies: any) => {
         this.favoriteMovieList = movies;
-      }
-    );
+      });
   }
 
   ngOnDestroy(): void {

@@ -36,8 +36,7 @@ export class MovieCardComponent {
 
   // Funcs for favorites
   setToFavoriteMovieList() {
-    this.movie.addedToFavoriteList = true;
-    this.movieService.setMovieToFavoriteMovieList(this.movie);
+    this.movieService.setMovieToFavoriteMovieList(this.movie.id);
   }
   deleteMovieFromFavoriteMovieList() {
     this.movie.addedToFavoriteList = false;

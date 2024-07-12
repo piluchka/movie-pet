@@ -28,6 +28,10 @@ export class MovieService {
   private getParams() {
     return { params: new HttpParams().set('api_key', environment.apiKey) };
   }
+  
+  setAccountId(id: number) {
+    this.accountId = id;
+  }
 
   // Funcs for movies-getters
   getNowPlayingMovies(): Observable<Movie[]> {
@@ -85,11 +89,25 @@ export class MovieService {
   }
 
   // Funcs for Favorite
-  setMovieToFavoriteMovieList(movie: Movie): void {
-    if (!this.favoriteMovieList.includes(movie)) {
-      this.favoriteMovieList.push(movie);
-      this.favoriteMoviesSubject.next(this.favoriteMovieList);
-    }
+  setMovieToFavoriteMovieList(id: number): Observable<any> {
+    const body = {
+      media_type: 'movie',
+      media_id: id,
+      favorite: true,
+    };
+
+    return this.http.post(
+      `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
+      JSON.stringify(body),
+      this.getParams()
+    );
+  }
+  // ! ЗАКОНЧИЛА ТУТ
+  getMovieFavoriteList(): any {
+    return this.http.get(
+      `${environment.apiBaseUrl}/account/${this.accountId}/favorite/movies`,
+      this.getParams()
+    );
   }
 
   deleteMovieFromFavoriteMovieList(movie: Movie): void {
@@ -123,9 +141,5 @@ export class MovieService {
       `${environment.apiBaseUrl}/movie/${id}`,
       this.getParams()
     );
-  }
-
-  setAccountId(id: number) {
-    this.accountId = id;
   }
 }
