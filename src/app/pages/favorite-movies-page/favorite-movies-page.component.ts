@@ -13,7 +13,7 @@ import { Movie } from '../../models/movie.model';
   styleUrl: './favorite-movies-page.component.scss',
 })
 export class FavoriteMoviesPageComponent implements OnInit {
-  favoriteMovieList: Movie[] = [];
+  public favoriteMovieList: Movie[] = [];
   private subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}

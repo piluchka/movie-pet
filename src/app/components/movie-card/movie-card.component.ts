@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormatingTimePipe } from '../../pipes/formatingTime/formating-time.pipe';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
@@ -7,7 +7,6 @@ import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
 import { ReduceStringPipe } from '../../pipes/reduceString/reduce-string.pipe';
 import { RouterLink } from '@angular/router';
 import { MovieService } from '../../services/movie/movie.service';
-import { Subscriber, Subscription } from 'rxjs';
 
 export class MyApplicationModule {}
 
@@ -28,6 +27,7 @@ export class MyApplicationModule {}
 })
 export class MovieCardComponent {
   public STATIC_IMAGE_PATH = 'https://image.tmdb.org/t/p/w500/';
+  public isInFavoriteList: boolean | null = false;
 
   @Input() movie: any;
   @Input() isShortDescriptionNeeded = true;

@@ -1,23 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import {
-  BehaviorSubject,
-  forkJoin,
-  map,
-  Observable,
-  ReplaySubject,
-  Subject,
-} from 'rxjs';
-import { Movie, MovieList } from '../../models/movie.model';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { BehaviorSubject, forkJoin, map, Observable } from 'rxjs';
+import { Movie, MovieDetails, MovieList } from '../../models/movie.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MovieService {
+  accountId: number | null = null;
+
   // Vars for arrays
   favoriteMovieList: Movie[] = [];
   watchLaterMovieList: Movie[] = [];
+  allMoviesList: Movie[] = [];
 
   // Vars for Subjects
   favoriteMoviesSubject: BehaviorSubject<Movie[]> = new BehaviorSubject<
@@ -122,7 +118,14 @@ export class MovieService {
   }
 
   // Func for details
-  // getMovieById(id: number) {
-  //   return this.getAllMoviesList().find((el) => el.id === id);
-  // }
+  getMovieById(id: number): Observable<MovieDetails> {
+    return this.http.get<MovieDetails>(
+      `${environment.apiBaseUrl}/movie/${id}`,
+      this.getParams()
+    );
+  }
+
+  setAccountId(id: number) {
+    this.accountId = id;
+  }
 }
