@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { CommonModule } from '@angular/common';
 import { MovieService } from '../../services/movie/movie.service';
@@ -12,12 +12,11 @@ import { Movie } from '../../models/movie.model';
   templateUrl: './favorite-movies-page.component.html',
   styleUrl: './favorite-movies-page.component.scss',
 })
-export class FavoriteMoviesPageComponent implements OnInit {
+export class FavoriteMoviesPageComponent implements OnInit, OnDestroy {
   public favoriteMovieList: Movie[] = [];
   private subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
-  // ! ЗАКОНЧИЛА ТУТ
 
   ngOnInit(): void {
     this.subscription = this.movieService.favoriteMoviesObservable$.subscribe(

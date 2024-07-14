@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieHeaderComponent } from '../../components/movie-header/movie-header.component';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
-import { topRatedMovies } from '../../../assets/data/mock-data';
 import { MovieService } from '../../services/movie/movie.service';
 import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
@@ -15,8 +14,8 @@ import { Subscription } from 'rxjs';
   styleUrl: './movie-now-top-rate-page.component.scss',
 })
 export class MovieNowTopRatePageComponent implements OnInit, OnDestroy {
-  topRatedMovieList: Movie[] = [];
-  subscription: Subscription = new Subscription();
+  public topRatedMovieList: Movie[] = [];
+  private subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
 
@@ -29,6 +28,8 @@ export class MovieNowTopRatePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

@@ -13,8 +13,8 @@ import { Subscription } from 'rxjs';
   styleUrl: './movie-popular-page.component.scss',
 })
 export class MoviePopularPageComponent implements OnInit, OnDestroy {
-  popularMovieList: any[] = [];
-  subscription: Subscription = new Subscription();
+  public popularMovieList: Movie[] = [];
+  private subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
 
@@ -27,6 +27,8 @@ export class MoviePopularPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

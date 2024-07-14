@@ -13,8 +13,8 @@ import { Subscription } from 'rxjs';
   imports: [CommonModule, MovieCardComponent],
 })
 export class MovieListPageComponent implements OnInit, OnDestroy {
-  allMovieList: Movie[] = [];
-  subscription: Subscription = new Subscription();
+  public allMovieList: Movie[] = [];
+  private subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
 
@@ -27,6 +27,8 @@ export class MovieListPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

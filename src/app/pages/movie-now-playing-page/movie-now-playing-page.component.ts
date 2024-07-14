@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieHeaderComponent } from '../../components/movie-header/movie-header.component';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { MovieService } from '../../services/movie/movie.service';
-import { Movie, MovieList } from '../../models/movie.model';
+import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -14,8 +14,8 @@ import { Subscription } from 'rxjs';
   styleUrl: './movie-now-playing-page.component.scss',
 })
 export class MovieNowPlayingPageComponent implements OnInit, OnDestroy {
-  nowPlayingMovieList: Movie[] = [];
-  subscription: Subscription = new Subscription();
+  public nowPlayingMovieList: Movie[] = [];
+  private subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
 
@@ -28,6 +28,8 @@ export class MovieNowPlayingPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

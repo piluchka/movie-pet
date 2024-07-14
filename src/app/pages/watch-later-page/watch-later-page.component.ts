@@ -13,8 +13,8 @@ import { Subscription } from 'rxjs';
   styleUrl: './watch-later-page.component.scss',
 })
 export class WatchLaterPageComponent implements OnInit, OnDestroy {
-  watchLaterMovieList: Movie[] = [];
-  subscription: Subscription = new Subscription();
+  public watchLaterMovieList: Movie[] = [];
+  private subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
 
