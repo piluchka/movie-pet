@@ -5,7 +5,8 @@ import { ActivatedRoute, Route } from '@angular/router';
 import { MovieService } from '../../services/movie/movie.service';
 import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
 import { map, Observable, Subscription } from 'rxjs';
-import { Movie, MovieDetails } from '../../models/movie.model';
+import { Movie } from '../../models/movie.model';
+import { MovieDetails } from '../../models/movie-details.model';
 
 @Component({
   selector: 'app-movie-details-page',

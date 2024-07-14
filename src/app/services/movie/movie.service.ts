@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, forkJoin, map, Observable } from 'rxjs';
-import { Movie, MovieDetails, MovieList } from '../../models/movie.model';
+import { Movie, MovieList } from '../../models/movie.model';
 import { environment } from '../../../environments/environment';
+import { MovieDetails } from '../../models/movie-details.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,7 @@ export class MovieService {
   private getParams() {
     return { params: new HttpParams().set('api_key', environment.apiKey) };
   }
-  
+
   setAccountId(id: number) {
     this.accountId = id;
   }
