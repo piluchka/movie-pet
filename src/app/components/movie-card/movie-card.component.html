@@ -1,3 +1,4 @@
+@if (movie) {
 <p-card [header]="movie.title" [styleClass]="'movie-card'">
   <ng-template pTemplate="header">
     <img
@@ -69,3 +70,6 @@
     >
   </ng-template>
 </p-card>
+}@else {
+<div>Sorry, something went wrong...</div>
+}

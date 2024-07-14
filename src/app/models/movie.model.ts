@@ -14,6 +14,8 @@ export interface Movie {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  addedToFavoriteList?: boolean;
+  addedToWatchLaterList?: boolean;
 }
 
 export interface MovieList {
@@ -22,5 +24,3 @@ export interface MovieList {
   total_pages: number;
   total_results: number;
 }
-
-

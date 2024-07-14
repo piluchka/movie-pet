@@ -20,11 +20,11 @@ export class FavoriteMoviesPageComponent implements OnInit {
   // ! ЗАКОНЧИЛА ТУТ
 
   ngOnInit(): void {
-    this.subscription = this.movieService
-      .getMovieFavoriteList()
-      .subscribe((movies: any) => {
+    this.subscription = this.movieService.favoriteMoviesObservable$.subscribe(
+      (movies: Movie[]) => {
         this.favoriteMovieList = movies;
-      });
+      }
+    );
   }
 
   ngOnDestroy(): void {

@@ -19,8 +19,8 @@ export class WatchLaterPageComponent implements OnInit, OnDestroy {
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.subscription = this.movieService.watchLaterMoviesSubject.subscribe(
-      (movies) => {
+    this.subscription = this.movieService.watchLaterMoviesObservable$.subscribe(
+      (movies: Movie[]) => {
         this.watchLaterMovieList = movies;
       }
     );

@@ -9,33 +9,39 @@ import { MovieDetails } from '../../models/movie-details.model';
   providedIn: 'root',
 })
 export class MovieService {
-  accountId: number | null = null;
+  private accountId: number | null = null;
 
-  // Vars for arrays
+  // Private Vars for Subjects
+  private favoriteMoviesSubject$: BehaviorSubject<Movie[]> =
+    new BehaviorSubject<Movie[]>([]);
+  private watchLaterMoviesSubject$: BehaviorSubject<Movie[]> =
+    new BehaviorSubject<Movie[]>([]);
+
+  // Public Vars for Observables
+  public watchLaterMoviesObservable$: Observable<Movie[]> =
+    this.watchLaterMoviesSubject$;
+  public favoriteMoviesObservable$: Observable<Movie[]> =
+    this.favoriteMoviesSubject$;
+
+  // Private vars for arrays
   favoriteMovieList: Movie[] = [];
   watchLaterMovieList: Movie[] = [];
   allMoviesList: Movie[] = [];
 
-  // Vars for Subjects
-  favoriteMoviesSubject: BehaviorSubject<Movie[]> = new BehaviorSubject<
-    Movie[]
-  >([]);
-  watchLaterMoviesSubject: BehaviorSubject<Movie[]> = new BehaviorSubject<
-    Movie[]
-  >([]);
-
   constructor(private http: HttpClient) {}
 
+  // Func for http-params(api-key)
   private getParams() {
     return { params: new HttpParams().set('api_key', environment.apiKey) };
   }
 
-  setAccountId(id: number) {
+  // Func for assinging to var the accound id
+  public setAccountId(id: number) {
     this.accountId = id;
   }
 
   // Funcs for movies-getters
-  getNowPlayingMovies(): Observable<Movie[]> {
+  public getNowPlayingMovies(): Observable<Movie[]> {
     return this.http
       .get<MovieList>(
         `${environment.apiBaseUrl}/movie/now_playing`,
@@ -44,7 +50,7 @@ export class MovieService {
       .pipe(map((moviesData) => moviesData.results));
   }
 
-  getPopularMovies(): Observable<Movie[]> {
+  public getPopularMovies(): Observable<Movie[]> {
     return this.http
       .get<MovieList>(
         `${environment.apiBaseUrl}/movie/popular`,
@@ -53,7 +59,7 @@ export class MovieService {
       .pipe(map((moviesData) => moviesData.results));
   }
 
-  getTopRatedMovies(): Observable<Movie[]> {
+  public getTopRatedMovies(): Observable<Movie[]> {
     return this.http
       .get<MovieList>(
         `${environment.apiBaseUrl}/movie/top_rated`,
@@ -62,7 +68,7 @@ export class MovieService {
       .pipe(map((moviesData) => moviesData.results));
   }
 
-  getUpcomingMovies(): Observable<Movie[]> {
+  public getUpcomingMovies(): Observable<Movie[]> {
     return this.http
       .get<MovieList>(
         `${environment.apiBaseUrl}/movie/upcoming`,
@@ -71,7 +77,7 @@ export class MovieService {
       .pipe(map((moviesData) => moviesData.results));
   }
 
-  getAllMovies(): Observable<Movie[]> {
+  public getAllMovies(): Observable<Movie[]> {
     return forkJoin({
       nowPlaying: this.getNowPlayingMovies(),
       popular: this.getPopularMovies(),
@@ -90,33 +96,36 @@ export class MovieService {
   }
 
   // Funcs for Favorite
-  setMovieToFavoriteMovieList(id: number): Observable<any> {
-    const body = {
-      media_type: 'movie',
-      media_id: id,
-      favorite: true,
-    };
+  setMovieToFavoriteMovieList(movie: Movie) {
+    if (!this.favoriteMovieList.includes(movie)) {
+      this.favoriteMovieList.push(movie);
+      this.favoriteMoviesSubject$.next(this.favoriteMovieList);
+    }
+    // const body = {
+    //   media_type: 'movie',
+    //   media_id: id,
+    //   favorite: true,
+    // };
+  }
+  // return this.http.post(
+  //   `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
+  //   JSON.stringify(body),
+  //   this.getParams()
+  // );
 
-    return this.http.post(
-      `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
-      JSON.stringify(body),
-      this.getParams()
-    );
-  }
   // ! ЗАКОНЧИЛА ТУТ
-  getMovieFavoriteList(): any {
-    return this.http.get(
-      `${environment.apiBaseUrl}/account/${this.accountId}/favorite/movies`,
-      this.getParams()
-    );
-  }
+  // getMovieFavoriteList(): any {
+  //   return this.http.get(
+  //     `${environment.apiBaseUrl}/account/${this.accountId}/favorite/movies`,
+  //     this.getParams()
+  //   );
+  // }
 
   deleteMovieFromFavoriteMovieList(movie: Movie): void {
     const deletingMovieIndex = this.favoriteMovieList.indexOf(movie);
     if (deletingMovieIndex !== -1) {
       this.favoriteMovieList.splice(deletingMovieIndex, 1);
-
-      this.favoriteMoviesSubject.next(this.favoriteMovieList);
+      this.favoriteMoviesSubject$.next(this.favoriteMovieList);
     }
   }
 
@@ -124,7 +133,7 @@ export class MovieService {
   setToWatchLaterMovieList(movie: Movie): void {
     if (!this.watchLaterMovieList.includes(movie)) {
       this.watchLaterMovieList.push(movie);
-      this.watchLaterMoviesSubject.next(this.watchLaterMovieList);
+      this.watchLaterMoviesSubject$.next(this.watchLaterMovieList);
     }
   }
 
@@ -132,11 +141,11 @@ export class MovieService {
     const deletingMovieIndex = this.watchLaterMovieList.indexOf(movie);
     if (deletingMovieIndex !== -1) {
       this.watchLaterMovieList.splice(deletingMovieIndex, 1);
-      this.watchLaterMoviesSubject.next(this.watchLaterMovieList);
+      this.watchLaterMoviesSubject$.next(this.watchLaterMovieList);
     }
   }
 
-  // Func for details
+  // Func for get movie by id for details page
   getMovieById(id: number): Observable<MovieDetails> {
     return this.http.get<MovieDetails>(
       `${environment.apiBaseUrl}/movie/${id}`,
