@@ -3,7 +3,7 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
 import { CommonModule } from '@angular/common';
 import { MovieService } from '../../services/movie/movie.service';
 import { Subscription } from 'rxjs';
-import { Movie } from '../../models/movie.model';
+import { Movie, MovieList } from '../../models/movie.model';
 
 @Component({
   selector: 'app-favorite-movies-page',
@@ -14,16 +14,18 @@ import { Movie } from '../../models/movie.model';
 })
 export class FavoriteMoviesPageComponent implements OnInit, OnDestroy {
   public favoriteMovieList: Movie[] = [];
+  sometthing: any;
   private subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.subscription = this.movieService.favoriteMoviesObservable$.subscribe(
-      (movies: Movie[]) => {
-        this.favoriteMovieList = movies;
-      }
-    );
+    this.subscription = this.movieService
+      .getMovieFavoriteList()
+      .subscribe((movies: any) => {
+        this.sometthing = movies;
+        console.log(this.sometthing);
+      });
   }
 
   ngOnDestroy(): void {

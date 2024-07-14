@@ -39,8 +39,9 @@ export class MovieCardComponent {
   setToFavoriteMovieList() {
     if (this.movie) {
       this.movie.addedToFavoriteList = true;
-
-      this.movieService.setMovieToFavoriteMovieList(this.movie);
+      this.movieService
+        .setMovieToFavoriteMovieList(this.movie)
+        .subscribe((res) => console.log(res));
     }
   }
   deleteMovieFromFavoriteMovieList() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   RouterLink,
   RouterLinkActive,
@@ -40,8 +40,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.authenticateAndGetAccountId().subscribe(
-      (accountId) => {
-        this.movieService.setAccountId(accountId);
+      (obj) => {
+        this.movieService.setAccountId(obj.accountId);
+        this.movieService.setSessionId(obj.sessionId);
       },
       (error) => {
         console.error('Authentication failed:', error);

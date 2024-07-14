@@ -10,6 +10,7 @@ import { MovieDetails } from '../../models/movie-details.model';
 })
 export class MovieService {
   private accountId: number | null = null;
+  private sessionId: string = '';
 
   // Private Vars for Subjects
   private favoriteMoviesSubject$: BehaviorSubject<Movie[]> =
@@ -24,20 +25,27 @@ export class MovieService {
     this.favoriteMoviesSubject$;
 
   // Private vars for arrays
-  favoriteMovieList: Movie[] = [];
-  watchLaterMovieList: Movie[] = [];
-  allMoviesList: Movie[] = [];
+  private favoriteMovieList: Movie[] = [];
+  private watchLaterMovieList: Movie[] = [];
+  private allMoviesList: Movie[] = [];
 
   constructor(private http: HttpClient) {}
 
-  // Func for http-params(api-key)
-  private getParams() {
-    return { params: new HttpParams().set('api_key', environment.apiKey) };
-  }
-
-  // Func for assinging to var the accound id
+  // Funcs for assinging to var the auth ids
   public setAccountId(id: number) {
     this.accountId = id;
+  }
+  public setSessionId(id: string) {
+    this.sessionId = id;
+    console.log(this.sessionId);
+  }
+  // Func for http-params(api-key)
+  private getParams() {
+    return {
+      params: new HttpParams()
+        .set('api_key', environment.apiKey)
+        .set('session_id', this.sessionId),
+    };
   }
 
   // Funcs for movies-getters
@@ -96,30 +104,28 @@ export class MovieService {
   }
 
   // Funcs for Favorite
-  setMovieToFavoriteMovieList(movie: Movie) {
-    if (!this.favoriteMovieList.includes(movie)) {
-      this.favoriteMovieList.push(movie);
-      this.favoriteMoviesSubject$.next(this.favoriteMovieList);
-    }
-    // const body = {
-    //   media_type: 'movie',
-    //   media_id: id,
-    //   favorite: true,
-    // };
-  }
-  // return this.http.post(
-  //   `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
-  //   JSON.stringify(body),
-  //   this.getParams()
-  // );
+  setMovieToFavoriteMovieList(movie: Movie): Observable<Movie> {
+    const postRequestBody = {
+      media_type: 'movie',
+      media_id: movie.id,
+      favorite: true,
+    };
 
-  // ! ЗАКОНЧИЛА ТУТ
-  // getMovieFavoriteList(): any {
-  //   return this.http.get(
-  //     `${environment.apiBaseUrl}/account/${this.accountId}/favorite/movies`,
-  //     this.getParams()
-  //   );
-  // }
+    const stringifiedPostRequestBody = JSON.stringify(postRequestBody);
+
+    return this.http.post<Movie>(
+      `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
+      stringifiedPostRequestBody,
+      this.getParams()
+    );
+  }
+
+  getMovieFavoriteList(): Observable<any> {
+    return this.http.get<MovieList>(
+      `${environment.apiBaseUrl}/account/21364420/favorite/movies`,
+      this.getParams()
+    );
+  }
 
   deleteMovieFromFavoriteMovieList(movie: Movie): void {
     const deletingMovieIndex = this.favoriteMovieList.indexOf(movie);

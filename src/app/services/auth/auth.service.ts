@@ -43,21 +43,26 @@ export class AuthService {
   }
 
   // Get account details to retrieve accountId
-  private getAccountId(sessionId: string): Observable<number> {
+  private getAccountAndSessionIds(
+    sessionId: string
+  ): Observable<{ accountId: number; sessionId: string }> {
     const url = `${environment.apiBaseUrl}/account?api_key=${environment.apiKey}&session_id=${sessionId}`;
     return this.http.get<any>(url).pipe(
-      map((response) => response.id),
+      map((response) => ({ accountId: response.id, sessionId })),
       catchError(this.handleError)
     );
   }
 
   // Public method to get accountId
-  public authenticateAndGetAccountId(): Observable<number> {
+  public authenticateAndGetAccountId(): Observable<{
+    accountId: number;
+    sessionId: string;
+  }> {
     return this.getRequestToken().pipe(
       switchMap((requestToken) =>
         this.validateRequestToken(requestToken).pipe(
           switchMap(() => this.createSession(requestToken)),
-          switchMap((sessionId) => this.getAccountId(sessionId))
+          switchMap((sessionId) => this.getAccountAndSessionIds(sessionId))
         )
       )
     );
