@@ -26,6 +26,10 @@ export class FavoriteMoviesPageComponent implements OnInit, OnDestroy {
       });
   }
 
+  onMovieListUpdated(updatedList: any[]) {
+    this.favoriteMovieList = updatedList;
+  }
+
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();

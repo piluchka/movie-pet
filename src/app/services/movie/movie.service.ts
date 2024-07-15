@@ -24,6 +24,7 @@ export class MovieService {
   public watchLaterMoviesObservable$: Observable<Movie[]> =
     this.watchLaterMoviesSubject$;
 
+  public test: any;
   // Private vars for arrays
   private favoriteMovieList: Movie[] = [];
   private watchLaterMovieList: Movie[] = [];

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormatingTimePipe } from '../../pipes/formatingTime/formating-time.pipe';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
@@ -31,13 +31,16 @@ export class MovieCardComponent {
 
   @Input() movie: Movie | null = null;
   @Input() isShortDescriptionNeeded = true;
+  @Input() isInFav: boolean | null = null;
+
+  @Output() movieListUpdated = new EventEmitter<any[]>();
 
   constructor(private movieService: MovieService) {}
 
   // Funcs for favorites
   setToFavoriteMovieList() {
     if (this.movie) {
-      this.movie.addedToFavoriteList = true;
+      this.isInFav = true;
       this.movieService
         .setMovieToFavoriteMovieList(this.movie.id)
         .subscribe((res) => console.log(res));
@@ -45,10 +48,14 @@ export class MovieCardComponent {
   }
   deleteMovieFromFavoriteMovieList() {
     if (this.movie) {
-      this.movie.addedToFavoriteList = false;
+      this.isInFav = false;
       this.movieService
         .deleteMovieFromFavoriteMovieList(this.movie.id)
-        .subscribe((res) => console.log(res));
+        .subscribe(() =>
+          this.movieService.getMovieFavoriteList().subscribe((movies) => {
+            this.movieListUpdated.emit(movies.results);
+          })
+        );
     }
   }
 
