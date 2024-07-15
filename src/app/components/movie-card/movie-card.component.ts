@@ -28,7 +28,6 @@ export class MyApplicationModule {}
 })
 export class MovieCardComponent {
   public STATIC_IMAGE_PATH = 'https://image.tmdb.org/t/p/w500/';
-  public isInFavoriteList: boolean | null = false;
 
   @Input() movie: Movie | null = null;
   @Input() isShortDescriptionNeeded = true;

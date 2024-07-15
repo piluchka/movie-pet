@@ -17,6 +17,9 @@ export const routes: Routes = [
   { path: 'popular', component: MoviePopularPageComponent },
   { path: 'upcoming', component: MovieUpcomingPageComponent },
   { path: 'movie/:id', component: MovieDetailsPageComponent },
-  { path: 'favorite', component: FavoriteMoviesPageComponent },
+  {
+    path: 'favorite',
+    component: FavoriteMoviesPageComponent,
+  },
   { path: 'watch-later', component: WatchLaterPageComponent },
 ];

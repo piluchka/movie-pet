@@ -32,19 +32,28 @@ export class MovieService {
   constructor(private http: HttpClient) {}
 
   // Funcs for assinging to var the auth ids
+  public setSessionId(id: string) {
+    this.sessionId = id;
+  }
   public setAccountId(id: number) {
     this.accountId = id;
   }
-  public setSessionId(id: string) {
-    this.sessionId = id;
-    console.log(this.sessionId);
-  }
   // Func for http-params(api-key)
-  private getParams() {
+  private getParams(): object {
     return {
       params: new HttpParams()
         .set('api_key', environment.apiKey)
         .set('session_id', this.sessionId),
+    };
+  }
+
+  // Func for http-headers(access token)
+  private getHeaders(): object {
+    return {
+      headers: new HttpHeaders().set(
+        'Authorization',
+        `Bearer ${environment.accessToken}`
+      ),
     };
   }
 
@@ -111,19 +120,17 @@ export class MovieService {
       favorite: true,
     };
 
-    const stringifiedPostRequestBody = JSON.stringify(postRequestBody);
-
     return this.http.post<Movie>(
       `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
-      stringifiedPostRequestBody,
+      postRequestBody,
       this.getParams()
     );
   }
 
   getMovieFavoriteList(): Observable<any> {
     return this.http.get<MovieList>(
-      `${environment.apiBaseUrl}/account/21364420/favorite/movies`,
-      this.getParams()
+      `${environment.apiBaseUrl}/account/${this.accountId}/favorite/movies`,
+      this.getHeaders()
     );
   }
 

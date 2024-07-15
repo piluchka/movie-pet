@@ -14,7 +14,6 @@ import { Movie, MovieList } from '../../models/movie.model';
 })
 export class FavoriteMoviesPageComponent implements OnInit, OnDestroy {
   public favoriteMovieList: Movie[] = [];
-  sometthing: any;
   private subscription: Subscription = new Subscription();
 
   constructor(private movieService: MovieService) {}
@@ -22,9 +21,8 @@ export class FavoriteMoviesPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.movieService
       .getMovieFavoriteList()
-      .subscribe((movies: any) => {
-        this.sometthing = movies;
-        console.log(this.sometthing);
+      .subscribe((movies: MovieList) => {
+        this.favoriteMovieList = movies.results;
       });
   }
 
