@@ -18,11 +18,11 @@ export class MovieService {
   private watchLaterMoviesSubject$: BehaviorSubject<Movie[]> =
     new BehaviorSubject<Movie[]>([]);
 
-  // Public Vars for Observables
-  public watchLaterMoviesObservable$: Observable<Movie[]> =
-    this.watchLaterMoviesSubject$;
+  // Public Vars for Subjects
   public favoriteMoviesObservable$: Observable<Movie[]> =
     this.favoriteMoviesSubject$;
+  public watchLaterMoviesObservable$: Observable<Movie[]> =
+    this.watchLaterMoviesSubject$;
 
   // Private vars for arrays
   private favoriteMovieList: Movie[] = [];
@@ -54,6 +54,14 @@ export class MovieService {
         'Authorization',
         `Bearer ${environment.accessToken}`
       ),
+    };
+  }
+
+  private getBodyForFavoritePost(movieId: number, isInList: boolean): object {
+    return {
+      media_type: 'movie',
+      media_id: movieId,
+      favorite: isInList,
     };
   }
 
@@ -113,33 +121,27 @@ export class MovieService {
   }
 
   // Funcs for Favorite
-  setMovieToFavoriteMovieList(movie: Movie): Observable<Movie> {
-    const postRequestBody = {
-      media_type: 'movie',
-      media_id: movie.id,
-      favorite: true,
-    };
-
+  setMovieToFavoriteMovieList(movieId: number): Observable<Movie> {
     return this.http.post<Movie>(
       `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
-      postRequestBody,
+      this.getBodyForFavoritePost(movieId, true),
       this.getParams()
     );
   }
 
-  getMovieFavoriteList(): Observable<any> {
+  getMovieFavoriteList(): Observable<MovieList> {
     return this.http.get<MovieList>(
       `${environment.apiBaseUrl}/account/${this.accountId}/favorite/movies`,
       this.getHeaders()
     );
   }
 
-  deleteMovieFromFavoriteMovieList(movie: Movie): void {
-    const deletingMovieIndex = this.favoriteMovieList.indexOf(movie);
-    if (deletingMovieIndex !== -1) {
-      this.favoriteMovieList.splice(deletingMovieIndex, 1);
-      this.favoriteMoviesSubject$.next(this.favoriteMovieList);
-    }
+  deleteMovieFromFavoriteMovieList(movieId: number): Observable<Movie> {
+    return this.http.post<Movie>(
+      `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
+      this.getBodyForFavoritePost(movieId, false),
+      this.getParams()
+    );
   }
 
   // Funcs for Watch later

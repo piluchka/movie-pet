@@ -39,15 +39,16 @@ export class MovieCardComponent {
     if (this.movie) {
       this.movie.addedToFavoriteList = true;
       this.movieService
-        .setMovieToFavoriteMovieList(this.movie)
+        .setMovieToFavoriteMovieList(this.movie.id)
         .subscribe((res) => console.log(res));
     }
   }
   deleteMovieFromFavoriteMovieList() {
     if (this.movie) {
       this.movie.addedToFavoriteList = false;
-
-      this.movieService.deleteMovieFromFavoriteMovieList(this.movie);
+      this.movieService
+        .deleteMovieFromFavoriteMovieList(this.movie.id)
+        .subscribe((res) => console.log(res));
     }
   }
 
