@@ -15,7 +15,6 @@ import { ReduceStringPipe } from '../../pipes/reduceString/reduce-string.pipe';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MovieService } from '../../services/movie/movie.service';
 import { Movie, MovieList } from '../../models/movie.model';
-import { FavoriteService } from '../../services/favorite/favorite.service';
 import { filter, map, Subscription, take } from 'rxjs';
 
 export class MyApplicationModule {}
@@ -48,7 +47,6 @@ export class MovieCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private movieService: MovieService,
-    private favService: FavoriteService,
     private route: ActivatedRoute
   ) {}
 
