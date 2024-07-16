@@ -12,7 +12,6 @@
     @for (movie of favoriteMovieList; track movie.id) {
     <app-movie-card
       (movieListUpdated)="onMovieListUpdated($event)"
-      [isInFav]="true"
       [movie]="movie"
     ></app-movie-card>
     }

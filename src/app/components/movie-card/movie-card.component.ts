@@ -1,13 +1,22 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormatingTimePipe } from '../../pipes/formatingTime/formating-time.pipe';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
 import { ReduceStringPipe } from '../../pipes/reduceString/reduce-string.pipe';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MovieService } from '../../services/movie/movie.service';
-import { Movie } from '../../models/movie.model';
+import { Movie, MovieList } from '../../models/movie.model';
+import { FavoriteService } from '../../services/favorite/favorite.service';
+import { filter, map, Subscription, take } from 'rxjs';
 
 export class MyApplicationModule {}
 
@@ -26,16 +35,34 @@ export class MyApplicationModule {}
   templateUrl: './movie-card.component.html',
   styleUrl: './movie-card.component.scss',
 })
-export class MovieCardComponent {
+export class MovieCardComponent implements OnInit, OnDestroy {
   public STATIC_IMAGE_PATH = 'https://image.tmdb.org/t/p/w500/';
 
   @Input() movie: Movie | null = null;
   @Input() isShortDescriptionNeeded = true;
-  @Input() isInFav: boolean | null = null;
 
   @Output() movieListUpdated = new EventEmitter<any[]>();
 
-  constructor(private movieService: MovieService) {}
+  public isInFav: boolean = false;
+  private subscription: Subscription = new Subscription();
+
+  constructor(
+    private movieService: MovieService,
+    private favService: FavoriteService,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    if (this.movie) {
+      this.subscription = this.movieService
+        .getMovieFavoriteList()
+        .subscribe((movies: MovieList) => {
+          if (movies.results.some((movie) => movie.id === this.movie!.id)) {
+            this.isInFav = true;
+          }
+        });
+    }
+  }
 
   // Funcs for favorites
   setToFavoriteMovieList() {
@@ -43,7 +70,9 @@ export class MovieCardComponent {
       this.isInFav = true;
       this.movieService
         .setMovieToFavoriteMovieList(this.movie.id)
-        .subscribe((res) => console.log(res));
+        .subscribe((res) => {
+          console.log(res);
+        });
     }
   }
   deleteMovieFromFavoriteMovieList() {
@@ -71,5 +100,9 @@ export class MovieCardComponent {
       this.movie.addedToWatchLaterList = false;
       this.movieService.deleteMovieWatchLaterMovieList(this.movie);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

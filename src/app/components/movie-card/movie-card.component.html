@@ -8,23 +8,19 @@
       alt="movie"
     />
     <div class="movie-card__buttons">
-      @if (!isInFav) {
       <p-button
         [rounded]="true"
         styleClass="w-full"
-        icon="pi pi-heart"
-        (click)="setToFavoriteMovieList()"
+        [icon]="isInFav ? 'pi pi-heart-fill' : 'pi pi-heart'"
+        (click)="
+          isInFav
+            ? deleteMovieFromFavoriteMovieList()
+            : setToFavoriteMovieList()
+        "
         [ngClass]="{ 'added-to-favorite': isInFav }"
       />
-      }@else {
-      <p-button
-        [rounded]="true"
-        styleClass="w-full"
-        icon="pi pi-heart-fill"
-        (click)="deleteMovieFromFavoriteMovieList()"
-        [ngClass]="{ 'added-to-favorite': isInFav }"
-      />
-      } @if (!movie.addedToWatchLaterList ) {
+
+      @if (!movie.addedToWatchLaterList ) {
       <p-button
         [rounded]="true"
         icon="pi pi-eye"
