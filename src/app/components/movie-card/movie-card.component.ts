@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormatingTimePipe } from '../../pipes/formatingTime/formating-time.pipe';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
@@ -27,6 +27,7 @@ export class MyApplicationModule {}
 })
 export class MovieCardComponent {
   public STATIC_IMAGE_PATH = 'https://image.tmdb.org/t/p/w500/';
+  public isInFavoriteList: boolean | null = false;
 
   @Input() movie: any;
   @Input() isShortDescriptionNeeded = true;
@@ -35,8 +36,7 @@ export class MovieCardComponent {
 
   // Funcs for favorites
   setToFavoriteMovieList() {
-    this.movie.addedToFavoriteList = true;
-    this.movieService.setToFavoriteMovieList(this.movie);
+    this.movieService.setMovieToFavoriteMovieList(this.movie.id);
   }
   deleteMovieFromFavoriteMovieList() {
     this.movie.addedToFavoriteList = false;

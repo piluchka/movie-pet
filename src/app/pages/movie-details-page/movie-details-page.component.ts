@@ -4,6 +4,8 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
 import { ActivatedRoute, Route } from '@angular/router';
 import { MovieService } from '../../services/movie/movie.service';
 import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
+import { map, Observable, Subscription } from 'rxjs';
+import { Movie, MovieDetails } from '../../models/movie.model';
 
 @Component({
   selector: 'app-movie-details-page',
@@ -13,7 +15,7 @@ import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
   imports: [CommonModule, MovieCardComponent, MathRoundPipe],
 })
 export class MovieDetailsPageComponent implements OnInit {
-  public movieData: any;
+  public movieData: MovieDetails | null = null;
   public STATIC_IMAGE_PATH = 'https://image.tmdb.org/t/p/w500/';
 
   constructor(
@@ -22,7 +24,9 @@ export class MovieDetailsPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const incomingMovieId = +this.router.snapshot.params['id'];
-    this.movieData = this.movieService.getMovieById(incomingMovieId);
+    const incomingMovieId = Number(this.router.snapshot.params['id']);
+    this.movieService.getMovieById(incomingMovieId).subscribe((movie: any) => {
+      this.movieData = movie;
+    });
   }
 }
