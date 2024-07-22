@@ -22,8 +22,6 @@ export class MovieUpcomingPageComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(loadUpcomingMovies());
-
     this.subscription = this.store
       .select(selectUpcomingMovies)
       .subscribe((upcomingMovieList) => {

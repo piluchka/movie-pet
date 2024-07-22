@@ -5,7 +5,6 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
 import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { loadTopRatedMovies } from '../../store/actions';
 import { selectTopRatedMovies } from '../../store/selectors';
 
 @Component({
@@ -22,8 +21,6 @@ export class MovieNowTopRatePageComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(loadTopRatedMovies());
-
     this.subscription = this.store
       .select(selectTopRatedMovies)
       .subscribe((topRatedMovieList) => {

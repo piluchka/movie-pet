@@ -10,7 +10,7 @@ export class MovieListResolver implements Resolve<boolean> {
   constructor(private store: Store) {}
 
   resolve(): boolean {
-    this.store.select(loadAllMovies);
+    this.store.dispatch(loadAllMovies());
     return true;
   }
 }

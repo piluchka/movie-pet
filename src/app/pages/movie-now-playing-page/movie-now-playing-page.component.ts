@@ -22,8 +22,6 @@ export class MovieNowPlayingPageComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(loadNowPlayingMovies());
-
     this.subscription = this.store
       .select(selectNowPlayingMovies)
       .subscribe((nowPlayingMovieList) => {
