@@ -13,6 +13,8 @@ import { MovieListPageComponent } from './pages/movie-list-page/movie-list-page.
 import { AuthService } from './services/auth/auth.service';
 import { MovieService } from './services/movie/movie.service';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { loadPopularMovies } from './store/actions';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +39,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private movieService: MovieService
+    private movieService: MovieService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {

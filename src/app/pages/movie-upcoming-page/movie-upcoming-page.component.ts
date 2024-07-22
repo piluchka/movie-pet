@@ -5,6 +5,9 @@ import { MovieHeaderComponent } from '../../components/movie-header/movie-header
 import { MovieService } from '../../services/movie/movie.service';
 import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { loadUpcomingMovies } from '../../store/actions';
+import { selectUpcomingMovies } from '../../store/selectors';
 @Component({
   selector: 'app-movie-upcoming-page',
   standalone: true,
@@ -16,13 +19,17 @@ export class MovieUpcomingPageComponent implements OnInit, OnDestroy {
   public upcomingMovieList: Movie[] = [];
   private subscription: Subscription = new Subscription();
 
-  constructor(private movieService: MovieService) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.subscription = this.movieService
-      .getUpcomingMovies()
-      .subscribe((movies: Movie[]) => {
-        this.upcomingMovieList = movies;
+    this.store.dispatch(loadUpcomingMovies());
+
+    this.subscription = this.store
+      .select(selectUpcomingMovies)
+      .subscribe((upcomingMovieList) => {
+        if (upcomingMovieList) {
+          this.upcomingMovieList = upcomingMovieList;
+        }
       });
   }
 

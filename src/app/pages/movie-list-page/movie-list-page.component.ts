@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MovieService } from '../../services/movie/movie.service';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { loadAllMovies } from '../../store/actions';
+import { selectAllMovies } from '../../store/selectors';
 
 @Component({
   selector: 'app-movie-list-page',
@@ -16,13 +18,17 @@ export class MovieListPageComponent implements OnInit, OnDestroy {
   public allMovieList: Movie[] = [];
   private subscription: Subscription = new Subscription();
 
-  constructor(private movieService: MovieService) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.subscription = this.movieService
-      .getAllMovies()
-      .subscribe((movies: Movie[]) => {
-        this.allMovieList = movies;
+    this.store.dispatch(loadAllMovies());
+
+    this.subscription = this.store
+      .select(selectAllMovies)
+      .subscribe((allMovieList) => {
+        if (allMovieList) {
+          this.allMovieList = allMovieList;
+        }
       });
   }
 

@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieHeaderComponent } from '../../components/movie-header/movie-header.component';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
-import { MovieService } from '../../services/movie/movie.service';
 import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { loadTopRatedMovies } from '../../store/actions';
+import { selectTopRatedMovies } from '../../store/selectors';
 
 @Component({
   selector: 'app-movie-now-top-rate-page',
@@ -17,13 +19,17 @@ export class MovieNowTopRatePageComponent implements OnInit, OnDestroy {
   public topRatedMovieList: Movie[] = [];
   private subscription: Subscription = new Subscription();
 
-  constructor(private movieService: MovieService) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.subscription = this.movieService
-      .getTopRatedMovies()
-      .subscribe((movies: Movie[]) => {
-        this.topRatedMovieList = movies;
+    this.store.dispatch(loadTopRatedMovies());
+
+    this.subscription = this.store
+      .select(selectTopRatedMovies)
+      .subscribe((topRatedMovieList) => {
+        if (topRatedMovieList) {
+          this.topRatedMovieList = topRatedMovieList;
+        }
       });
   }
 
