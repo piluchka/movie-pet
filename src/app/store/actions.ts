@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Movie } from '../models/movie.model';
+import { MovieDetails } from '../models/movie-details.model';
 
 // Popular movies - Actions block
 export const loadPopularMovies = createAction('[Movie] Load Popular Movies');
@@ -60,5 +61,20 @@ export const loadAllMoviesSuccess = createAction(
 );
 export const loadAllMoviesFailure = createAction(
   '[Movie] Load All Movies Failure',
+  props<{ error: any }>()
+);
+
+// Movie by Id - Action block
+export const loadMovieById = createAction(
+  '[Movie] Load Movie By Id',
+  props<{ id: number }>()
+);
+
+export const loadMovieByIdSuccess = createAction(
+  '[Movie] Load Movie By Id Success',
+  props<{ selectedMovie: MovieDetails | null }>()
+);
+export const loadMovieByIdFailure = createAction(
+  '[Movie] Load Movie By Id Failure',
   props<{ error: any }>()
 );

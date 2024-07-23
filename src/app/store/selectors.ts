@@ -32,3 +32,9 @@ export const selectAllMovies = createSelector(
   selectState,
   (state) => state.allMoviesList
 );
+
+// Movie by id
+export const selectMovieById = createSelector(
+  selectState,
+  (state) => state.selectedMovie
+);

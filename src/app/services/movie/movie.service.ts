@@ -25,9 +25,7 @@ export class MovieService {
     this.watchLaterMoviesSubject$;
 
   // Private vars for arrays
-  private favoriteMovieList: Movie[] = [];
   private watchLaterMovieList: Movie[] = [];
-  private allMoviesList: Movie[] = [];
 
   constructor(private http: HttpClient) {}
 

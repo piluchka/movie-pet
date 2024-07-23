@@ -1,11 +1,14 @@
-import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import {
   loadAllMovies,
   loadAllMoviesFailure,
   loadAllMoviesSuccess,
+  loadMovieById,
+  loadMovieByIdFailure,
+  loadMovieByIdSuccess,
   loadNowPlayingMovies,
   loadNowPlayingMoviesFailure,
   loadNowPlayingMoviesSuccess,
@@ -82,7 +85,7 @@ export class MovieEffects {
           ),
           catchError((error) =>
             of(
-              loadNowPlayingMoviesFailure({
+              loadTopRatedMoviesFailure({
                 error,
               })
             )
@@ -129,6 +132,29 @@ export class MovieEffects {
           catchError((error) =>
             of(
               loadAllMoviesFailure({
+                error: error,
+              })
+            )
+          )
+        );
+      })
+    )
+  );
+
+  // For loading Movie By Id
+  loadMovieById$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadMovieById),
+      mergeMap((props) => {
+        return this.movieService.getMovieById(props.id).pipe(
+          map((movie) =>
+            loadMovieByIdSuccess({
+              selectedMovie: movie,
+            })
+          ),
+          catchError((error) =>
+            of(
+              loadMovieByIdFailure({
                 error: error,
               })
             )

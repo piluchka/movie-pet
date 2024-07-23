@@ -1,3 +1,4 @@
+import { MovieDetails } from '../models/movie-details.model';
 import { Movie } from '../models/movie.model';
 
 export interface MovieState {
@@ -10,7 +11,7 @@ export interface MovieState {
   favoriteMoviesList: Movie[] | null;
   watchLaterMoviesList: Movie[] | null;
 
-  selectedMovie: Movie | null;
+  selectedMovie: MovieDetails | null;
 }
 
 export const initialState: MovieState = {

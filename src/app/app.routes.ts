@@ -29,7 +29,7 @@ export const routes: Routes = [
     },
   },
   {
-    path: 'top-rate',
+    path: 'top-rated',
     component: MovieNowTopRatePageComponent,
     resolve: {
       movieData: TopRatedMoviesResolver,

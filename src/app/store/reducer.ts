@@ -5,6 +5,8 @@ import {
   loadAllMovies,
   loadAllMoviesFailure,
   loadAllMoviesSuccess,
+  loadMovieByIdFailure,
+  loadMovieByIdSuccess,
   loadNowPlayingMoviesFailure,
   loadNowPlayingMoviesSuccess,
   loadPopularMoviesFailure,
@@ -100,6 +102,23 @@ export const MovieReducer = createReducer(
 
   // Failure
   on(loadAllMoviesFailure, (state, { error }) => {
+    return {
+      ...state,
+      error: error,
+    };
+  }),
+
+  // Listening to Movie By Id actions
+  // Success
+  on(loadMovieByIdSuccess, (state, { selectedMovie }) => {
+    return {
+      ...state,
+      selectedMovie: selectedMovie,
+    };
+  }),
+
+  // Failure
+  on(loadMovieByIdFailure, (state, { error }) => {
     return {
       ...state,
       error: error,

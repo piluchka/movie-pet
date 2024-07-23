@@ -8,13 +8,14 @@
   <div class="detail-page__content">
     <div class="detail-page__header">
       <h1 class="detail-page__title">{{ movieData.title }}</h1>
-      <p class="detail-page__subtitle">({{ movieData.original_title }})</p>
+      <p class="detail-page__tagline">{{ movieData.tagline }}</p>
     </div>
     <div class="detail-page__body">
       <p><span>Release:</span> {{ movieData.release_date }}</p>
       <p><span>Rating:</span> {{ movieData.vote_average | mathRound }}</p>
       <p><span>Age:</span> @if (movieData.adult) { 18+}@else{ 0+}</p>
       <p><span>Original language:</span> {{ movieData.original_language }}</p>
+      <p><span>Duration:</span> {{ movieData.runtime | formatingTime }}</p>
     </div>
     <div class="detail-page__footer">
       <p>{{ movieData.overview }}</p>
