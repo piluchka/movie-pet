@@ -5,6 +5,8 @@ import {
   loadAllMovies,
   loadAllMoviesFailure,
   loadAllMoviesSuccess,
+  loadFavoriteMoviesFailure,
+  loadFavoriteMoviesSuccess,
   loadMovieByIdFailure,
   loadMovieByIdSuccess,
   loadNowPlayingMoviesFailure,
@@ -119,6 +121,23 @@ export const MovieReducer = createReducer(
 
   // Failure
   on(loadMovieByIdFailure, (state, { error }) => {
+    return {
+      ...state,
+      error: error,
+    };
+  }),
+
+  // Listening to Favorite movies actions
+  // Success
+  on(loadFavoriteMoviesSuccess, (state, { favoriteMoviesList }) => {
+    return {
+      ...state,
+      favoriteMoviesList: favoriteMoviesList,
+    };
+  }),
+
+  // Failure
+  on(loadFavoriteMoviesFailure, (state, { error }) => {
     return {
       ...state,
       error: error,

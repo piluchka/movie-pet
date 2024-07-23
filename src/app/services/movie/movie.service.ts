@@ -127,11 +127,13 @@ export class MovieService {
     );
   }
 
-  getMovieFavoriteList(): Observable<MovieList> {
-    return this.http.get<MovieList>(
-      `${environment.apiBaseUrl}/account/${this.accountId}/favorite/movies`,
-      this.getHeaders()
-    );
+  getMovieFavoriteList(): Observable<Movie[]> {
+    return this.http
+      .get<MovieList>(
+        `${environment.apiBaseUrl}/account/${this.accountId}/favorite/movies`,
+        this.getHeaders()
+      )
+      .pipe(map((movieList) => movieList.results));
   }
 
   deleteMovieFromFavoriteMovieList(movieId: number): Observable<Movie> {

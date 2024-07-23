@@ -78,3 +78,15 @@ export const loadMovieByIdFailure = createAction(
   '[Movie] Load Movie By Id Failure',
   props<{ error: any }>()
 );
+
+// Favorite movies - Action block
+export const loadFavoriteMovies = createAction('[Movie] Load Favorite Movies');
+
+export const loadFavoriteMoviesSuccess = createAction(
+  '[Movie] Load Favorite Movies Success',
+  props<{ favoriteMoviesList: Movie[] | null }>()
+);
+export const loadFavoriteMoviesFailure = createAction(
+  '[Movie] Load Favorite Movies Failure',
+  props<{ error: any }>()
+);

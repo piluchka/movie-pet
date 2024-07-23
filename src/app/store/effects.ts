@@ -6,6 +6,9 @@ import {
   loadAllMovies,
   loadAllMoviesFailure,
   loadAllMoviesSuccess,
+  loadFavoriteMovies,
+  loadFavoriteMoviesFailure,
+  loadFavoriteMoviesSuccess,
   loadMovieById,
   loadMovieByIdFailure,
   loadMovieByIdSuccess,
@@ -155,6 +158,28 @@ export class MovieEffects {
           catchError((error) =>
             of(
               loadMovieByIdFailure({
+                error: error,
+              })
+            )
+          )
+        );
+      })
+    )
+  );
+
+  loadFavoriteMovies$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadFavoriteMovies),
+      mergeMap(() => {
+        return this.movieService.getMovieFavoriteList().pipe(
+          map((movies) =>
+            loadFavoriteMoviesSuccess({
+              favoriteMoviesList: movies,
+            })
+          ),
+          catchError((error) =>
+            of(
+              loadFavoriteMoviesFailure({
                 error: error,
               })
             )

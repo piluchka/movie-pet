@@ -10,10 +10,7 @@
   }@else {
   <div class="movie-list">
     @for (movie of favoriteMovieList; track movie.id) {
-    <app-movie-card
-      (movieListUpdated)="onMovieListUpdated($event)"
-      [movie]="movie"
-    ></app-movie-card>
+    <app-movie-card [movie]="movie"></app-movie-card>
     }
   </div>
   }

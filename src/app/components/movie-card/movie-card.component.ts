@@ -1,21 +1,17 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormatingTimePipe } from '../../pipes/formatingTime/formating-time.pipe';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
 import { ReduceStringPipe } from '../../pipes/reduceString/reduce-string.pipe';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { MovieService } from '../../services/movie/movie.service';
-import { Movie, MovieList } from '../../models/movie.model';
-import { filter, map, Subscription, take } from 'rxjs';
+import { Movie } from '../../models/movie.model';
+import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { loadFavoriteMovies } from '../../store/actions';
+import { selectFavoriteMovies } from '../../store/selectors';
 
 export class MyApplicationModule {}
 
@@ -40,23 +36,20 @@ export class MovieCardComponent implements OnInit, OnDestroy {
   @Input() movie: Movie | null = null;
   @Input() isShortDescriptionNeeded = true;
 
-  @Output() movieListUpdated = new EventEmitter<any[]>();
-
   public isInFav: boolean = false;
   private subscription: Subscription = new Subscription();
 
-  constructor(
-    private movieService: MovieService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private movieService: MovieService, private store: Store) {}
 
   ngOnInit(): void {
     if (this.movie) {
-      this.subscription = this.movieService
-        .getMovieFavoriteList()
-        .subscribe((movies: MovieList) => {
-          if (movies.results.some((movie) => movie.id === this.movie!.id)) {
-            this.isInFav = true;
+      this.subscription = this.store
+        .select(selectFavoriteMovies)
+        .subscribe((movies) => {
+          if (movies) {
+            if (movies.some((movie) => movie.id === this.movie!.id)) {
+              this.isInFav = true;
+            }
           }
         });
     }
@@ -66,11 +59,7 @@ export class MovieCardComponent implements OnInit, OnDestroy {
   setToFavoriteMovieList() {
     if (this.movie) {
       this.isInFav = true;
-      this.movieService
-        .setMovieToFavoriteMovieList(this.movie.id)
-        .subscribe((res) => {
-          console.log(res);
-        });
+      this.movieService.setMovieToFavoriteMovieList(this.movie.id).subscribe();
     }
   }
   deleteMovieFromFavoriteMovieList() {
@@ -78,11 +67,7 @@ export class MovieCardComponent implements OnInit, OnDestroy {
       this.isInFav = false;
       this.movieService
         .deleteMovieFromFavoriteMovieList(this.movie.id)
-        .subscribe(() =>
-          this.movieService.getMovieFavoriteList().subscribe((movies) => {
-            this.movieListUpdated.emit(movies.results);
-          })
-        );
+        .subscribe(() => this.store.dispatch(loadFavoriteMovies()));
     }
   }
 

@@ -38,3 +38,9 @@ export const selectMovieById = createSelector(
   selectState,
   (state) => state.selectedMovie
 );
+
+// Favorite movies
+export const selectFavoriteMovies = createSelector(
+  selectState,
+  (state) => state.favoriteMoviesList
+);
