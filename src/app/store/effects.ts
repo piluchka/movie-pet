@@ -24,6 +24,9 @@ import {
   loadUpcomingMovies,
   loadUpcomingMoviesFailure,
   loadUpcomingMoviesSuccess,
+  loadWatchLaterMovies,
+  loadWatchLaterMoviesFailure,
+  loadWatchLaterMoviesSuccess,
 } from './actions';
 import { MovieService } from '../services/movie/movie.service';
 
@@ -167,6 +170,7 @@ export class MovieEffects {
     )
   );
 
+  // For loading Favorite Movies
   loadFavoriteMovies$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadFavoriteMovies),
@@ -189,5 +193,27 @@ export class MovieEffects {
     )
   );
 
+  // For loading Watch Later Movies
+  loadWatchLaterMovies$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadWatchLaterMovies),
+      mergeMap(() => {
+        return this.movieService.getWatchLaterMovieList().pipe(
+          map((movies) =>
+            loadWatchLaterMoviesSuccess({
+              watchLaterMoviesList: movies,
+            })
+          ),
+          catchError((error) =>
+            of(
+              loadWatchLaterMoviesFailure({
+                error: error,
+              })
+            )
+          )
+        );
+      })
+    )
+  );
   constructor(private actions$: Actions, private movieService: MovieService) {}
 }

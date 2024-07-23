@@ -55,11 +55,20 @@ export class MovieService {
     };
   }
 
+  // Funcs for Fav and Watch Bodies
   private getBodyForFavoritePost(movieId: number, isInList: boolean): object {
     return {
       media_type: 'movie',
       media_id: movieId,
       favorite: isInList,
+    };
+  }
+
+  private getBodyForWatchLaterPost(movieId: number, isInList: boolean): object {
+    return {
+      media_type: 'movie',
+      media_id: movieId,
+      watchlist: isInList,
     };
   }
 
@@ -145,19 +154,29 @@ export class MovieService {
   }
 
   // Funcs for Watch later
-  setToWatchLaterMovieList(movie: Movie): void {
-    if (!this.watchLaterMovieList.includes(movie)) {
-      this.watchLaterMovieList.push(movie);
-      this.watchLaterMoviesSubject$.next(this.watchLaterMovieList);
-    }
+  setToWatchLaterMovieList(movieId: number): Observable<Movie> {
+    return this.http.post<Movie>(
+      `${environment.apiBaseUrl}/account/${this.accountId}/watchlist`,
+      this.getBodyForWatchLaterPost(movieId, true),
+      this.getParams()
+    );
   }
 
-  deleteMovieWatchLaterMovieList(movie: Movie): void {
-    const deletingMovieIndex = this.watchLaterMovieList.indexOf(movie);
-    if (deletingMovieIndex !== -1) {
-      this.watchLaterMovieList.splice(deletingMovieIndex, 1);
-      this.watchLaterMoviesSubject$.next(this.watchLaterMovieList);
-    }
+  getWatchLaterMovieList(): Observable<Movie[]> {
+    return this.http
+      .get<MovieList>(
+        `${environment.apiBaseUrl}/account/${this.accountId}/watchlist/movies`,
+        this.getHeaders()
+      )
+      .pipe(map((movieList) => movieList.results));
+  }
+
+  deleteMovieWatchLaterMovieList(movieId: number): Observable<Movie> {
+    return this.http.post<Movie>(
+      `${environment.apiBaseUrl}/account/${this.accountId}/watchlist`,
+      this.getBodyForWatchLaterPost(movieId, false),
+      this.getParams()
+    );
   }
 
   // Func for get movie by id for details page

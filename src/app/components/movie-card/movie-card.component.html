@@ -11,35 +11,26 @@
       <p-button
         [rounded]="true"
         styleClass="w-full"
-        [icon]="isInFav ? 'pi pi-heart-fill' : 'pi pi-heart'"
+        [icon]="isInFavoriteList ? 'pi pi-heart-fill' : 'pi pi-heart'"
         (click)="
-          isInFav
+          isInFavoriteList
             ? deleteMovieFromFavoriteMovieList()
             : setToFavoriteMovieList()
         "
-        [ngClass]="{ 'added-to-favorite': isInFav }"
+        [ngClass]="{ 'added-to-favorite': isInFavoriteList }"
       />
-
-      @if (!movie.addedToWatchLaterList ) {
       <p-button
         [rounded]="true"
         icon="pi pi-eye"
         styleClass="w-full"
         severity="secondary"
-        (click)="setToWatchLaterMovieList()"
-        [ngClass]="{ 'added-to-watchlater': movie.addedToWatchLaterList }"
+        (click)="
+          isInWatchList
+            ? deleteMovieWatchLaterMovieList()
+            : setToWatchLaterMovieList()
+        "
+        [ngClass]="{ 'added-to-watchlater': isInWatchList }"
       />
-      }@else {
-      <p-button
-        [rounded]="true"
-        icon="pi 
-        pi-eye-slash"
-        styleClass="w-full"
-        severity="secondary"
-        (click)="deleteMovieWatchLaterMovieList()"
-        [ngClass]="{ 'added-to-watchlater': movie.addedToWatchLaterList }"
-      />
-      }
     </div>
   </ng-template>
   <ng-template pTemplate="content">
@@ -66,6 +57,4 @@
     >
   </ng-template>
 </p-card>
-}@else {
-<div>Sorry, something went wrong...</div>
 }

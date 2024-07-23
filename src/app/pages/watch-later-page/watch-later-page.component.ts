@@ -4,6 +4,9 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
 import { MovieService } from '../../services/movie/movie.service';
 import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { loadWatchLaterMovies } from '../../store/actions';
+import { selectWatchLaterMovies } from '../../store/selectors';
 
 @Component({
   selector: 'app-watch-later-page',
@@ -16,14 +19,18 @@ export class WatchLaterPageComponent implements OnInit, OnDestroy {
   public watchLaterMovieList: Movie[] = [];
   private subscription: Subscription = new Subscription();
 
-  constructor(private movieService: MovieService) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.subscription = this.movieService.watchLaterMoviesObservable$.subscribe(
-      (movies: Movie[]) => {
-        this.watchLaterMovieList = movies;
-      }
-    );
+    this.store.dispatch(loadWatchLaterMovies());
+
+    this.subscription = this.store
+      .select(selectWatchLaterMovies)
+      .subscribe((movies) => {
+        if (movies) {
+          this.watchLaterMovieList = movies;
+        }
+      });
   }
 
   ngOnDestroy(): void {

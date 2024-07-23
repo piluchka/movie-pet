@@ -90,3 +90,17 @@ export const loadFavoriteMoviesFailure = createAction(
   '[Movie] Load Favorite Movies Failure',
   props<{ error: any }>()
 );
+
+// Watch later movies - Action block
+export const loadWatchLaterMovies = createAction(
+  '[Movie] Load Watch Later Movies'
+);
+
+export const loadWatchLaterMoviesSuccess = createAction(
+  '[Movie] Load Watch Later Movies Success',
+  props<{ watchLaterMoviesList: Movie[] | null }>()
+);
+export const loadWatchLaterMoviesFailure = createAction(
+  '[Movie] Load Watch Later Movies Failure',
+  props<{ error: any }>()
+);

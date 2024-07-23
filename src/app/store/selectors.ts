@@ -44,3 +44,9 @@ export const selectFavoriteMovies = createSelector(
   selectState,
   (state) => state.favoriteMoviesList
 );
+
+// Watch Later movies
+export const selectWatchLaterMovies = createSelector(
+  selectState,
+  (state) => state.watchLaterMoviesList
+);
