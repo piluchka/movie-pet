@@ -16,19 +16,22 @@
   &__content {
     display: flex;
     flex-direction: column;
-    gap: toREM(20);
-  }
-
-  &__header {
+    gap: toREM(40);
   }
 
   &__title {
     font-size: toREM(50);
     &:not(:last-child) {
-      margin-bottom: toREM(7);
+      margin-bottom: toREM(5);
     }
   }
 
+  &__tagline {
+    font-style: italic;
+    &:not(:last-child) {
+      margin-bottom: toREM(10);
+    }
+  }
   &__subtitle {
     font-size: toREM(20);
   }
@@ -48,7 +51,7 @@
 
   &__footer {
     p {
-      font-size: toREM(24);
+      font-size: toREM(18);
     }
   }
 }

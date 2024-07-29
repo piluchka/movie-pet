@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   RouterLink,
   RouterLinkActive,
@@ -12,6 +12,9 @@ import { MovieHeaderComponent } from './components/movie-header/movie-header.com
 import { MovieListPageComponent } from './pages/movie-list-page/movie-list-page.component';
 import { AuthService } from './services/auth/auth.service';
 import { MovieService } from './services/movie/movie.service';
+import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { loadPopularMovies } from './store/actions';
 
 @Component({
   selector: 'app-root',
@@ -30,22 +33,31 @@ import { MovieService } from './services/movie/movie.service';
     MovieListPageComponent,
   ],
 })
-export class AppComponent implements OnInit {
-  title = 'angular-edu';
+export class AppComponent implements OnInit, OnDestroy {
+  public title = 'P-Theatre';
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private authService: AuthService,
-    private movieService: MovieService
+    private movieService: MovieService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.authService.authenticateAndGetAccountId().subscribe(
-      (accountId) => {
-        this.movieService.setAccountId(accountId);
-      },
-      (error) => {
-        console.error('Authentication failed:', error);
-      }
-    );
+    this.subscription = this.authService
+      .authenticateAndGetAccountId()
+      .subscribe(
+        (authData) => {
+          this.movieService.setAccountId(authData.accountId);
+          this.movieService.setSessionId(authData.sessionId);
+        },
+        (error) => {
+          console.error('Authentication failed:', error);
+        }
+      );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

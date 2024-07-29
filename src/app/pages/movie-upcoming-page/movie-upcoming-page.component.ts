@@ -2,10 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { MovieHeaderComponent } from '../../components/movie-header/movie-header.component';
-import { upcomingMovies } from '../../../assets/data/mock-data';
 import { MovieService } from '../../services/movie/movie.service';
 import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { loadUpcomingMovies } from '../../store/actions';
+import { selectUpcomingMovies } from '../../store/selectors';
 @Component({
   selector: 'app-movie-upcoming-page',
   standalone: true,
@@ -14,20 +16,24 @@ import { Subscription } from 'rxjs';
   styleUrl: './movie-upcoming-page.component.scss',
 })
 export class MovieUpcomingPageComponent implements OnInit, OnDestroy {
-  upcomingMovieList: Movie[] = [];
-  subscription: Subscription = new Subscription();
+  public upcomingMovieList: Movie[] = [];
+  private subscription: Subscription = new Subscription();
 
-  constructor(private movieService: MovieService) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.subscription = this.movieService
-      .getUpcomingMovies()
-      .subscribe((movies: Movie[]) => {
-        this.upcomingMovieList = movies;
+    this.subscription = this.store
+      .select(selectUpcomingMovies)
+      .subscribe((upcomingMovieList) => {
+        if (upcomingMovieList) {
+          this.upcomingMovieList = upcomingMovieList;
+        }
       });
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

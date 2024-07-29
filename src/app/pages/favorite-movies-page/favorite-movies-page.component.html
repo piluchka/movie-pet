@@ -7,10 +7,11 @@
       Oops... Nothing is here yet! Please, add some movies.
     </p>
   </div>
-  }
+  }@else {
   <div class="movie-list">
     @for (movie of favoriteMovieList; track movie.id) {
     <app-movie-card [movie]="movie"></app-movie-card>
     }
   </div>
+  }
 </div>

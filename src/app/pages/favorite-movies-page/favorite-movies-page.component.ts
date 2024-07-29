@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { CommonModule } from '@angular/common';
-import { MovieService } from '../../services/movie/movie.service';
 import { Subscription } from 'rxjs';
 import { Movie } from '../../models/movie.model';
+import { Store } from '@ngrx/store';
+import { loadFavoriteMovies } from '../../store/actions';
+import { selectFavoriteMovies } from '../../store/selectors';
 
 @Component({
   selector: 'app-favorite-movies-page',
@@ -12,18 +14,21 @@ import { Movie } from '../../models/movie.model';
   templateUrl: './favorite-movies-page.component.html',
   styleUrl: './favorite-movies-page.component.scss',
 })
-export class FavoriteMoviesPageComponent implements OnInit {
+export class FavoriteMoviesPageComponent implements OnInit, OnDestroy {
   public favoriteMovieList: Movie[] = [];
   private subscription: Subscription = new Subscription();
 
-  constructor(private movieService: MovieService) {}
-  // ! ЗАКОНЧИЛА ТУТ
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.subscription = this.movieService
-      .getMovieFavoriteList()
-      .subscribe((movies: any) => {
-        this.favoriteMovieList = movies;
+    this.store.dispatch(loadFavoriteMovies());
+
+    this.subscription = this.store
+      .select(selectFavoriteMovies)
+      .subscribe((movies) => {
+        if (movies) {
+          this.favoriteMovieList = movies;
+        }
       });
   }
 

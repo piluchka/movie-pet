@@ -1,3 +1,4 @@
+@if (movie) {
 <p-card [header]="movie.title" [styleClass]="'movie-card'">
   <ng-template pTemplate="header">
     <img
@@ -7,42 +8,29 @@
       alt="movie"
     />
     <div class="movie-card__buttons">
-      @if (!movie.addedToFavoriteList) {
       <p-button
         [rounded]="true"
         styleClass="w-full"
-        icon="pi pi-heart"
-        (click)="setToFavoriteMovieList()"
-        [ngClass]="{ 'added-to-favorite': movie.addedToFavoriteList }"
+        [icon]="isInFavoriteList ? 'pi pi-heart-fill' : 'pi pi-heart'"
+        (click)="
+          isInFavoriteList
+            ? deleteMovieFromFavoriteMovieList()
+            : setToFavoriteMovieList()
+        "
+        [ngClass]="{ 'added-to-favorite': isInFavoriteList }"
       />
-      }@else {
-      <p-button
-        [rounded]="true"
-        styleClass="w-full"
-        icon="pi pi-heart-fill"
-        (click)="deleteMovieFromFavoriteMovieList()"
-        [ngClass]="{ 'added-to-favorite': movie.addedToFavoriteList }"
-      />
-      } @if (!movie.addedToWatchLaterList ) {
       <p-button
         [rounded]="true"
         icon="pi pi-eye"
         styleClass="w-full"
         severity="secondary"
-        (click)="setToWatchLaterMovieList()"
-        [ngClass]="{ 'added-to-watchlater': movie.addedToWatchLaterList }"
+        (click)="
+          isInWatchList
+            ? deleteMovieWatchLaterMovieList()
+            : setToWatchLaterMovieList()
+        "
+        [ngClass]="{ 'added-to-watchlater': isInWatchList }"
       />
-      }@else {
-      <p-button
-        [rounded]="true"
-        icon="pi 
-        pi-eye-slash"
-        styleClass="w-full"
-        severity="secondary"
-        (click)="deleteMovieWatchLaterMovieList()"
-        [ngClass]="{ 'added-to-watchlater': movie.addedToWatchLaterList }"
-      />
-      }
     </div>
   </ng-template>
   <ng-template pTemplate="content">
@@ -69,3 +57,4 @@
     >
   </ng-template>
 </p-card>
+}

@@ -1,40 +1,79 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, forkJoin, map, Observable } from 'rxjs';
-import { Movie, MovieDetails, MovieList } from '../../models/movie.model';
+import { Movie, MovieList } from '../../models/movie.model';
 import { environment } from '../../../environments/environment';
+import { MovieDetails } from '../../models/movie-details.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MovieService {
-  accountId: number | null = null;
+  private accountId: number | null = null;
+  private sessionId: string = '';
 
-  // Vars for arrays
-  favoriteMovieList: Movie[] = [];
-  watchLaterMovieList: Movie[] = [];
-  allMoviesList: Movie[] = [];
+  // Private Vars for Subjects
+  private favoriteMoviesSubject$: BehaviorSubject<Movie[]> =
+    new BehaviorSubject<Movie[]>([]);
+  private watchLaterMoviesSubject$: BehaviorSubject<Movie[]> =
+    new BehaviorSubject<Movie[]>([]);
 
-  // Vars for Subjects
-  favoriteMoviesSubject: BehaviorSubject<Movie[]> = new BehaviorSubject<
-    Movie[]
-  >([]);
-  watchLaterMoviesSubject: BehaviorSubject<Movie[]> = new BehaviorSubject<
-    Movie[]
-  >([]);
+  // Public Vars for Subjects
+  public favoriteMoviesObservable$: Observable<Movie[]> =
+    this.favoriteMoviesSubject$;
+  public watchLaterMoviesObservable$: Observable<Movie[]> =
+    this.watchLaterMoviesSubject$;
+
+  // Private vars for arrays
+  private watchLaterMovieList: Movie[] = [];
 
   constructor(private http: HttpClient) {}
 
-  private getParams() {
-    return { params: new HttpParams().set('api_key', environment.apiKey) };
+  // Funcs for assinging to var the auth ids
+  public setSessionId(id: string) {
+    this.sessionId = id;
   }
-  
-  setAccountId(id: number) {
+  public setAccountId(id: number) {
     this.accountId = id;
+  }
+  // Func for http-params(api-key)
+  private getParams(): object {
+    return {
+      params: new HttpParams()
+        .set('api_key', environment.apiKey)
+        .set('session_id', this.sessionId),
+    };
+  }
+
+  // Func for http-headers(access token)
+  private getHeaders(): object {
+    return {
+      headers: new HttpHeaders().set(
+        'Authorization',
+        `Bearer ${environment.accessToken}`
+      ),
+    };
+  }
+
+  // Funcs for Fav and Watch Bodies
+  private getBodyForFavoritePost(movieId: number, isInList: boolean): object {
+    return {
+      media_type: 'movie',
+      media_id: movieId,
+      favorite: isInList,
+    };
+  }
+
+  private getBodyForWatchLaterPost(movieId: number, isInList: boolean): object {
+    return {
+      media_type: 'movie',
+      media_id: movieId,
+      watchlist: isInList,
+    };
   }
 
   // Funcs for movies-getters
-  getNowPlayingMovies(): Observable<Movie[]> {
+  public getNowPlayingMovies(): Observable<Movie[]> {
     return this.http
       .get<MovieList>(
         `${environment.apiBaseUrl}/movie/now_playing`,
@@ -43,7 +82,7 @@ export class MovieService {
       .pipe(map((moviesData) => moviesData.results));
   }
 
-  getPopularMovies(): Observable<Movie[]> {
+  public getPopularMovies(): Observable<Movie[]> {
     return this.http
       .get<MovieList>(
         `${environment.apiBaseUrl}/movie/popular`,
@@ -52,7 +91,7 @@ export class MovieService {
       .pipe(map((moviesData) => moviesData.results));
   }
 
-  getTopRatedMovies(): Observable<Movie[]> {
+  public getTopRatedMovies(): Observable<Movie[]> {
     return this.http
       .get<MovieList>(
         `${environment.apiBaseUrl}/movie/top_rated`,
@@ -61,7 +100,7 @@ export class MovieService {
       .pipe(map((moviesData) => moviesData.results));
   }
 
-  getUpcomingMovies(): Observable<Movie[]> {
+  public getUpcomingMovies(): Observable<Movie[]> {
     return this.http
       .get<MovieList>(
         `${environment.apiBaseUrl}/movie/upcoming`,
@@ -70,7 +109,7 @@ export class MovieService {
       .pipe(map((moviesData) => moviesData.results));
   }
 
-  getAllMovies(): Observable<Movie[]> {
+  public getAllMovies(): Observable<Movie[]> {
     return forkJoin({
       nowPlaying: this.getNowPlayingMovies(),
       popular: this.getPopularMovies(),
@@ -89,53 +128,58 @@ export class MovieService {
   }
 
   // Funcs for Favorite
-  setMovieToFavoriteMovieList(id: number): Observable<any> {
-    const body = {
-      media_type: 'movie',
-      media_id: id,
-      favorite: true,
-    };
-
-    return this.http.post(
+  setMovieToFavoriteMovieList(movieId: number): Observable<Movie> {
+    return this.http.post<Movie>(
       `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
-      JSON.stringify(body),
-      this.getParams()
-    );
-  }
-  // ! ЗАКОНЧИЛА ТУТ
-  getMovieFavoriteList(): any {
-    return this.http.get(
-      `${environment.apiBaseUrl}/account/${this.accountId}/favorite/movies`,
+      this.getBodyForFavoritePost(movieId, true),
       this.getParams()
     );
   }
 
-  deleteMovieFromFavoriteMovieList(movie: Movie): void {
-    const deletingMovieIndex = this.favoriteMovieList.indexOf(movie);
-    if (deletingMovieIndex !== -1) {
-      this.favoriteMovieList.splice(deletingMovieIndex, 1);
+  getMovieFavoriteList(): Observable<Movie[]> {
+    return this.http
+      .get<MovieList>(
+        `${environment.apiBaseUrl}/account/${this.accountId}/favorite/movies`,
+        this.getHeaders()
+      )
+      .pipe(map((movieList) => movieList.results));
+  }
 
-      this.favoriteMoviesSubject.next(this.favoriteMovieList);
-    }
+  deleteMovieFromFavoriteMovieList(movieId: number): Observable<Movie> {
+    return this.http.post<Movie>(
+      `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
+      this.getBodyForFavoritePost(movieId, false),
+      this.getParams()
+    );
   }
 
   // Funcs for Watch later
-  setToWatchLaterMovieList(movie: Movie): void {
-    if (!this.watchLaterMovieList.includes(movie)) {
-      this.watchLaterMovieList.push(movie);
-      this.watchLaterMoviesSubject.next(this.watchLaterMovieList);
-    }
+  setToWatchLaterMovieList(movieId: number): Observable<Movie> {
+    return this.http.post<Movie>(
+      `${environment.apiBaseUrl}/account/${this.accountId}/watchlist`,
+      this.getBodyForWatchLaterPost(movieId, true),
+      this.getParams()
+    );
   }
 
-  deleteMovieWatchLaterMovieList(movie: Movie): void {
-    const deletingMovieIndex = this.watchLaterMovieList.indexOf(movie);
-    if (deletingMovieIndex !== -1) {
-      this.watchLaterMovieList.splice(deletingMovieIndex, 1);
-      this.watchLaterMoviesSubject.next(this.watchLaterMovieList);
-    }
+  getWatchLaterMovieList(): Observable<Movie[]> {
+    return this.http
+      .get<MovieList>(
+        `${environment.apiBaseUrl}/account/${this.accountId}/watchlist/movies`,
+        this.getHeaders()
+      )
+      .pipe(map((movieList) => movieList.results));
   }
 
-  // Func for details
+  deleteMovieWatchLaterMovieList(movieId: number): Observable<Movie> {
+    return this.http.post<Movie>(
+      `${environment.apiBaseUrl}/account/${this.accountId}/watchlist`,
+      this.getBodyForWatchLaterPost(movieId, false),
+      this.getParams()
+    );
+  }
+
+  // Func for get movie by id for details page
   getMovieById(id: number): Observable<MovieDetails> {
     return this.http.get<MovieDetails>(
       `${environment.apiBaseUrl}/movie/${id}`,

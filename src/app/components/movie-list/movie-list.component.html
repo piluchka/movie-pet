@@ -3,7 +3,6 @@
     <div class="movie-list__movies">
       @for (movie of moviesList; track movie.id) {
       <app-movie-card
-        [movie]="movie"
         (addFavorite)="handleAddFavorite($event)"
         (addWatchList)="handleWatchList($event)"
       ></app-movie-card>

@@ -10,6 +10,6 @@ export class FormatingTimePipe implements PipeTransform {
     const remainingMinutes = value % 60;
     const formattedHours = hours.toString().padStart(2, '0');
     const formattedMinutes = remainingMinutes.toString().padStart(2, '0');
-    return `${formattedHours}:${formattedMinutes}`;
+    return `${formattedHours}h ${formattedMinutes}min`;
   }
 }
