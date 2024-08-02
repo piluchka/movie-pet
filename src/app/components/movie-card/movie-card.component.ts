@@ -8,10 +8,12 @@ import { ReduceStringPipe } from '../../pipes/reduceString/reduce-string.pipe';
 import { RouterLink } from '@angular/router';
 import { MovieService } from '../../services/movie/movie.service';
 import { Movie } from '../../models/movie.model';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { loadFavoriteMovies, loadWatchLaterMovies } from '../../store/actions';
 import {
+  isInFavoriteList,
+  isInWatchLaterList,
   selectFavoriteMovies,
   selectWatchLaterMovies,
 } from '../../store/selectors';
@@ -39,7 +41,7 @@ export class MovieCardComponent implements OnInit, OnDestroy {
   @Input() movie: Movie | null = null;
   @Input() isShortDescriptionNeeded = true;
 
-  public isInFavoriteList: boolean = false;
+  public isInFavoriteList: any = false;
   public isInWatchList: boolean = false;
   private allSubscriptions: Subscription = new Subscription();
 
@@ -53,29 +55,19 @@ export class MovieCardComponent implements OnInit, OnDestroy {
   constructor(private movieService: MovieService, private store: Store) {}
 
   ngOnInit(): void {
-    // if (this.movie) {
-    this.favoriteListSubscription = this.store
-      .select(selectFavoriteMovies)
-      .subscribe((movies) => {
-        this.allSubscriptions.add(this.favoriteListSubscription);
-        if (movies) {
-          if (movies.some((movie) => movie.id === this.movie!.id)) {
-            this.isInFavoriteList = true;
-          }
-        }
-      });
+    if (this.movie) {
+      this.favoriteListSubscription = this.store
+        .select(isInFavoriteList(this.movie))
+        .subscribe(
+          (isInFavoriteList) => (this.isInFavoriteList = isInFavoriteList)
+        );
 
-    this.watchListSubscription = this.store
-      .select(selectWatchLaterMovies)
-      .subscribe((movies) => {
-        this.allSubscriptions.add(this.watchListSubscription);
-        if (movies) {
-          if (movies.some((movie) => movie.id === this.movie!.id)) {
-            this.isInWatchList = true;
-          }
-        }
-      });
-    // }
+      this.watchListSubscription = this.store
+        .select(isInWatchLaterList(this.movie))
+        .subscribe(
+          (isInWatchLaterList) => (this.isInWatchList = isInWatchLaterList)
+        );
+    }
   }
 
   // Funcs for favorites
