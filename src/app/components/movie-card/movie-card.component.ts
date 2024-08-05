@@ -6,24 +6,17 @@ import { ButtonModule } from 'primeng/button';
 import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
 import { ReduceStringPipe } from '../../pipes/reduceString/reduce-string.pipe';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { MovieService } from '../../services/movie/movie.service';
 import { Movie } from '../../models/movie.model';
-import { Subscription, tap } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   deleteMovieFromFavoriteMovies,
   deleteMovieFromWatchLaterMovies,
-  loadFavoriteMovies,
-  loadWatchLaterMovies,
   setMovieToFavoriteMovies,
   setMovieToWatchLaterMovies,
 } from '../../store/actions';
-import {
-  isInFavoriteList,
-  isInWatchLaterList,
-  selectFavoriteMovies,
-  selectWatchLaterMovies,
-} from '../../store/selectors';
+import { isInFavoriteList, isInWatchLaterList } from '../../store/selectors';
+import { ClearObservable } from '../../directives/clear-observable.directive';
 
 export class MyApplicationModule {}
 
@@ -42,42 +35,37 @@ export class MyApplicationModule {}
   templateUrl: './movie-card.component.html',
   styleUrl: './movie-card.component.scss',
 })
-export class MovieCardComponent implements OnInit, OnDestroy {
+export class MovieCardComponent
+  extends ClearObservable
+  implements OnInit, OnDestroy
+{
   public STATIC_IMAGE_PATH: string = 'https://image.tmdb.org/t/p/w500/';
   public routePath: string | undefined = undefined;
+
+  public isInFavoriteList: boolean = false;
+  public isInWatchList: boolean = false;
 
   @Input() movie: Movie | null = null;
   @Input() isShortDescriptionNeeded: boolean = true;
 
-  public isInFavoriteList: boolean = false;
-  public isInWatchList: boolean = false;
-  private allSubscriptions: Subscription = new Subscription();
-
-  private favoriteListSubscription: Subscription = new Subscription();
-  private setFavoriteListSubscription: Subscription = new Subscription();
-  private deleteFavoriteListSubscription: Subscription = new Subscription();
-  private watchListSubscription: Subscription = new Subscription();
-  private setwatchListSubscription: Subscription = new Subscription();
-  private deletewatchListSubscription: Subscription = new Subscription();
-
-  constructor(
-    private movieService: MovieService,
-    private store: Store,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private store: Store, private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
     this.routePath = this.route.snapshot.routeConfig?.path;
 
     if (this.movie) {
-      this.favoriteListSubscription = this.store
+      this.store
         .select(isInFavoriteList(this.movie))
+        .pipe(takeUntil(this.destroy$))
         .subscribe(
           (isInFavoriteList) => (this.isInFavoriteList = isInFavoriteList)
         );
 
-      this.watchListSubscription = this.store
+      this.store
         .select(isInWatchLaterList(this.movie))
+        .pipe(takeUntil(this.destroy$))
         .subscribe(
           (isInWatchLaterList) => (this.isInWatchList = isInWatchLaterList)
         );
@@ -120,9 +108,5 @@ export class MovieCardComponent implements OnInit, OnDestroy {
         })
       );
     }
-  }
-
-  ngOnDestroy(): void {
-    this.allSubscriptions.unsubscribe();
   }
 }
