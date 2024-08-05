@@ -80,6 +80,7 @@ export const loadMovieByIdFailure = createAction(
 );
 
 // Favorite movies - Action block
+// Load
 export const loadFavoriteMovies = createAction('[Movie] Load Favorite Movies');
 
 export const loadFavoriteMoviesSuccess = createAction(
@@ -88,6 +89,34 @@ export const loadFavoriteMoviesSuccess = createAction(
 );
 export const loadFavoriteMoviesFailure = createAction(
   '[Movie] Load Favorite Movies Failure',
+  props<{ error: any }>()
+);
+
+// Set
+export const setMovieToFavoriteMovies = createAction(
+  '[Movie] Set Movie to Favorite Movies',
+  props<{ id: number }>()
+);
+
+export const setMovieToFavoriteMoviesSuccess = createAction(
+  '[Movie] Set Movie to Favorite Movies Success'
+);
+export const setMovieToFavoriteMoviesFailure = createAction(
+  '[Movie] Set Movie to Favorite Movies Failure',
+  props<{ error: any }>()
+);
+
+// Delete
+export const deleteMovieFromFavoriteMovies = createAction(
+  '[Movie] Delete Movie from Favorite Movies',
+  props<{ id: number; path: string | undefined }>()
+);
+
+export const deleteMovieFromFavoriteMoviesSuccess = createAction(
+  '[Movie] Delete Movie from Favorite Movies Success'
+);
+export const deleteMovieFromFavoriteMoviesFailure = createAction(
+  '[Movie] Delete Movie from Favorite Movies Failure',
   props<{ error: any }>()
 );
 

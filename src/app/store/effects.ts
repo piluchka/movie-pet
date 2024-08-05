@@ -1,8 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  exhaustMap,
+  map,
+  mergeMap,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 import {
+  deleteMovieFromFavoriteMovies,
+  deleteMovieFromFavoriteMoviesFailure,
+  deleteMovieFromFavoriteMoviesSuccess,
   loadAllMovies,
   loadAllMoviesFailure,
   loadAllMoviesSuccess,
@@ -27,8 +39,13 @@ import {
   loadWatchLaterMovies,
   loadWatchLaterMoviesFailure,
   loadWatchLaterMoviesSuccess,
+  setMovieToFavoriteMovies,
+  setMovieToFavoriteMoviesFailure,
+  setMovieToFavoriteMoviesSuccess,
 } from './actions';
 import { MovieService } from '../services/movie/movie.service';
+import { props, Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class MovieEffects {
@@ -193,6 +210,45 @@ export class MovieEffects {
     )
   );
 
+  // For setting Movie to Favorite Movies
+  setMovieToFavoriteMovies$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(setMovieToFavoriteMovies),
+      switchMap((props) => {
+        return this.movieService.setMovieToFavoriteMovieList(props.id).pipe(
+          map(() => setMovieToFavoriteMoviesSuccess()),
+          catchError((error) =>
+            of(setMovieToFavoriteMoviesFailure({ error: error }))
+          )
+        );
+      })
+    )
+  );
+
+  // For deleting Movie from Favorite Movies
+  deleteMovieFromFavoriteMovies$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteMovieFromFavoriteMovies),
+      switchMap((props) => {
+        return this.movieService
+          .deleteMovieFromFavoriteMovieList(props.id)
+          .pipe(
+            switchMap(() => {
+              const actions = [];
+              if (props.path === 'favorite') {
+                actions.push(loadFavoriteMovies());
+              }
+              actions.push(deleteMovieFromFavoriteMoviesSuccess());
+              return of(...actions);
+            }),
+            catchError((error) =>
+              of(deleteMovieFromFavoriteMoviesFailure({ error: error }))
+            )
+          );
+      })
+    )
+  );
+
   // For loading Watch Later Movies
   loadWatchLaterMovies$ = createEffect(() =>
     this.actions$.pipe(
@@ -215,5 +271,9 @@ export class MovieEffects {
       })
     )
   );
-  constructor(private actions$: Actions, private movieService: MovieService) {}
+  constructor(
+    private actions$: Actions,
+    private movieService: MovieService,
+    private store: Store
+  ) {}
 }

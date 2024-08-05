@@ -5,12 +5,17 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
 import { ReduceStringPipe } from '../../pipes/reduceString/reduce-string.pipe';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MovieService } from '../../services/movie/movie.service';
 import { Movie } from '../../models/movie.model';
 import { Subscription, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { loadFavoriteMovies, loadWatchLaterMovies } from '../../store/actions';
+import {
+  deleteMovieFromFavoriteMovies,
+  loadFavoriteMovies,
+  loadWatchLaterMovies,
+  setMovieToFavoriteMovies,
+} from '../../store/actions';
 import {
   isInFavoriteList,
   isInWatchLaterList,
@@ -36,12 +41,13 @@ export class MyApplicationModule {}
   styleUrl: './movie-card.component.scss',
 })
 export class MovieCardComponent implements OnInit, OnDestroy {
-  public STATIC_IMAGE_PATH = 'https://image.tmdb.org/t/p/w500/';
+  public STATIC_IMAGE_PATH: string = 'https://image.tmdb.org/t/p/w500/';
+  public routePath: string | undefined = undefined;
 
   @Input() movie: Movie | null = null;
-  @Input() isShortDescriptionNeeded = true;
+  @Input() isShortDescriptionNeeded: boolean = true;
 
-  public isInFavoriteList: any = false;
+  public isInFavoriteList: boolean = false;
   public isInWatchList: boolean = false;
   private allSubscriptions: Subscription = new Subscription();
 
@@ -52,7 +58,11 @@ export class MovieCardComponent implements OnInit, OnDestroy {
   private setwatchListSubscription: Subscription = new Subscription();
   private deletewatchListSubscription: Subscription = new Subscription();
 
-  constructor(private movieService: MovieService, private store: Store) {}
+  constructor(
+    private movieService: MovieService,
+    private store: Store,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     if (this.movie) {
@@ -74,22 +84,19 @@ export class MovieCardComponent implements OnInit, OnDestroy {
   setToFavoriteMovieList() {
     if (this.movie) {
       this.isInFavoriteList = true;
-      this.setFavoriteListSubscription = this.movieService
-        .setMovieToFavoriteMovieList(this.movie.id)
-        .subscribe(() =>
-          this.allSubscriptions.add(this.setFavoriteListSubscription)
-        );
+      this.store.dispatch(setMovieToFavoriteMovies({ id: this.movie.id }));
     }
   }
   deleteMovieFromFavoriteMovieList() {
     if (this.movie) {
       this.isInFavoriteList = false;
-      this.deleteFavoriteListSubscription = this.movieService
-        .deleteMovieFromFavoriteMovieList(this.movie.id)
-        .subscribe(() => {
-          this.store.dispatch(loadFavoriteMovies());
-          this.allSubscriptions.add(this.deleteFavoriteListSubscription);
-        });
+      this.routePath = this.route.snapshot.routeConfig?.path;
+      this.store.dispatch(
+        deleteMovieFromFavoriteMovies({
+          id: this.movie.id,
+          path: this.routePath,
+        })
+      );
     }
   }
 
