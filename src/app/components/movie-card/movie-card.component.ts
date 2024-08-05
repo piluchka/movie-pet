@@ -12,9 +12,11 @@ import { Subscription, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   deleteMovieFromFavoriteMovies,
+  deleteMovieFromWatchLaterMovies,
   loadFavoriteMovies,
   loadWatchLaterMovies,
   setMovieToFavoriteMovies,
+  setMovieToWatchLaterMovies,
 } from '../../store/actions';
 import {
   isInFavoriteList,
@@ -65,6 +67,8 @@ export class MovieCardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.routePath = this.route.snapshot.routeConfig?.path;
+
     if (this.movie) {
       this.favoriteListSubscription = this.store
         .select(isInFavoriteList(this.movie))
@@ -90,7 +94,6 @@ export class MovieCardComponent implements OnInit, OnDestroy {
   deleteMovieFromFavoriteMovieList() {
     if (this.movie) {
       this.isInFavoriteList = false;
-      this.routePath = this.route.snapshot.routeConfig?.path;
       this.store.dispatch(
         deleteMovieFromFavoriteMovies({
           id: this.movie.id,
@@ -104,22 +107,18 @@ export class MovieCardComponent implements OnInit, OnDestroy {
   setToWatchLaterMovieList() {
     if (this.movie) {
       this.isInWatchList = true;
-      this.setwatchListSubscription = this.movieService
-        .setToWatchLaterMovieList(this.movie.id)
-        .subscribe(() =>
-          this.allSubscriptions.add(this.setwatchListSubscription)
-        );
+      this.store.dispatch(setMovieToWatchLaterMovies({ id: this.movie.id }));
     }
   }
   deleteMovieWatchLaterMovieList() {
     if (this.movie) {
       this.isInWatchList = false;
-      this.deletewatchListSubscription = this.movieService
-        .deleteMovieWatchLaterMovieList(this.movie.id)
-        .subscribe(() => {
-          this.store.dispatch(loadWatchLaterMovies());
-          this.allSubscriptions.add(this.deletewatchListSubscription);
-        });
+      this.store.dispatch(
+        deleteMovieFromWatchLaterMovies({
+          id: this.movie.id,
+          path: this.routePath,
+        })
+      );
     }
   }
 

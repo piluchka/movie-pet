@@ -15,6 +15,9 @@ import {
   deleteMovieFromFavoriteMovies,
   deleteMovieFromFavoriteMoviesFailure,
   deleteMovieFromFavoriteMoviesSuccess,
+  deleteMovieFromWatchLaterMovies,
+  deleteMovieFromWatchLaterMoviesFailure,
+  deleteMovieFromWatchLaterMoviesSuccess,
   loadAllMovies,
   loadAllMoviesFailure,
   loadAllMoviesSuccess,
@@ -42,6 +45,9 @@ import {
   setMovieToFavoriteMovies,
   setMovieToFavoriteMoviesFailure,
   setMovieToFavoriteMoviesSuccess,
+  setMovieToWatchLaterMovies,
+  setMovieToWatchLaterMoviesFailure,
+  setMovieToWatchLaterMoviesSuccess,
 } from './actions';
 import { MovieService } from '../services/movie/movie.service';
 import { props, Store } from '@ngrx/store';
@@ -271,9 +277,44 @@ export class MovieEffects {
       })
     )
   );
-  constructor(
-    private actions$: Actions,
-    private movieService: MovieService,
-    private store: Store
-  ) {}
+
+  // For setting Movie from Watch Later Movies
+  setMovieToWatchLaterMovies$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(setMovieToWatchLaterMovies),
+      switchMap((props) => {
+        return this.movieService.setToWatchLaterMovieList(props.id).pipe(
+          map(() => setMovieToWatchLaterMoviesSuccess()),
+          catchError((error) =>
+            of(setMovieToWatchLaterMoviesFailure({ error: error }))
+          )
+        );
+      })
+    )
+  );
+
+  // For deleting Movie from Watch Later Movies
+  deleteMovieFromWatchLaterMovies$ = createEffect(() => {
+    console.log(this.actions$);
+    return this.actions$.pipe(
+      ofType(deleteMovieFromWatchLaterMovies),
+      switchMap((props) => {
+        return this.movieService.deleteMovieWatchLaterMovieList(props.id).pipe(
+          switchMap(() => {
+            const actions = [];
+            if (props.path === 'watch-later') {
+              actions.push(loadWatchLaterMovies());
+            }
+            actions.push(deleteMovieFromWatchLaterMoviesSuccess());
+            return of(...actions);
+          }),
+          catchError((error) =>
+            of(deleteMovieFromWatchLaterMoviesFailure({ error: error }))
+          )
+        );
+      })
+    );
+  });
+
+  constructor(private actions$: Actions, private movieService: MovieService) {}
 }

@@ -21,6 +21,7 @@ import {
   loadWatchLaterMoviesSuccess,
   setMovieToFavoriteMoviesFailure,
   setMovieToFavoriteMoviesSuccess,
+  setMovieToWatchLaterMoviesFailure,
 } from './actions';
 
 export const MovieReducer = createReducer(
@@ -174,6 +175,14 @@ export const MovieReducer = createReducer(
 
   // Failure
   on(loadWatchLaterMoviesFailure, (state, { error }) => {
+    return {
+      ...state,
+      error: error,
+    };
+  }),
+
+  // Set - Failure
+  on(setMovieToWatchLaterMoviesFailure, (state, { error }) => {
     return {
       ...state,
       error: error,

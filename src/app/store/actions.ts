@@ -133,3 +133,31 @@ export const loadWatchLaterMoviesFailure = createAction(
   '[Movie] Load Watch Later Movies Failure',
   props<{ error: any }>()
 );
+
+// Set
+export const setMovieToWatchLaterMovies = createAction(
+  '[Movie] Set Movie to Watch Later Movies',
+  props<{ id: number }>()
+);
+
+export const setMovieToWatchLaterMoviesSuccess = createAction(
+  '[Movie] Set Movie to Watch Later Success'
+);
+export const setMovieToWatchLaterMoviesFailure = createAction(
+  '[Movie] Set Movie to Watch Later Failure',
+  props<{ error: any }>()
+);
+
+// Delete
+export const deleteMovieFromWatchLaterMovies = createAction(
+  '[Movie] Delete Movie from Watch Later Movies',
+  props<{ id: number; path: string | undefined }>()
+);
+
+export const deleteMovieFromWatchLaterMoviesSuccess = createAction(
+  '[Movie] Delete Movie from Watch Later Movies Success'
+);
+export const deleteMovieFromWatchLaterMoviesFailure = createAction(
+  '[Movie] Delete Movie from Watch Later Movies Failure',
+  props<{ error: any }>()
+);
