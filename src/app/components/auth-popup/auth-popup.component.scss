@@ -1,0 +1,58 @@
+@use "sass:math";
+@import "../../../assets/styles/_functions.scss";
+
+.auth-modal {
+  &__subtitle {
+    font-size: toREM(18);
+  }
+
+  &__form {
+  }
+}
+.form-modal {
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: toREM(15);
+  }
+
+  &__box {
+    display: flex;
+    flex-direction: column;
+    gap: toREM(5);
+  }
+
+  &__label {
+    font-size: toREM(20);
+  }
+
+  &__input {
+    padding: toREM(7) toREM(7);
+    font-size: toREM(16);
+    border-radius: toREM(15);
+    &:focus {
+      outline: 2px solid var(--primary-color);
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    gap: toREM(20);
+  }
+}
+
+.invalid {
+  outline: 3px solid red;
+}
+.form-error {
+  animation: form-error 2s linear;
+}
+
+@keyframes form-error {
+  0% {
+    color: red;
+  }
+  100% {
+    color: #dedede;
+  }
+}

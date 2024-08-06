@@ -14,7 +14,7 @@ import { AuthService } from './services/auth/auth.service';
 import { MovieService } from './services/movie/movie.service';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { loadPopularMovies } from './store/actions';
+import { AuthPopupComponent } from './components/auth-popup/auth-popup.component';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +31,7 @@ import { loadPopularMovies } from './store/actions';
     RouterLink,
     RouterLinkActive,
     MovieListPageComponent,
+    AuthPopupComponent
   ],
 })
 export class AppComponent implements OnInit, OnDestroy {

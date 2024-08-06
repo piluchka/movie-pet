@@ -66,3 +66,19 @@
 .p-sidebar-content {
   padding: 0;
 }
+
+// For auth-modal window
+.auth-modal {
+  width: 50vw;
+  .p-dialog-header {
+    text-align: center;
+  }
+  .p-dialog-title {
+    font-size: toREM(36);
+  }
+  .p-dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: toREM(15);
+  }
+}
