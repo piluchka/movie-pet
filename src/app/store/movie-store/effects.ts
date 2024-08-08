@@ -40,7 +40,7 @@ import {
   setMovieToWatchLaterMoviesFailure,
   setMovieToWatchLaterMoviesSuccess,
 } from './actions';
-import { MovieService } from '../services/movie/movie.service';
+import { MovieService } from '../../services/movie/movie.service';
 
 @Injectable()
 export class MovieEffects {

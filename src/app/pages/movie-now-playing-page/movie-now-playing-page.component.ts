@@ -5,8 +5,7 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
 import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectNowPlayingMovies } from '../../store/selectors';
-import { loadNowPlayingMovies } from '../../store/actions';
+import { selectNowPlayingMovies } from '../../store/movie-store/selectors';
 
 @Component({
   selector: 'app-movie-now-playing-page',

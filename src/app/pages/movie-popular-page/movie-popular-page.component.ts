@@ -5,7 +5,7 @@ import { MovieHeaderComponent } from '../../components/movie-header/movie-header
 import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectPopularMovies } from '../../store/selectors';
+import { selectPopularMovies } from '../../store/movie-store/selectors';
 @Component({
   selector: 'app-movie-popular-page',
   standalone: true,

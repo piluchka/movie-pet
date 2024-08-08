@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { loadPopularMovies, loadUpcomingMovies } from '../store/actions';
+import {
+  loadPopularMovies,
+  loadUpcomingMovies,
+} from '../store/movie-store/actions';
 
 @Injectable({
   providedIn: 'root',

@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { Movie } from '../../models/movie.model';
 import { Store } from '@ngrx/store';
-import { loadFavoriteMovies } from '../../store/actions';
-import { selectFavoriteMovies } from '../../store/selectors';
+import { loadFavoriteMovies } from '../../store/movie-store/actions';
+import { selectFavoriteMovies } from '../../store/movie-store/selectors';
 
 @Component({
   selector: 'app-favorite-movies-page',

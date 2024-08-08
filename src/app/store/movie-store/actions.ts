@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { Movie } from '../models/movie.model';
-import { MovieDetails } from '../models/movie-details.model';
+import { Movie } from '../../models/movie.model';
+import { MovieDetails } from '../../models/movie-details.model';
 
 // Popular movies - Actions block
 export const loadPopularMovies = createAction('[Movie] Load Popular Movies');

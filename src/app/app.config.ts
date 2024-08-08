@@ -8,8 +8,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { MovieEffects } from './store/effects';
-import { MovieReducer } from './store/reducer';
+import { MovieEffects } from './store/movie-store/effects';
+import { MovieReducer } from './store/movie-store/reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [

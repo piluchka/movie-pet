@@ -1,6 +1,6 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { MovieState } from './state';
-import { Movie } from '../models/movie.model';
+import { Movie } from '../../models/movie.model';
 
 export const selectState = createFeatureSelector<MovieState>('movie');
 

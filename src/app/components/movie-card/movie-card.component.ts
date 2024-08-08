@@ -14,8 +14,11 @@ import {
   deleteMovieFromWatchLaterMovies,
   setMovieToFavoriteMovies,
   setMovieToWatchLaterMovies,
-} from '../../store/actions';
-import { isInFavoriteList, isInWatchLaterList } from '../../store/selectors';
+} from '../../store/movie-store/actions';
+import {
+  isInFavoriteList,
+  isInWatchLaterList,
+} from '../../store/movie-store/selectors';
 import { ClearObservable } from '../../directives/clear-observable.directive';
 
 export class MyApplicationModule {}

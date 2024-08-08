@@ -1,5 +1,5 @@
-import { MovieDetails } from '../models/movie-details.model';
-import { Movie } from '../models/movie.model';
+import { MovieDetails } from '../../models/movie-details.model';
+import { Movie } from '../../models/movie.model';
 
 export interface MovieState {
   allMoviesList: Movie[] | null;
