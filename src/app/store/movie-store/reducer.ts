@@ -20,7 +20,6 @@ import {
   loadWatchLaterMoviesFailure,
   loadWatchLaterMoviesSuccess,
   setMovieToFavoriteMoviesFailure,
-  setMovieToFavoriteMoviesSuccess,
   setMovieToWatchLaterMoviesFailure,
 } from './actions';
 

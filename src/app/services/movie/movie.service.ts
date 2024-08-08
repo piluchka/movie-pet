@@ -4,6 +4,7 @@ import { forkJoin, map, Observable } from 'rxjs';
 import { Movie, MovieList } from '../../models/movie.model';
 import { environment } from '../../../environments/environment';
 import { MovieDetails } from '../../models/movie-details.model';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class MovieService {
   private accountId: number | null = null;
   private sessionId: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authStore: Store) {}
 
   // Funcs for assinging to var the auth ids
   public setSessionId(id: string) {

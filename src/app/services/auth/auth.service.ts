@@ -19,7 +19,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   // Get the request token
-  private getRequestToken(): Observable<string> {
+  getRequestToken(): Observable<string> {
     const url = `${environment.apiBaseUrl}/authentication/token/new?api_key=${environment.apiKey}`;
     return this.http.get<any>(url).pipe(
       tap((token) => console.log('Request token:', token)),
@@ -29,10 +29,10 @@ export class AuthService {
   }
 
   // Validate the request token with the user's credentials
-  private validateRequestToken(
+  validateRequestToken(
     userName: string,
     password: string,
-    requestToken: string
+    requestToken: string | null
   ): Observable<void> {
     const url = `${environment.apiBaseUrl}/authentication/token/validate_with_login?api_key=${environment.apiKey}`;
     const body = {
@@ -51,7 +51,7 @@ export class AuthService {
   }
 
   // Create a session ID
-  private createSession(requestToken: string): Observable<string> {
+  createSession(requestToken: string | null): Observable<string> {
     const url = `${environment.apiBaseUrl}/authentication/session/new?api_key=${environment.apiKey}`;
     const body = { request_token: requestToken };
     return this.http.post<any>(url, body).pipe(
@@ -61,13 +61,13 @@ export class AuthService {
     );
   }
 
-  public getAccountId(sessionId: string) {
+  getAccountId(sessionId: string | null) {
     return this.http.get<any>(
       `${environment.apiBaseUrl}/account?api_key=${environment.apiKey}&session_id=${sessionId}`
     );
   }
 
-  public authenticateUser(userName: string, password: string): Observable<any> {
+  authenticateUser(userName: string, password: string): Observable<any> {
     return this.getRequestToken().pipe(
       switchMap((requestToken) =>
         this.validateRequestToken(userName, password, requestToken).pipe(

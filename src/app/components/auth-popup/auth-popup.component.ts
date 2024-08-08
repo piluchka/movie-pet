@@ -9,8 +9,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
-import { map, tap } from 'rxjs';
 import { MovieService } from '../../services/movie/movie.service';
+import { Store } from '@ngrx/store';
+import {
+  getRequestToken,
+  validateRequestToken,
+} from '../../store/auth-store/actions';
+import { selectIsRequestTokenLoaded } from '../../store/auth-store/selectors';
+import { filter, first } from 'rxjs';
 
 @Component({
   selector: 'app-auth-popup',
@@ -27,7 +33,8 @@ export class AuthPopupComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private movieService: MovieService
+    private movieService: MovieService,
+    private authStore: Store
   ) {}
 
   ngOnInit(): void {
@@ -58,20 +65,19 @@ export class AuthPopupComponent implements OnInit {
   }
 
   logInValidation() {
-    const userName = this.authForm.value.userName;
-    const password = this.authForm.value.password;
+    this.authStore.dispatch(getRequestToken());
 
-    this.authService
-      .authenticateUser(userName, password)
-      .subscribe((result) => {
-        if (result) {
-          console.log('User authenticated, session ID:', result);
+    this.authStore
+      .select(selectIsRequestTokenLoaded)
+      .pipe(
+        filter((isLoaded) => isLoaded),
+        first()
+      )
+      .subscribe(() => {
+        const userName = this.authForm.value.userName;
+        const password = this.authForm.value.password;
 
-          this.movieService.setSessionId(result.sessionId);
-          this.movieService.setAccountId(result.accountId);
-        } else {
-          console.log('Authentication failed.');
-        }
+        this.authStore.dispatch(validateRequestToken({ userName, password }));
       });
   }
 
