@@ -1,15 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  catchError,
-  concatMap,
-  exhaustMap,
-  map,
-  mergeMap,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import {
   deleteMovieFromFavoriteMovies,
@@ -50,8 +41,6 @@ import {
   setMovieToWatchLaterMoviesSuccess,
 } from './actions';
 import { MovieService } from '../services/movie/movie.service';
-import { props, Store } from '@ngrx/store';
-import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class MovieEffects {
@@ -295,7 +284,6 @@ export class MovieEffects {
 
   // For deleting Movie from Watch Later Movies
   deleteMovieFromWatchLaterMovies$ = createEffect(() => {
-    console.log(this.actions$);
     return this.actions$.pipe(
       ofType(deleteMovieFromWatchLaterMovies),
       switchMap((props) => {

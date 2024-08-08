@@ -31,7 +31,7 @@ import { AuthPopupComponent } from './components/auth-popup/auth-popup.component
     RouterLink,
     RouterLinkActive,
     MovieListPageComponent,
-    AuthPopupComponent
+    AuthPopupComponent,
   ],
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -45,20 +45,20 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.authService
-      .authenticateAndGetAccountId()
-      .subscribe(
-        (authData) => {
-          this.movieService.setAccountId(authData.accountId);
-          this.movieService.setSessionId(authData.sessionId);
-        },
-        (error) => {
-          console.error('Authentication failed:', error);
-        }
-      );
+    // this.subscription = this.authService
+    //   .authenticateAndGetAccountId()
+    //   .subscribe(
+    //     (authData) => {
+    //       this.movieService.setAccountId(authData.accountId);
+    //       this.movieService.setSessionId(authData.sessionId);
+    //     },
+    //     (error) => {
+    //       console.error('Authentication failed:', error);
+    //     }
+    //   );
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
   }
 }

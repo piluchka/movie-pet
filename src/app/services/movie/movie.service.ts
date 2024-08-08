@@ -24,17 +24,16 @@ export class MovieService {
   public watchLaterMoviesObservable$: Observable<Movie[]> =
     this.watchLaterMoviesSubject$;
 
-  // Private vars for arrays
-  private watchLaterMovieList: Movie[] = [];
-
   constructor(private http: HttpClient) {}
 
   // Funcs for assinging to var the auth ids
   public setSessionId(id: string) {
     this.sessionId = id;
+    console.log(this.sessionId);
   }
   public setAccountId(id: number) {
     this.accountId = id;
+    console.log(this.accountId);
   }
   // Func for http-params(api-key)
   private getParams(): object {
@@ -140,7 +139,7 @@ export class MovieService {
     return this.http
       .get<MovieList>(
         `${environment.apiBaseUrl}/account/${this.accountId}/favorite/movies`,
-        this.getHeaders()
+        this.getParams()
       )
       .pipe(map((movieList) => movieList.results));
   }
@@ -166,7 +165,7 @@ export class MovieService {
     return this.http
       .get<MovieList>(
         `${environment.apiBaseUrl}/account/${this.accountId}/watchlist/movies`,
-        this.getHeaders()
+        this.getParams()
       )
       .pipe(map((movieList) => movieList.results));
   }
