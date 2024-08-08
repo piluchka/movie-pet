@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, forkJoin, map, Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { forkJoin, map, Observable } from 'rxjs';
 import { Movie, MovieList } from '../../models/movie.model';
 import { environment } from '../../../environments/environment';
 import { MovieDetails } from '../../models/movie-details.model';
@@ -12,28 +12,14 @@ export class MovieService {
   private accountId: number | null = null;
   private sessionId: string = '';
 
-  // Private Vars for Subjects
-  private favoriteMoviesSubject$: BehaviorSubject<Movie[]> =
-    new BehaviorSubject<Movie[]>([]);
-  private watchLaterMoviesSubject$: BehaviorSubject<Movie[]> =
-    new BehaviorSubject<Movie[]>([]);
-
-  // Public Vars for Subjects
-  public favoriteMoviesObservable$: Observable<Movie[]> =
-    this.favoriteMoviesSubject$;
-  public watchLaterMoviesObservable$: Observable<Movie[]> =
-    this.watchLaterMoviesSubject$;
-
   constructor(private http: HttpClient) {}
 
   // Funcs for assinging to var the auth ids
   public setSessionId(id: string) {
     this.sessionId = id;
-    console.log(this.sessionId);
   }
   public setAccountId(id: number) {
     this.accountId = id;
-    console.log(this.accountId);
   }
   // Func for http-params(api-key)
   private getParams(): object {
@@ -44,30 +30,16 @@ export class MovieService {
     };
   }
 
-  // Func for http-headers(access token)
-  private getHeaders(): object {
-    return {
-      headers: new HttpHeaders().set(
-        'Authorization',
-        `Bearer ${environment.accessToken}`
-      ),
-    };
-  }
-
-  // Funcs for Fav and Watch Bodies
-  private getBodyForFavoritePost(movieId: number, isInList: boolean): object {
+  // Func for Fav and Watch Bodies
+  private getBodyForPost(
+    type: 'favorite' | 'watchlist',
+    movieId: number,
+    isInList: boolean
+  ): object {
     return {
       media_type: 'movie',
       media_id: movieId,
-      favorite: isInList,
-    };
-  }
-
-  private getBodyForWatchLaterPost(movieId: number, isInList: boolean): object {
-    return {
-      media_type: 'movie',
-      media_id: movieId,
-      watchlist: isInList,
+      [type]: isInList,
     };
   }
 
@@ -130,7 +102,7 @@ export class MovieService {
   setMovieToFavoriteMovieList(movieId: number): Observable<Movie> {
     return this.http.post<Movie>(
       `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
-      this.getBodyForFavoritePost(movieId, true),
+      this.getBodyForPost('favorite', movieId, true),
       this.getParams()
     );
   }
@@ -147,7 +119,7 @@ export class MovieService {
   deleteMovieFromFavoriteMovieList(movieId: number): Observable<Movie> {
     return this.http.post<Movie>(
       `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
-      this.getBodyForFavoritePost(movieId, false),
+      this.getBodyForPost('favorite', movieId, false),
       this.getParams()
     );
   }
@@ -156,7 +128,7 @@ export class MovieService {
   setToWatchLaterMovieList(movieId: number): Observable<Movie> {
     return this.http.post<Movie>(
       `${environment.apiBaseUrl}/account/${this.accountId}/watchlist`,
-      this.getBodyForWatchLaterPost(movieId, true),
+      this.getBodyForPost('watchlist', movieId, true),
       this.getParams()
     );
   }
@@ -173,7 +145,7 @@ export class MovieService {
   deleteMovieWatchLaterMovieList(movieId: number): Observable<Movie> {
     return this.http.post<Movie>(
       `${environment.apiBaseUrl}/account/${this.accountId}/watchlist`,
-      this.getBodyForWatchLaterPost(movieId, false),
+      this.getBodyForPost('watchlist', movieId, false),
       this.getParams()
     );
   }

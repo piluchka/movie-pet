@@ -34,31 +34,8 @@ import { AuthPopupComponent } from './components/auth-popup/auth-popup.component
     AuthPopupComponent,
   ],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent {
   public title = 'P-Theatre';
-  private subscription: Subscription = new Subscription();
 
-  constructor(
-    private authService: AuthService,
-    private movieService: MovieService,
-    private store: Store
-  ) {}
-
-  ngOnInit(): void {
-    // this.subscription = this.authService
-    //   .authenticateAndGetAccountId()
-    //   .subscribe(
-    //     (authData) => {
-    //       this.movieService.setAccountId(authData.accountId);
-    //       this.movieService.setSessionId(authData.sessionId);
-    //     },
-    //     (error) => {
-    //       console.error('Authentication failed:', error);
-    //     }
-    //   );
-  }
-
-  ngOnDestroy(): void {
-    // this.subscription.unsubscribe();
-  }
+  constructor() {}
 }
