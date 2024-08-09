@@ -5,12 +5,16 @@ import { Movie, MovieList } from '../../models/movie.model';
 import { environment } from '../../../environments/environment';
 import { MovieDetails } from '../../models/movie-details.model';
 import { Store } from '@ngrx/store';
+import { selectAccountId } from '../../store/auth-store/selectors';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MovieService {
-  private accountId: number | null = null;
+  private acc = this.authStore
+    .select(selectAccountId)
+    .subscribe((accountId) => (this.accountId = accountId));
+  private accountId: string | null = null;
   private sessionId: string = '';
 
   constructor(private http: HttpClient, private authStore: Store) {}
@@ -19,8 +23,8 @@ export class MovieService {
   public setSessionId(id: string) {
     this.sessionId = id;
   }
-  public setAccountId(id: number) {
-    this.accountId = id;
+  public setAccountId() {
+    console.log(this.accountId);
   }
   // Func for http-params(api-key)
   private getParams(): object {
@@ -100,14 +104,6 @@ export class MovieService {
   }
 
   // Funcs for Favorite
-  setMovieToFavoriteMovieList(movieId: number): Observable<Movie> {
-    return this.http.post<Movie>(
-      `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
-      this.getBodyForPost('favorite', movieId, true),
-      this.getParams()
-    );
-  }
-
   getMovieFavoriteList(): Observable<Movie[]> {
     return this.http
       .get<MovieList>(
@@ -115,6 +111,14 @@ export class MovieService {
         this.getParams()
       )
       .pipe(map((movieList) => movieList.results));
+  }
+
+  setMovieToFavoriteMovieList(movieId: number): Observable<Movie> {
+    return this.http.post<Movie>(
+      `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
+      this.getBodyForPost('favorite', movieId, true),
+      this.getParams()
+    );
   }
 
   deleteMovieFromFavoriteMovieList(movieId: number): Observable<Movie> {

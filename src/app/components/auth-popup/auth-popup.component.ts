@@ -15,8 +15,12 @@ import {
   getRequestToken,
   validateRequestToken,
 } from '../../store/auth-store/actions';
-import { selectIsRequestTokenLoaded } from '../../store/auth-store/selectors';
-import { filter, first } from 'rxjs';
+import {
+  selectAccountId,
+  selectIsRequestTokenLoaded,
+  selectSessionId,
+} from '../../store/auth-store/selectors';
+import { combineLatest, filter, first } from 'rxjs';
 
 @Component({
   selector: 'app-auth-popup',
@@ -78,6 +82,9 @@ export class AuthPopupComponent implements OnInit {
         const password = this.authForm.value.password;
 
         this.authStore.dispatch(validateRequestToken({ userName, password }));
+        this.authStore
+          .select(selectSessionId)
+          .pipe();
       });
   }
 

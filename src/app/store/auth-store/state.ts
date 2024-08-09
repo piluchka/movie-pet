@@ -3,7 +3,7 @@ export interface AuthState {
   requestToken: string | null;
   isRequestTokenLoaded: boolean;
   sessionId: string | null;
-  accountId?: string | null;
+  accountId: string | null;
   error: any;
 }
 

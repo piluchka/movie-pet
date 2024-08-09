@@ -67,33 +67,6 @@ export class AuthService {
     );
   }
 
-  authenticateUser(userName: string, password: string): Observable<any> {
-    return this.getRequestToken().pipe(
-      switchMap((requestToken) =>
-        this.validateRequestToken(userName, password, requestToken).pipe(
-          map(() => requestToken) // Pass the requestToken forward after validation
-        )
-      ),
-      switchMap((validatedToken) =>
-        this.createSession(validatedToken).pipe(
-          switchMap((sessionId) =>
-            forkJoin({
-              sessionId: of(sessionId),
-              accountId: this.getAccountId(sessionId).pipe(
-                map((result) => result.id)
-              ),
-            })
-          )
-        )
-      ),
-      tap((sessionId) => console.log('Session ID:', sessionId)),
-      catchError((error) => {
-        console.error('Authentication error:', error);
-        return of(null);
-      })
-    );
-  }
-
   // Error handler
   private handleError(error: any) {
     console.error('An error occurred:', error);
