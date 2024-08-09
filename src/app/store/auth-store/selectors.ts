@@ -21,7 +21,14 @@ export const selectIsRequestTokenLoaded = createSelector(
   (state) => state.isRequestTokenLoaded
 );
 
+// Account Id
 export const selectAccountId = createSelector(
   selectAuthState,
   (state) => state.accountId
+);
+
+// Popup Visibility
+export const selectIsAuthPopupVisible = createSelector(
+  selectAuthState,
+  (state) => state.isAuthPopupVisible
 );

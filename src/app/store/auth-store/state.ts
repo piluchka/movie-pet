@@ -4,6 +4,7 @@ export interface AuthState {
   isRequestTokenLoaded: boolean;
   sessionId: string | null;
   accountId: string | null;
+  isAuthPopupVisible: boolean;
   error: any;
 }
 
@@ -13,5 +14,6 @@ export const initialState: AuthState = {
   isRequestTokenLoaded: false,
   sessionId: null,
   accountId: null,
+  isAuthPopupVisible: false,
   error: null,
 };

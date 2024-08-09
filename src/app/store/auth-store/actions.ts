@@ -50,3 +50,7 @@ export const getAccountIdFailure = createAction(
   AuthTypes.ACCOUNT_ID_GETTER_FAILURE,
   props<{ error: any }>()
 );
+
+// Popup
+export const showAuthPopup = createAction(AuthTypes.SHOW_AUTH_POPUP);
+export const hideAuthPopup = createAction(AuthTypes.HIDE_AUTH_POPUP);

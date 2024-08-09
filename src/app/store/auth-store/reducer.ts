@@ -7,6 +7,8 @@ import {
   getAccountIdSuccess,
   getRequestTokenFailure,
   getRequestTokenSuccess,
+  hideAuthPopup,
+  showAuthPopup,
 } from './actions';
 
 export const AuthReducer = createReducer(
@@ -57,6 +59,21 @@ export const AuthReducer = createReducer(
     return {
       ...state,
       error: error,
+    };
+  }),
+
+  // Popup
+  on(showAuthPopup, (state) => {
+    return {
+      ...state,
+      isAuthPopupVisible: true,
+    };
+  }),
+
+  on(hideAuthPopup, (state) => {
+    return {
+      ...state,
+      isAuthPopupVisible: false,
     };
   })
 );

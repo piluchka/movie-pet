@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -13,14 +13,17 @@ import { MovieService } from '../../services/movie/movie.service';
 import { Store } from '@ngrx/store';
 import {
   getRequestToken,
+  hideAuthPopup,
   validateRequestToken,
 } from '../../store/auth-store/actions';
 import {
   selectAccountId,
+  selectIsAuthPopupVisible,
   selectIsRequestTokenLoaded,
   selectSessionId,
 } from '../../store/auth-store/selectors';
-import { combineLatest, filter, first } from 'rxjs';
+import { combineLatest, filter, first, takeUntil } from 'rxjs';
+import { ClearObservable } from '../../directives/clear-observable.directive';
 
 @Component({
   selector: 'app-auth-popup',
@@ -29,7 +32,10 @@ import { combineLatest, filter, first } from 'rxjs';
   templateUrl: './auth-popup.component.html',
   styleUrl: './auth-popup.component.scss',
 })
-export class AuthPopupComponent implements OnInit {
+export class AuthPopupComponent
+  extends ClearObservable
+  implements OnInit, OnDestroy
+{
   visible: boolean = true;
   isPasswordValid: boolean = true;
   isUserNameValid: boolean = true;
@@ -39,9 +45,15 @@ export class AuthPopupComponent implements OnInit {
     private authService: AuthService,
     private movieService: MovieService,
     private authStore: Store
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
+    this.authStore
+      .select(selectIsAuthPopupVisible)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((isAuthPopupVisible) => (this.visible = isAuthPopupVisible));
     this.createAuthForm();
   }
 
@@ -56,8 +68,6 @@ export class AuthPopupComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.authForm);
-
     this.isPasswordValid =
       this.authForm.controls['password'].status === 'INVALID' ? false : true;
     this.isUserNameValid =
@@ -82,17 +92,10 @@ export class AuthPopupComponent implements OnInit {
         const password = this.authForm.value.password;
 
         this.authStore.dispatch(validateRequestToken({ userName, password }));
-        this.authStore
-          .select(selectSessionId)
-          .pipe();
       });
   }
 
   closeDialog() {
-    this.visible = false;
-  }
-
-  showDialog() {
-    this.visible = true;
+    this.authStore.dispatch(hideAuthPopup());
   }
 }

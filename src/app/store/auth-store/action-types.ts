@@ -11,4 +11,6 @@ export enum AuthTypes {
   ACCOUNT_ID_GETTER = '[Auth] Get Account Id',
   ACCOUNT_ID_GETTER_SUCCESS = '[Auth] Get Account Id Success',
   ACCOUNT_ID_GETTER_FAILURE = '[Auth] Get Account Id Failure',
+  SHOW_AUTH_POPUP = '[Auth] Show Auth Popup',
+  HIDE_AUTH_POPUP = '[Auth] Hide Auth Popup',
 }

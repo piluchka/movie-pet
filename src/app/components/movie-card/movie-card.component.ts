@@ -7,7 +7,7 @@ import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
 import { ReduceStringPipe } from '../../pipes/reduceString/reduce-string.pipe';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Movie } from '../../models/movie.model';
-import { takeUntil } from 'rxjs';
+import { of, switchMap, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   deleteMovieFromFavoriteMovies,
@@ -20,6 +20,8 @@ import {
   isInWatchLaterList,
 } from '../../store/movie-store/selectors';
 import { ClearObservable } from '../../directives/clear-observable.directive';
+import { selectAccountId } from '../../store/auth-store/selectors';
+import { showAuthPopup } from '../../store/auth-store/actions';
 
 export class MyApplicationModule {}
 
@@ -51,7 +53,11 @@ export class MovieCardComponent
   @Input() movie: Movie | null = null;
   @Input() isShortDescriptionNeeded: boolean = true;
 
-  constructor(private store: Store, private route: ActivatedRoute) {
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private authStore: Store
+  ) {
     super();
   }
 
@@ -77,10 +83,26 @@ export class MovieCardComponent
 
   // Funcs for favorites
   setToFavoriteMovieList() {
-    if (this.movie) {
-      this.isInFavoriteList = true;
-      this.store.dispatch(setMovieToFavoriteMovies({ id: this.movie.id }));
-    }
+    this.authStore
+      .select(selectAccountId)
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((accountId) => {
+          if (accountId) {
+            if (this.movie) {
+              this.isInFavoriteList = true;
+              this.store.dispatch(
+                setMovieToFavoriteMovies({ id: this.movie.id })
+              );
+            }
+            return of(true);
+          } else {
+            this.authStore.dispatch(showAuthPopup());
+            return of(false);
+          }
+        })
+      )
+      .subscribe();
   }
   deleteMovieFromFavoriteMovieList() {
     if (this.movie) {
@@ -96,10 +118,26 @@ export class MovieCardComponent
 
   // Func for watch later
   setToWatchLaterMovieList() {
-    if (this.movie) {
-      this.isInWatchList = true;
-      this.store.dispatch(setMovieToWatchLaterMovies({ id: this.movie.id }));
-    }
+    this.authStore
+      .select(selectAccountId)
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((accountId) => {
+          if (accountId) {
+            if (this.movie) {
+              this.isInWatchList = true;
+              this.store.dispatch(
+                setMovieToWatchLaterMovies({ id: this.movie.id })
+              );
+            }
+            return of(true);
+          } else {
+            this.authStore.dispatch(showAuthPopup());
+            return of(false);
+          }
+        })
+      )
+      .subscribe();
   }
   deleteMovieWatchLaterMovieList() {
     if (this.movie) {
