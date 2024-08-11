@@ -15,6 +15,7 @@ import { MovieService } from './services/movie/movie.service';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AuthPopupComponent } from './components/auth-popup/auth-popup.component';
+import { SearchHeaderComponent } from './components/search-header/search-header.component';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +33,7 @@ import { AuthPopupComponent } from './components/auth-popup/auth-popup.component
     RouterLinkActive,
     MovieListPageComponent,
     AuthPopupComponent,
+    SearchHeaderComponent
   ],
 })
 export class AppComponent {
