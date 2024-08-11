@@ -5,7 +5,6 @@ import { Movie, MovieList } from '../../models/movie.model';
 import { environment } from '../../../environments/environment';
 import { MovieDetails } from '../../models/movie-details.model';
 import { Store } from '@ngrx/store';
-import { selectAccountId } from '../../store/auth-store/selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -13,14 +12,23 @@ import { selectAccountId } from '../../store/auth-store/selectors';
 export class MovieService {
   constructor(private http: HttpClient, private authStore: Store) {}
 
-  // Func for http-params(api-key)
-  private getParams(sessionId?: string): object {
+  // Func for http-params
+  // ! В будущем разобраться с этой функцией
+  // ! Сделать ее компактнее и лучше
+  private getParams(sessionId?: string, query?: string): object {
     let paramsObject: object = {};
+
     if (sessionId) {
       paramsObject = {
         params: new HttpParams()
           .set('api_key', environment.apiKey)
           .set('session_id', sessionId),
+      };
+    } else if (query) {
+      paramsObject = {
+        params: new HttpParams()
+          .set('api_key', environment.apiKey)
+          .set('query', query),
       };
     } else {
       paramsObject = {
@@ -177,6 +185,14 @@ export class MovieService {
     return this.http.get<MovieDetails>(
       `${environment.apiBaseUrl}/movie/${id}`,
       this.getParams()
+    );
+  }
+
+  // Func for searching movies
+  getMoviesBySearchValue(value: string): Observable<Movie[]> {
+    return this.http.get<Movie[]>(
+      `${environment.apiBaseUrl}/search/movie`,
+      this.getParams(undefined, value)
     );
   }
 }

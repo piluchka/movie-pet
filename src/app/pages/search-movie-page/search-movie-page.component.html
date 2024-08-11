@@ -1,0 +1,9 @@
+<div class="search-movie">
+  <h1 class="page-title">Searching movies</h1>
+
+  <div class="movie-list">
+    @for (movie of searchingMovies; track movie.id) {
+    <app-movie-card [movie]="movie"></app-movie-card>
+    }
+  </div>
+</div>

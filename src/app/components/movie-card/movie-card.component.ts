@@ -23,8 +23,6 @@ import { ClearObservable } from '../../directives/clear-observable.directive';
 import { selectAccountId } from '../../store/auth-store/selectors';
 import { showAuthPopup } from '../../store/auth-store/actions';
 
-export class MyApplicationModule {}
-
 @Component({
   selector: 'app-movie-card',
   standalone: true,
