@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  mergeMap,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 import {
   deleteMovieFromFavoriteMovies,
@@ -41,6 +47,8 @@ import {
   setMovieToWatchLaterMoviesSuccess,
 } from './actions';
 import { MovieService } from '../../services/movie/movie.service';
+import { Store } from '@ngrx/store';
+import { selectAccountId, selectSessionId } from '../auth-store/selectors';
 
 @Injectable()
 export class MovieEffects {
@@ -186,21 +194,35 @@ export class MovieEffects {
   loadFavoriteMovies$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadFavoriteMovies),
-      mergeMap(() => {
-        return this.movieService.getMovieFavoriteList().pipe(
-          map((movies) =>
-            loadFavoriteMoviesSuccess({
-              favoriteMoviesList: movies,
+      withLatestFrom(
+        this.authStore.select(selectAccountId),
+        this.authStore.select(selectSessionId)
+      ),
+      switchMap(([actions, accountId, sessionId]) => {
+        if (accountId && sessionId) {
+          return this.movieService
+            .getMovieFavoriteList(accountId, sessionId)
+            .pipe(
+              map((movies) =>
+                loadFavoriteMoviesSuccess({
+                  favoriteMoviesList: movies,
+                })
+              ),
+              catchError((error) =>
+                of(
+                  loadFavoriteMoviesFailure({
+                    error: error,
+                  })
+                )
+              )
+            );
+        } else {
+          return of(
+            loadFavoriteMoviesFailure({
+              error: 'Account Id or Session Id is missing',
             })
-          ),
-          catchError((error) =>
-            of(
-              loadFavoriteMoviesFailure({
-                error: error,
-              })
-            )
-          )
-        );
+          );
+        }
       })
     )
   );
@@ -209,13 +231,27 @@ export class MovieEffects {
   setMovieToFavoriteMovies$ = createEffect(() =>
     this.actions$.pipe(
       ofType(setMovieToFavoriteMovies),
-      switchMap((props) => {
-        return this.movieService.setMovieToFavoriteMovieList(props.id).pipe(
-          map(() => setMovieToFavoriteMoviesSuccess()),
-          catchError((error) =>
-            of(setMovieToFavoriteMoviesFailure({ error: error }))
-          )
-        );
+      withLatestFrom(
+        this.authStore.select(selectAccountId),
+        this.authStore.select(selectSessionId)
+      ),
+      switchMap(([props, accountId, sessionId]) => {
+        if (accountId && sessionId) {
+          return this.movieService
+            .setMovieToFavoriteMovieList(accountId, sessionId, props.id)
+            .pipe(
+              map(() => setMovieToFavoriteMoviesSuccess()),
+              catchError((error) =>
+                of(setMovieToFavoriteMoviesFailure({ error: error }))
+              )
+            );
+        } else {
+          return of(
+            loadFavoriteMoviesFailure({
+              error: 'Account Id or Session Id is missing',
+            })
+          );
+        }
       })
     )
   );
@@ -224,22 +260,34 @@ export class MovieEffects {
   deleteMovieFromFavoriteMovies$ = createEffect(() =>
     this.actions$.pipe(
       ofType(deleteMovieFromFavoriteMovies),
-      switchMap((props) => {
-        return this.movieService
-          .deleteMovieFromFavoriteMovieList(props.id)
-          .pipe(
-            switchMap(() => {
-              const actions = [];
-              if (props.path === 'favorite') {
-                actions.push(loadFavoriteMovies());
-              }
-              actions.push(deleteMovieFromFavoriteMoviesSuccess());
-              return of(...actions);
-            }),
-            catchError((error) =>
-              of(deleteMovieFromFavoriteMoviesFailure({ error: error }))
-            )
+      withLatestFrom(
+        this.authStore.select(selectAccountId),
+        this.authStore.select(selectSessionId)
+      ),
+      switchMap(([props, accountId, sessionId]) => {
+        if (accountId && sessionId) {
+          return this.movieService
+            .deleteMovieFromFavoriteMovieList(accountId, sessionId, props.id)
+            .pipe(
+              switchMap(() => {
+                const actions = [];
+                if (props.path === 'favorite') {
+                  actions.push(loadFavoriteMovies());
+                }
+                actions.push(deleteMovieFromFavoriteMoviesSuccess());
+                return of(...actions);
+              }),
+              catchError((error) =>
+                of(deleteMovieFromFavoriteMoviesFailure({ error: error }))
+              )
+            );
+        } else {
+          return of(
+            loadFavoriteMoviesFailure({
+              error: 'Account Id or Session Id is missing',
+            })
           );
+        }
       })
     )
   );
@@ -248,21 +296,35 @@ export class MovieEffects {
   loadWatchLaterMovies$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadWatchLaterMovies),
-      mergeMap(() => {
-        return this.movieService.getWatchLaterMovieList().pipe(
-          map((movies) =>
-            loadWatchLaterMoviesSuccess({
-              watchLaterMoviesList: movies,
+      withLatestFrom(
+        this.authStore.select(selectAccountId),
+        this.authStore.select(selectSessionId)
+      ),
+      switchMap(([actions, accountId, sessionId]) => {
+        if (accountId && sessionId) {
+          return this.movieService
+            .getWatchLaterMovieList(accountId, sessionId)
+            .pipe(
+              map((movies) =>
+                loadWatchLaterMoviesSuccess({
+                  watchLaterMoviesList: movies,
+                })
+              ),
+              catchError((error) =>
+                of(
+                  loadWatchLaterMoviesFailure({
+                    error: error,
+                  })
+                )
+              )
+            );
+        } else {
+          return of(
+            loadFavoriteMoviesFailure({
+              error: 'Account Id or Session Id is missing',
             })
-          ),
-          catchError((error) =>
-            of(
-              loadWatchLaterMoviesFailure({
-                error: error,
-              })
-            )
-          )
-        );
+          );
+        }
       })
     )
   );
@@ -271,13 +333,27 @@ export class MovieEffects {
   setMovieToWatchLaterMovies$ = createEffect(() =>
     this.actions$.pipe(
       ofType(setMovieToWatchLaterMovies),
-      switchMap((props) => {
-        return this.movieService.setToWatchLaterMovieList(props.id).pipe(
-          map(() => setMovieToWatchLaterMoviesSuccess()),
-          catchError((error) =>
-            of(setMovieToWatchLaterMoviesFailure({ error: error }))
-          )
-        );
+      withLatestFrom(
+        this.authStore.select(selectAccountId),
+        this.authStore.select(selectSessionId)
+      ),
+      switchMap(([props, accountId, sessionId]) => {
+        if (accountId && sessionId) {
+          return this.movieService
+            .setToWatchLaterMovieList(accountId, sessionId, props.id)
+            .pipe(
+              map(() => setMovieToWatchLaterMoviesSuccess()),
+              catchError((error) =>
+                of(setMovieToWatchLaterMoviesFailure({ error: error }))
+              )
+            );
+        } else {
+          return of(
+            loadFavoriteMoviesFailure({
+              error: 'Account Id or Session Id is missing',
+            })
+          );
+        }
       })
     )
   );
@@ -286,23 +362,41 @@ export class MovieEffects {
   deleteMovieFromWatchLaterMovies$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(deleteMovieFromWatchLaterMovies),
-      switchMap((props) => {
-        return this.movieService.deleteMovieWatchLaterMovieList(props.id).pipe(
-          switchMap(() => {
-            const actions = [];
-            if (props.path === 'watch-later') {
-              actions.push(loadWatchLaterMovies());
-            }
-            actions.push(deleteMovieFromWatchLaterMoviesSuccess());
-            return of(...actions);
-          }),
-          catchError((error) =>
-            of(deleteMovieFromWatchLaterMoviesFailure({ error: error }))
-          )
-        );
+      withLatestFrom(
+        this.authStore.select(selectAccountId),
+        this.authStore.select(selectSessionId)
+      ),
+      switchMap(([props, accountId, sessionId]) => {
+        if (accountId && sessionId) {
+          return this.movieService
+            .deleteMovieWatchLaterMovieList(accountId, sessionId, props.id)
+            .pipe(
+              switchMap(() => {
+                const actions = [];
+                if (props.path === 'watch-later') {
+                  actions.push(loadWatchLaterMovies());
+                }
+                actions.push(deleteMovieFromWatchLaterMoviesSuccess());
+                return of(...actions);
+              }),
+              catchError((error) =>
+                of(deleteMovieFromWatchLaterMoviesFailure({ error: error }))
+              )
+            );
+        } else {
+          return of(
+            loadFavoriteMoviesFailure({
+              error: 'Account Id or Session Id is missing',
+            })
+          );
+        }
       })
     );
   });
 
-  constructor(private actions$: Actions, private movieService: MovieService) {}
+  constructor(
+    private actions$: Actions,
+    private movieService: MovieService,
+    private authStore: Store
+  ) {}
 }

@@ -23,7 +23,7 @@
           [ngClass]="{ invalid: !isUserNameValid }"
         />
         @if(!isUserNameValid){
-        <div class="form-error">Username is incorrect</div>
+        <div class="form-error">{{ errorMessages.INVALID_USERNAME }}</div>
         }
       </div>
       <div class="form-modal__box">
@@ -38,7 +38,13 @@
           [ngClass]="{ invalid: !isPasswordValid }"
         />
         @if(!isPasswordValid){
-        <div class="form-error">A password length should be longer than 4</div>
+        <div class="form-error">
+          {{ errorMessages.INVALID_PASSWORD_LENGTH }}
+        </div>
+        } @if(!isUserNameAndPasswordValid){
+        <div class="form-error">
+          {{ errorMessages.INVALID_PASSWORD_OR_USERNAME }}
+        </div>
         }
       </div>
     </div>

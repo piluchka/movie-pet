@@ -11,28 +11,23 @@ import { selectAccountId } from '../../store/auth-store/selectors';
   providedIn: 'root',
 })
 export class MovieService {
-  private acc = this.authStore
-    .select(selectAccountId)
-    .subscribe((accountId) => (this.accountId = accountId));
-  private accountId: string | null = null;
-  private sessionId: string = '';
-
   constructor(private http: HttpClient, private authStore: Store) {}
 
-  // Funcs for assinging to var the auth ids
-  public setSessionId(id: string) {
-    this.sessionId = id;
-  }
-  public setAccountId() {
-    console.log(this.accountId);
-  }
   // Func for http-params(api-key)
-  private getParams(): object {
-    return {
-      params: new HttpParams()
-        .set('api_key', environment.apiKey)
-        .set('session_id', this.sessionId),
-    };
+  private getParams(sessionId?: string): object {
+    let paramsObject: object = {};
+    if (sessionId) {
+      paramsObject = {
+        params: new HttpParams()
+          .set('api_key', environment.apiKey)
+          .set('session_id', sessionId),
+      };
+    } else {
+      paramsObject = {
+        params: new HttpParams().set('api_key', environment.apiKey),
+      };
+    }
+    return paramsObject;
   }
 
   // Func for Fav and Watch Bodies
@@ -104,54 +99,76 @@ export class MovieService {
   }
 
   // Funcs for Favorite
-  getMovieFavoriteList(): Observable<Movie[]> {
+  getMovieFavoriteList(
+    accountId: string,
+    sessionId: string
+  ): Observable<Movie[]> {
     return this.http
       .get<MovieList>(
-        `${environment.apiBaseUrl}/account/${this.accountId}/favorite/movies`,
-        this.getParams()
+        `${environment.apiBaseUrl}/account/${accountId}/favorite/movies`,
+        this.getParams(sessionId)
       )
       .pipe(map((movieList) => movieList.results));
   }
 
-  setMovieToFavoriteMovieList(movieId: number): Observable<Movie> {
+  setMovieToFavoriteMovieList(
+    accountId: string,
+    sessionId: string,
+    movieId: number
+  ): Observable<Movie> {
     return this.http.post<Movie>(
-      `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
+      `${environment.apiBaseUrl}/account/${accountId}/favorite`,
       this.getBodyForPost('favorite', movieId, true),
-      this.getParams()
+      this.getParams(sessionId)
     );
   }
 
-  deleteMovieFromFavoriteMovieList(movieId: number): Observable<Movie> {
+  deleteMovieFromFavoriteMovieList(
+    accountId: string,
+    sessionId: string,
+    movieId: number
+  ): Observable<Movie> {
     return this.http.post<Movie>(
-      `${environment.apiBaseUrl}/account/${this.accountId}/favorite`,
+      `${environment.apiBaseUrl}/account/${accountId}/favorite`,
       this.getBodyForPost('favorite', movieId, false),
-      this.getParams()
+      this.getParams(sessionId)
     );
   }
 
   // Funcs for Watch later
-  setToWatchLaterMovieList(movieId: number): Observable<Movie> {
+  setToWatchLaterMovieList(
+    accountId: string,
+    sessionId: string,
+    movieId: number
+  ): Observable<Movie> {
     return this.http.post<Movie>(
-      `${environment.apiBaseUrl}/account/${this.accountId}/watchlist`,
+      `${environment.apiBaseUrl}/account/${accountId}/watchlist`,
       this.getBodyForPost('watchlist', movieId, true),
-      this.getParams()
+      this.getParams(sessionId)
     );
   }
 
-  getWatchLaterMovieList(): Observable<Movie[]> {
+  getWatchLaterMovieList(
+    accountId: string,
+    sessionId: string
+  ): Observable<Movie[]> {
     return this.http
       .get<MovieList>(
-        `${environment.apiBaseUrl}/account/${this.accountId}/watchlist/movies`,
-        this.getParams()
+        `${environment.apiBaseUrl}/account/${accountId}/watchlist/movies`,
+        this.getParams(sessionId)
       )
       .pipe(map((movieList) => movieList.results));
   }
 
-  deleteMovieWatchLaterMovieList(movieId: number): Observable<Movie> {
+  deleteMovieWatchLaterMovieList(
+    accountId: string,
+    sessionId: string,
+    movieId: number
+  ): Observable<Movie> {
     return this.http.post<Movie>(
-      `${environment.apiBaseUrl}/account/${this.accountId}/watchlist`,
+      `${environment.apiBaseUrl}/account/${accountId}/watchlist`,
       this.getBodyForPost('watchlist', movieId, false),
-      this.getParams()
+      this.getParams(sessionId)
     );
   }
 

@@ -8,8 +8,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../../services/auth/auth.service';
-import { MovieService } from '../../services/movie/movie.service';
 import { Store } from '@ngrx/store';
 import {
   getRequestToken,
@@ -17,13 +15,13 @@ import {
   validateRequestToken,
 } from '../../store/auth-store/actions';
 import {
-  selectAccountId,
+  selectAuthError,
   selectIsAuthPopupVisible,
   selectIsRequestTokenLoaded,
-  selectSessionId,
 } from '../../store/auth-store/selectors';
-import { combineLatest, filter, first, takeUntil } from 'rxjs';
+import { filter, first, takeUntil, tap } from 'rxjs';
 import { ClearObservable } from '../../directives/clear-observable.directive';
+import { ErrorMessages } from '../../enums/auth-popup.enum';
 
 @Component({
   selector: 'app-auth-popup',
@@ -39,13 +37,11 @@ export class AuthPopupComponent
   visible: boolean = true;
   isPasswordValid: boolean = true;
   isUserNameValid: boolean = true;
+  isUserNameAndPasswordValid: boolean = true;
+  errorMessages = ErrorMessages;
   authForm: FormGroup = new FormGroup({});
 
-  constructor(
-    private authService: AuthService,
-    private movieService: MovieService,
-    private authStore: Store
-  ) {
+  constructor(private authStore: Store) {
     super();
   }
 
@@ -59,8 +55,8 @@ export class AuthPopupComponent
 
   createAuthForm(): void {
     this.authForm = new FormGroup({
-      userName: new FormControl('', Validators.required),
-      password: new FormControl('', [
+      userName: new FormControl('piluchka', Validators.required),
+      password: new FormControl('denadenadena1', [
         Validators.required,
         Validators.minLength(4),
       ]),
@@ -77,7 +73,6 @@ export class AuthPopupComponent
       this.logInValidation();
     }
   }
-
   logInValidation() {
     this.authStore.dispatch(getRequestToken());
 
@@ -92,6 +87,16 @@ export class AuthPopupComponent
         const password = this.authForm.value.password;
 
         this.authStore.dispatch(validateRequestToken({ userName, password }));
+
+        this.authStore
+          .select(selectAuthError)
+          .pipe(
+            filter((error) => error),
+            first()
+          )
+          .subscribe(() => {
+            this.isUserNameAndPasswordValid = false;
+          });
       });
   }
 

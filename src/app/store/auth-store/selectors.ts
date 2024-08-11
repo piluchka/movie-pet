@@ -32,3 +32,9 @@ export const selectIsAuthPopupVisible = createSelector(
   selectAuthState,
   (state) => state.isAuthPopupVisible
 );
+
+// Error
+export const selectAuthError = createSelector(
+  selectAuthState,
+  (state) => state.error
+);

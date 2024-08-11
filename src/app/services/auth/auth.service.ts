@@ -42,11 +42,11 @@ export class AuthService {
     };
     return this.http.post<any>(url, body).pipe(
       tap((response) => console.log('Validation response:', response)),
-      map(() => {}), // Return void after successful validation
-      catchError((error) => {
-        console.error('Validation error:', error);
-        return throwError(error);
-      })
+      map(() => {}) // Return void after successful validation
+      // catchError((error) => {
+      //   console.error('Validation error:', error);
+
+      // })
     );
   }
 

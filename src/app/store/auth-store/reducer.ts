@@ -9,6 +9,7 @@ import {
   getRequestTokenSuccess,
   hideAuthPopup,
   showAuthPopup,
+  validateRequestTokenFailure,
 } from './actions';
 
 export const AuthReducer = createReducer(
@@ -32,11 +33,20 @@ export const AuthReducer = createReducer(
     };
   }),
 
+  // Validation
+  on(validateRequestTokenFailure, (state, { error }) => {
+    return {
+      ...state,
+      error: error,
+    };
+  }),
+
   //   Session Id
   on(createSessionIdSuccess, (state, { sessionId }) => {
     return {
       ...state,
       sessionId: sessionId,
+      error: null,
     };
   }),
 
@@ -52,6 +62,7 @@ export const AuthReducer = createReducer(
     return {
       ...state,
       accountId: accountId,
+      error: null,
     };
   }),
 

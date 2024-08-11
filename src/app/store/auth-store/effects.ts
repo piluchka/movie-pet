@@ -8,14 +8,19 @@ import {
   getRequestToken,
   getRequestTokenFailure,
   getRequestTokenSuccess,
+  hideAuthPopup,
   validateRequestToken,
   validateRequestTokenFailure,
   validateRequestTokenSuccess,
 } from './actions';
 import { AuthService } from '../../services/auth/auth.service';
-import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs';
+import { catchError, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectRequestToken, selectSessionId } from './selectors';
+import {
+  loadFavoriteMovies,
+  loadWatchLaterMovies,
+} from '../movie-store/actions';
 
 @Injectable()
 export class AuthEffects {
@@ -44,9 +49,10 @@ export class AuthEffects {
           .validateRequestToken(props.userName, props.password, requestToken)
           .pipe(
             map(() => validateRequestTokenSuccess()),
-            catchError((error) =>
-              of(validateRequestTokenFailure({ error: error }))
-            )
+            catchError((error) => {
+              console.error('Caught in effect:', error);
+              return of(validateRequestTokenFailure({ error: error }));
+            })
           );
       })
     )
@@ -71,16 +77,30 @@ export class AuthEffects {
       withLatestFrom(this.authStore.select(selectSessionId)),
       switchMap(([actions, sessionId]) => {
         return this.authService.getAccountId(sessionId).pipe(
-          map((accountId) => getAccountIdSuccess({ accountId: accountId.id })),
+          map((accountId) => {
+            return getAccountIdSuccess({ accountId: accountId.id });
+          }),
           catchError((error) => of(getAccountIdFailure({ error: error })))
         );
       })
     )
   );
 
+  closeAuthPopup$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getAccountIdSuccess),
+      tap(() => {
+        this.movieStore.dispatch(loadFavoriteMovies());
+        this.movieStore.dispatch(loadWatchLaterMovies());
+      }),
+      map(() => hideAuthPopup())
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private authService: AuthService,
-    private authStore: Store
+    private authStore: Store,
+    private movieStore: Store
   ) {}
 }
