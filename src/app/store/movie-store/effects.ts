@@ -30,6 +30,7 @@ import {
   loadPopularMovies,
   loadPopularMoviesFailure,
   loadPopularMoviesSuccess,
+  loadSearchingMovies,
   loadTopRatedMovies,
   loadTopRatedMoviesFailure,
   loadTopRatedMoviesSuccess,
@@ -393,6 +394,14 @@ export class MovieEffects {
       })
     );
   });
+
+  // For loading Searching Movies
+  loadSearchingMovies$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadSearchingMovies),
+      
+    )
+  })
 
   constructor(
     private actions$: Actions,

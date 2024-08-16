@@ -190,9 +190,11 @@ export class MovieService {
 
   // Func for searching movies
   getMoviesBySearchValue(value: string): Observable<Movie[]> {
-    return this.http.get<Movie[]>(
-      `${environment.apiBaseUrl}/search/movie`,
-      this.getParams(undefined, value)
-    );
+    return this.http
+      .get<MovieList>(
+        `${environment.apiBaseUrl}/search/movie`,
+        this.getParams(undefined, value)
+      )
+      .pipe(map((movies) => movies.results));
   }
 }

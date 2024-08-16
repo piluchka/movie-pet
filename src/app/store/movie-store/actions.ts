@@ -161,3 +161,18 @@ export const deleteMovieFromWatchLaterMoviesFailure = createAction(
   '[Movie] Delete Movie from Watch Later Movies Failure',
   props<{ error: any }>()
 );
+
+// Load Searching Movies - Action block
+export const loadSearchingMovies = createAction(
+  '[Movie] Load Searching Movies',
+  props<{ searchValue: string }>()
+);
+
+export const loadSearchingMoviesSuccess = createAction(
+  '[Movie] Load Searching Movies Success',
+  props<{ searchingMovies: Movie[] }>()
+);
+export const loadSearchingMoviesFailure = createAction(
+  '[Movie] Load Searching Movies Failure',
+  props<{ error: any }>()
+);

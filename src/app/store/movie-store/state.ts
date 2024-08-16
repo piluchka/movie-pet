@@ -12,6 +12,8 @@ export interface MovieState {
   watchLaterMoviesList: Movie[] | null;
 
   selectedMovie: MovieDetails | null;
+
+  searchingMovies: Movie[] | null;
 }
 
 export const initialState: MovieState = {
@@ -25,4 +27,6 @@ export const initialState: MovieState = {
   watchLaterMoviesList: null,
 
   selectedMovie: null,
+
+  searchingMovies: null,
 };
