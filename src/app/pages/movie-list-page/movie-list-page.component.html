@@ -1,13 +1,9 @@
 <div class="all-movies">
   <h1 class="page-title">All Movies</h1>
-  @if (!allMovieList) {
-  <div>LOADING</div>
-  }@else {
 
   <div class="movie-list">
     @for (movie of allMovieList; track movie.id) {
     <app-movie-card [movie]="movie"></app-movie-card>
     }
   </div>
-  }
 </div>

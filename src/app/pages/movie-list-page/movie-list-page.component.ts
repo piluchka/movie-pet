@@ -21,13 +21,12 @@ import { loadAllMovies } from '../../store/movie-store/actions';
   imports: [CommonModule, MovieCardComponent],
 })
 export class MovieListPageComponent implements OnInit, OnDestroy {
-  public allMovieList: any[] = [];
+  public allMovieList: Movie[] | null = null;
   private subscription: Subscription = new Subscription();
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(loadAllMovies());
     this.subscription = this.store
       .select(selectAllMovies)
       .subscribe((allMovieList) => {
