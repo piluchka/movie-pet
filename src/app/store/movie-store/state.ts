@@ -27,6 +27,7 @@ export const initialState: MovieState = {
   watchLaterMoviesList: null,
 
   selectedMovie: null,
+  
 
   searchingMovies: null,
 };

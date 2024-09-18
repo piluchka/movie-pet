@@ -20,6 +20,7 @@ export const selectNowPlayingMovies = createSelector(
 export const selectTopRatedMovies = createSelector(
   selectState,
   (state) => state.topRatedMoviesList
+  
 );
 
 // Upcoming movies

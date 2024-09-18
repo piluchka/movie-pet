@@ -12,7 +12,7 @@ import { selectTopRatedMovies } from '../../store/movie-store/selectors';
   standalone: true,
   imports: [CommonModule, MovieHeaderComponent, MovieCardComponent],
   templateUrl: './movie-now-top-rate-page.component.html',
-  styleUrl: './movie-now-top-rate-page.component.scss',
+  styleUrl: './movie-now-top-rate-page.component.scss',     
 })
 export class MovieNowTopRatePageComponent implements OnInit, OnDestroy {
   public topRatedMovieList: Movie[] = [];
