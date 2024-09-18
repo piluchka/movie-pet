@@ -1,10 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectAllMovies } from '../../store/movie-store/selectors';
+import {
+  selectAllMovies,
+  selectNowPlayingMovies,
+  selectPopularMovies,
+  selectTopRatedMovies,
+  selectUpcomingMovies,
+} from '../../store/movie-store/selectors';
+import { loadAllMovies } from '../../store/movie-store/actions';
 
 @Component({
   selector: 'app-movie-list-page',
@@ -14,12 +21,13 @@ import { selectAllMovies } from '../../store/movie-store/selectors';
   imports: [CommonModule, MovieCardComponent],
 })
 export class MovieListPageComponent implements OnInit, OnDestroy {
-  public allMovieList: Movie[] = [];
+  public allMovieList: any[] = [];
   private subscription: Subscription = new Subscription();
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
+    this.store.dispatch(loadAllMovies());
     this.subscription = this.store
       .select(selectAllMovies)
       .subscribe((allMovieList) => {

@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
+  filter,
   map,
   mergeMap,
   switchMap,
+  take,
   withLatestFrom,
 } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import {
   deleteMovieFromFavoriteMovies,
   deleteMovieFromFavoriteMoviesFailure,
@@ -50,6 +52,12 @@ import {
 import { MovieService } from '../../services/movie/movie.service';
 import { Store } from '@ngrx/store';
 import { selectAccountId, selectSessionId } from '../auth-store/selectors';
+import {
+  selectNowPlayingMovies,
+  selectPopularMovies,
+  selectTopRatedMovies,
+  selectUpcomingMovies,
+} from './selectors';
 
 @Injectable()
 export class MovieEffects {
@@ -148,21 +156,45 @@ export class MovieEffects {
   // For loading All Movies
   loadAllMovies$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(loadAllMovies),
-      mergeMap(() => {
-        return this.movieService.getAllMovies().pipe(
-          map((movieList) =>
-            loadAllMoviesSuccess({
-              allMoviesList: movieList,
-            })
+      ofType(loadAllMovies), 
+      switchMap(() => {
+        this.movieStore.dispatch(loadNowPlayingMovies());
+        this.movieStore.dispatch(loadPopularMovies());
+        this.movieStore.dispatch(loadTopRatedMovies());
+        this.movieStore.dispatch(loadUpcomingMovies());
+
+        return forkJoin([
+          this.movieStore.select(selectNowPlayingMovies).pipe(
+            filter((data) => !!data),
+            take(1),
+            catchError((error) => of([]))
           ),
-          catchError((error) =>
-            of(
-              loadAllMoviesFailure({
-                error: error,
-              })
-            )
-          )
+          this.movieStore.select(selectPopularMovies).pipe(
+            filter((data) => !!data),
+            take(1),
+            catchError((error) => of([]))
+          ),
+          this.movieStore.select(selectTopRatedMovies).pipe(
+            filter((data) => !!data),
+            take(1),
+            catchError((error) => of([]))
+          ),
+          this.movieStore.select(selectUpcomingMovies).pipe(
+            filter((data) => !!data),
+            take(1),
+            catchError((error) => of([]))
+          ),
+        ]).pipe(
+          map(([nowPlaying, popular, topRated, upcoming]) => {
+            const combinedMovies = [
+              ...(nowPlaying || []),
+              ...(popular || []),
+              ...(topRated || []),
+              ...(upcoming || []),
+            ];
+            return loadAllMoviesSuccess({ allMoviesList: combinedMovies });
+          }),
+          catchError((error) => of(loadAllMoviesFailure({ error: error })))
         );
       })
     )
@@ -397,15 +429,13 @@ export class MovieEffects {
 
   // For loading Searching Movies
   loadSearchingMovies$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(loadSearchingMovies),
-      
-    )
-  })
+    return this.actions$.pipe(ofType(loadSearchingMovies));
+  });
 
   constructor(
     private actions$: Actions,
     private movieService: MovieService,
-    private authStore: Store
+    private authStore: Store,
+    private movieStore: Store
   ) {}
 }
