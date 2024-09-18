@@ -4,8 +4,7 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
 import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { loadAllMovies } from '../../store/actions';
-import { selectAllMovies } from '../../store/selectors';
+import { selectAllMovies } from '../../store/movie-store/selectors';
 
 @Component({
   selector: 'app-movie-list-page',

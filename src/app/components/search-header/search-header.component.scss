@@ -1,0 +1,22 @@
+@use "sass:math";
+@import "../../../assets/styles/_functions.scss";
+.search {
+  padding: toREM(15) toREM(0);
+  &__body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__label {
+    color: var(--text-color);
+    font-size: toREM(36);
+  }
+  &__input {
+    padding: toREM(7) toREM(5);
+    font-size: toREM(20);
+
+    &:focus {
+      outline: 1px solid var(--primary-color);
+    }
+  }
+}

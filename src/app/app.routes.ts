@@ -12,6 +12,8 @@ import { MovieListResolver } from './guards/movie-list.resolver';
 import { NowPlayingMoviesResolver } from './guards/now-playing.resolver';
 import { TopRatedMoviesResolver } from './guards/top-rated.resolver';
 import { UpcomingMoviesResolver } from './guards/upcoming.resolver';
+import { MovieGuard } from './guards/movie.guard';
+import { SearchMoviePageComponent } from './pages/search-movie-page/search-movie-page.component';
 
 export const routes: Routes = [
   {
@@ -53,6 +55,14 @@ export const routes: Routes = [
   {
     path: 'favorite',
     component: FavoriteMoviesPageComponent,
+    canActivate: [MovieGuard],
   },
-  { path: 'watch-later', component: WatchLaterPageComponent },
+  {
+    path: 'watch-later',
+    component: WatchLaterPageComponent,
+    canActivate: [MovieGuard],
+  },
+  {path: 'search',
+    component: SearchMoviePageComponent
+  }
 ];

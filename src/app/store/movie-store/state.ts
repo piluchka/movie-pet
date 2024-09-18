@@ -1,5 +1,5 @@
-import { MovieDetails } from '../models/movie-details.model';
-import { Movie } from '../models/movie.model';
+import { MovieDetails } from '../../models/movie-details.model';
+import { Movie } from '../../models/movie.model';
 
 export interface MovieState {
   allMoviesList: Movie[] | null;
@@ -12,6 +12,8 @@ export interface MovieState {
   watchLaterMoviesList: Movie[] | null;
 
   selectedMovie: MovieDetails | null;
+
+  searchingMovies: Movie[] | null;
 }
 
 export const initialState: MovieState = {
@@ -25,4 +27,7 @@ export const initialState: MovieState = {
   watchLaterMoviesList: null,
 
   selectedMovie: null,
+  
+
+  searchingMovies: null,
 };

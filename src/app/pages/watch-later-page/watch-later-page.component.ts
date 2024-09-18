@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
-import { MovieService } from '../../services/movie/movie.service';
 import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { loadWatchLaterMovies } from '../../store/actions';
-import { selectWatchLaterMovies } from '../../store/selectors';
+import { loadWatchLaterMovies } from '../../store/movie-store/actions';
+import { selectWatchLaterMovies } from '../../store/movie-store/selectors';
 
 @Component({
   selector: 'app-watch-later-page',

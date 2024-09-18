@@ -7,8 +7,8 @@ import { FormatingTimePipe } from '../../pipes/formatingTime/formating-time.pipe
 import { Subscription } from 'rxjs';
 import { MovieDetails } from '../../models/movie-details.model';
 import { Store } from '@ngrx/store';
-import { loadMovieById } from '../../store/actions';
-import { selectMovieById } from '../../store/selectors';
+import { loadMovieById } from '../../store/movie-store/actions';
+import { selectMovieById } from '../../store/movie-store/selectors';
 
 @Component({
   selector: 'app-movie-details-page',

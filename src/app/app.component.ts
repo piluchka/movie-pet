@@ -14,7 +14,8 @@ import { AuthService } from './services/auth/auth.service';
 import { MovieService } from './services/movie/movie.service';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { loadPopularMovies } from './store/actions';
+import { AuthPopupComponent } from './components/auth-popup/auth-popup.component';
+import { SearchHeaderComponent } from './components/search-header/search-header.component';
 
 @Component({
   selector: 'app-root',
@@ -31,33 +32,12 @@ import { loadPopularMovies } from './store/actions';
     RouterLink,
     RouterLinkActive,
     MovieListPageComponent,
+    AuthPopupComponent,
+    SearchHeaderComponent
   ],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent {
   public title = 'P-Theatre';
-  private subscription: Subscription = new Subscription();
 
-  constructor(
-    private authService: AuthService,
-    private movieService: MovieService,
-    private store: Store
-  ) {}
-
-  ngOnInit(): void {
-    this.subscription = this.authService
-      .authenticateAndGetAccountId()
-      .subscribe(
-        (authData) => {
-          this.movieService.setAccountId(authData.accountId);
-          this.movieService.setSessionId(authData.sessionId);
-        },
-        (error) => {
-          console.error('Authentication failed:', error);
-        }
-      );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+  constructor() {}
 }

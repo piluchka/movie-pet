@@ -2,12 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { MovieHeaderComponent } from '../../components/movie-header/movie-header.component';
-import { MovieService } from '../../services/movie/movie.service';
 import { Movie } from '../../models/movie.model';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { loadUpcomingMovies } from '../../store/actions';
-import { selectUpcomingMovies } from '../../store/selectors';
+import { loadUpcomingMovies } from '../../store/movie-store/actions';
+import { selectUpcomingMovies } from '../../store/movie-store/selectors';
 @Component({
   selector: 'app-movie-upcoming-page',
   standalone: true,

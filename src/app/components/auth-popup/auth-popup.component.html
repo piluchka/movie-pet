@@ -1,0 +1,62 @@
+<p-dialog
+  header="Log in"
+  [(visible)]="visible"
+  [styleClass]="'auth-modal'"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="false"
+  [blockScroll]="true"
+  [modal]="true"
+  [breakpoints]="{ '575px': '90vw' }"
+>
+  <p class="auth-modal__subtitle">Please, log in to continue</p>
+  <form [formGroup]="authForm" class="auth-modal__form form-modal">
+    <div class="form-modal__body">
+      <div class="form-modal__box">
+        <label for="username" class="form-modal__label">Username*</label>
+        <input
+          placeholder="your username"
+          formControlName="userName"
+          pInputText
+          id="username"
+          class="form-modal__input"
+          [ngClass]="{ invalid: !isUserNameValid }"
+        />
+        @if(!isUserNameValid){
+        <div class="form-error">{{ errorMessages.INVALID_USERNAME }}</div>
+        }
+      </div>
+      <div class="form-modal__box">
+        <label for="password" class="form-modal__label">Password*</label>
+        <input
+          placeholder="your password"
+          formControlName="password"
+          pInputText
+          id="password"
+          class="form-modal__input"
+          type="password"
+          [ngClass]="{ invalid: !isPasswordValid }"
+        />
+        @if(!isPasswordValid){
+        <div class="form-error">
+          {{ errorMessages.INVALID_PASSWORD_LENGTH }}
+        </div>
+        } @if(!isUserNameAndPasswordValid){
+        <div class="form-error">
+          {{ errorMessages.INVALID_PASSWORD_OR_USERNAME }}
+        </div>
+        }
+      </div>
+    </div>
+  </form>
+  <div class="form-modal__buttons">
+    <p-button label="Log in" (onClick)="onSubmit()" size="large" />
+    <p-button
+      size="large"
+      [styleClass]="'form-modal__button'"
+      label="Cancel"
+      severity="secondary"
+      (onClick)="closeDialog()"
+    />
+  </div>
+</p-dialog>

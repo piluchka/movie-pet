@@ -2,6 +2,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialState } from './state';
 import {
+  deleteMovieFromFavoriteMoviesFailure,
   loadAllMoviesFailure,
   loadAllMoviesSuccess,
   loadFavoriteMoviesFailure,
@@ -18,6 +19,8 @@ import {
   loadUpcomingMoviesSuccess,
   loadWatchLaterMoviesFailure,
   loadWatchLaterMoviesSuccess,
+  setMovieToFavoriteMoviesFailure,
+  setMovieToWatchLaterMoviesFailure,
 } from './actions';
 
 export const MovieReducer = createReducer(
@@ -144,6 +147,22 @@ export const MovieReducer = createReducer(
     };
   }),
 
+  // Set - Failure
+  on(setMovieToFavoriteMoviesFailure, (state, { error }) => {
+    return {
+      ...state,
+      error: error,
+    };
+  }),
+
+  // Delete - Failure
+  on(deleteMovieFromFavoriteMoviesFailure, (state, { error }) => {
+    return {
+      ...state,
+      error: error,
+    };
+  }),
+
   // Listening to Watch Later movies actions
   // Success
   on(loadWatchLaterMoviesSuccess, (state, { watchLaterMoviesList }) => {
@@ -155,6 +174,14 @@ export const MovieReducer = createReducer(
 
   // Failure
   on(loadWatchLaterMoviesFailure, (state, { error }) => {
+    return {
+      ...state,
+      error: error,
+    };
+  }),
+
+  // Set - Failure
+  on(setMovieToWatchLaterMoviesFailure, (state, { error }) => {
     return {
       ...state,
       error: error,

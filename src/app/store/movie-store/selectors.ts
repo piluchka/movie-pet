@@ -1,5 +1,6 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { MovieState } from './state';
+import { Movie } from '../../models/movie.model';
 
 export const selectState = createFeatureSelector<MovieState>('movie');
 
@@ -19,6 +20,7 @@ export const selectNowPlayingMovies = createSelector(
 export const selectTopRatedMovies = createSelector(
   selectState,
   (state) => state.topRatedMoviesList
+  
 );
 
 // Upcoming movies
@@ -45,8 +47,30 @@ export const selectFavoriteMovies = createSelector(
   (state) => state.favoriteMoviesList
 );
 
+export const isInFavoriteList = (movie: Movie) =>
+  createSelector(selectState, (state) => {
+    let result = false;
+    if (state.favoriteMoviesList) {
+      result = state.favoriteMoviesList.some(
+        (favoriteMovie) => favoriteMovie.id === movie.id
+      );
+    }
+    return result;
+  });
+
 // Watch Later movies
 export const selectWatchLaterMovies = createSelector(
   selectState,
   (state) => state.watchLaterMoviesList
 );
+
+export const isInWatchLaterList = (movie: Movie) =>
+  createSelector(selectState, (state) => {
+    let result = false;
+    if (state.watchLaterMoviesList) {
+      result = state.watchLaterMoviesList.some(
+        (watchLaterMovie) => watchLaterMovie.id === movie.id
+      );
+    }
+    return result;
+  });

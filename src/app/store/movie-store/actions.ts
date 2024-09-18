@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { Movie } from '../models/movie.model';
-import { MovieDetails } from '../models/movie-details.model';
+import { Movie } from '../../models/movie.model';
+import { MovieDetails } from '../../models/movie-details.model';
 
 // Popular movies - Actions block
 export const loadPopularMovies = createAction('[Movie] Load Popular Movies');
@@ -80,6 +80,7 @@ export const loadMovieByIdFailure = createAction(
 );
 
 // Favorite movies - Action block
+// Load
 export const loadFavoriteMovies = createAction('[Movie] Load Favorite Movies');
 
 export const loadFavoriteMoviesSuccess = createAction(
@@ -88,6 +89,34 @@ export const loadFavoriteMoviesSuccess = createAction(
 );
 export const loadFavoriteMoviesFailure = createAction(
   '[Movie] Load Favorite Movies Failure',
+  props<{ error: any }>()
+);
+
+// Set
+export const setMovieToFavoriteMovies = createAction(
+  '[Movie] Set Movie to Favorite Movies',
+  props<{ id: number }>()
+);
+
+export const setMovieToFavoriteMoviesSuccess = createAction(
+  '[Movie] Set Movie to Favorite Movies Success'
+);
+export const setMovieToFavoriteMoviesFailure = createAction(
+  '[Movie] Set Movie to Favorite Movies Failure',
+  props<{ error: any }>()
+);
+
+// Delete
+export const deleteMovieFromFavoriteMovies = createAction(
+  '[Movie] Delete Movie from Favorite Movies',
+  props<{ id: number; path: string | undefined }>()
+);
+
+export const deleteMovieFromFavoriteMoviesSuccess = createAction(
+  '[Movie] Delete Movie from Favorite Movies Success'
+);
+export const deleteMovieFromFavoriteMoviesFailure = createAction(
+  '[Movie] Delete Movie from Favorite Movies Failure',
   props<{ error: any }>()
 );
 
@@ -102,5 +131,48 @@ export const loadWatchLaterMoviesSuccess = createAction(
 );
 export const loadWatchLaterMoviesFailure = createAction(
   '[Movie] Load Watch Later Movies Failure',
+  props<{ error: any }>()
+);
+
+// Set
+export const setMovieToWatchLaterMovies = createAction(
+  '[Movie] Set Movie to Watch Later Movies',
+  props<{ id: number }>()
+);
+
+export const setMovieToWatchLaterMoviesSuccess = createAction(
+  '[Movie] Set Movie to Watch Later Success'
+);
+export const setMovieToWatchLaterMoviesFailure = createAction(
+  '[Movie] Set Movie to Watch Later Failure',
+  props<{ error: any }>()
+);
+
+// Delete
+export const deleteMovieFromWatchLaterMovies = createAction(
+  '[Movie] Delete Movie from Watch Later Movies',
+  props<{ id: number; path: string | undefined }>()
+);
+
+export const deleteMovieFromWatchLaterMoviesSuccess = createAction(
+  '[Movie] Delete Movie from Watch Later Movies Success'
+);
+export const deleteMovieFromWatchLaterMoviesFailure = createAction(
+  '[Movie] Delete Movie from Watch Later Movies Failure',
+  props<{ error: any }>()
+);
+
+// Load Searching Movies - Action block
+export const loadSearchingMovies = createAction(
+  '[Movie] Load Searching Movies',
+  props<{ searchValue: string }>()
+);
+
+export const loadSearchingMoviesSuccess = createAction(
+  '[Movie] Load Searching Movies Success',
+  props<{ searchingMovies: Movie[] }>()
+);
+export const loadSearchingMoviesFailure = createAction(
+  '[Movie] Load Searching Movies Failure',
   props<{ error: any }>()
 );

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { loadNowPlayingMovies } from '../store/actions';
+import { loadNowPlayingMovies } from '../store/movie-store/actions';
 import { Resolve } from '@angular/router';
 
 @Injectable({
