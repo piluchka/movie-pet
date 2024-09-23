@@ -33,6 +33,8 @@ import {
   loadPopularMoviesFailure,
   loadPopularMoviesSuccess,
   loadSearchingMovies,
+  loadSearchingMoviesFailure,
+  loadSearchingMoviesSuccess,
   loadTopRatedMovies,
   loadTopRatedMoviesFailure,
   loadTopRatedMoviesSuccess,
@@ -156,7 +158,7 @@ export class MovieEffects {
   // For loading All Movies
   loadAllMovies$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(loadAllMovies), 
+      ofType(loadAllMovies),
       switchMap(() => {
         this.movieStore.dispatch(loadNowPlayingMovies());
         this.movieStore.dispatch(loadPopularMovies());
@@ -428,9 +430,21 @@ export class MovieEffects {
   });
 
   // For loading Searching Movies
-  loadSearchingMovies$ = createEffect(() => {
-    return this.actions$.pipe(ofType(loadSearchingMovies));
-  });
+  loadSearchingMovies$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadSearchingMovies),
+      switchMap((props) => {
+        return this.movieService.getMoviesBySearchValue(props.searchValue).pipe(
+          map((movies) =>
+            loadSearchingMoviesSuccess({ searchingMovies: movies })
+          ),
+          catchError((error) =>
+            of(loadSearchingMoviesFailure({ error: error }))
+          )
+        );
+      })
+    )
+  );
 
   constructor(
     private actions$: Actions,

@@ -30,16 +30,10 @@ export class SearchHeaderComponent {
   constructor(private movieService: MovieService, private router: Router) {}
 
   onSubmit(form: any) {
-    //   console.log(form);
-    //   const searchValue = form.controls['search'].value;
-    //   this.movieService
-    //     .getMoviesBySearchValue(searchValue)
-    //     .subscribe((value) => console.log(value));
+    console.log(form);
   }
 
   input(event: any) {
-    console.log(event);
-
     const searchValue = event.query;
 
     this.movieService.getMoviesBySearchValue(searchValue).subscribe((value) => {
@@ -48,10 +42,6 @@ export class SearchHeaderComponent {
     });
   }
   onSelect(event: any) {
-    console.log(event);
-
     this.router.navigate(['/movie', event.value.id]);
   }
-
-
 }

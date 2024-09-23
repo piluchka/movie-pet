@@ -73,3 +73,9 @@ export const isInWatchLaterList = (movie: Movie) =>
     }
     return result;
   });
+
+// Searching movies
+export const selectSearchingMovies = createSelector(
+  selectState,
+  (state) => state.searchingMovies
+);

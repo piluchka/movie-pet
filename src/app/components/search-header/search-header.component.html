@@ -1,9 +1,5 @@
 <header class="search">
-  <form
-    #searchForm="ngForm"
-    class="search__body"
-    (ngSubmit)="onSubmit(searchForm)"
-  >
+  <form #searchForm="ngForm" class="search__body" (ngSubmit)="onSubmit($event)">
     <label class="search__label" for="search">Search a movie </label>
     <p-autoComplete
       [(ngModel)]="selectedItem"
@@ -20,5 +16,6 @@
         </div>
       </ng-template>
     </p-autoComplete>
+    <p-button label="Submit" type="Submit" />
   </form>
 </header>

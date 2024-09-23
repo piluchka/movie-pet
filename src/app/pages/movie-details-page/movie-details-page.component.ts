@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { loadMovieById } from '../../store/movie-store/actions';
 import { selectMovieById } from '../../store/movie-store/selectors';
 
+// ! чек подписки
 @Component({
   selector: 'app-movie-details-page',
   standalone: true,
@@ -37,7 +38,6 @@ export class MovieDetailsPageComponent implements OnInit, OnDestroy {
       .subscribe((movie) => {
         if (movie) {
           this.movieData = movie;
-          console.log(this.movieData);
         }
       });
   }
