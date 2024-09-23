@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { loadSearchingMovies } from '../../store/movie-store/actions';
 import { selectSearchingMovies } from '../../store/movie-store/selectors';
 
+// ! отписка от подписки
 @Component({
   selector: 'app-search-header',
   standalone: true,
@@ -32,7 +33,9 @@ export class SearchHeaderComponent {
   constructor(private store: Store, private router: Router) {}
 
   onSubmit(form: any) {
-    console.log(form);
+    const searchValue = form.form.value['search'];
+    this.store.dispatch(loadSearchingMovies({ searchValue: searchValue }));
+    this.router.navigate(['search']);
   }
 
   input(event: any) {
