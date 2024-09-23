@@ -18,17 +18,21 @@ import { selectMovieById } from '../../store/movie-store/selectors';
   imports: [CommonModule, MovieCardComponent, MathRoundPipe, FormatingTimePipe],
 })
 export class MovieDetailsPageComponent implements OnInit, OnDestroy {
-  public movieData: MovieDetails | null = null;
-  public STATIC_IMAGE_PATH: string = 'https://image.tmdb.org/t/p/w500/';
-  private subscribtion: Subscription = new Subscription();
+  private movieSubscribtion: Subscription = new Subscription();
+  private routeSubscribtion: Subscription = new Subscription();
+  movieData: MovieDetails | null = null;
+  STATIC_IMAGE_PATH: string = 'https://image.tmdb.org/t/p/w500/';
+  incomingMovieId: number = 0;
 
-  constructor(private router: ActivatedRoute, private store: Store) {}
+  constructor(private route: ActivatedRoute, private store: Store) {}
 
   ngOnInit(): void {
-    const incomingMovieId = Number(this.router.snapshot.params['id']);
-    this.store.dispatch(loadMovieById({ id: incomingMovieId }));
+    this.routeSubscribtion = this.route.params.subscribe((data) => {
+      this.incomingMovieId = Number(data['id']);
+      this.store.dispatch(loadMovieById({ id: this.incomingMovieId }));
+    });
 
-    this.subscribtion = this.store
+    this.movieSubscribtion = this.store
       .select(selectMovieById)
       .subscribe((movie) => {
         if (movie) {
@@ -39,8 +43,11 @@ export class MovieDetailsPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscribtion) {
-      this.subscribtion.unsubscribe();
+    if (this.movieSubscribtion) {
+      this.movieSubscribtion.unsubscribe();
+    }
+    if (this.routeSubscribtion) {
+      this.routeSubscribtion.unsubscribe();
     }
   }
 }
