@@ -2,11 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { MovieService } from '../../services/movie/movie.service';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Movie } from '../../models/movie.model';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { loadSearchingMovies } from '../../store/movie-store/actions';
+import { selectSearchingMovies } from '../../store/movie-store/selectors';
 
 @Component({
   selector: 'app-search-header',
@@ -25,9 +27,9 @@ import { Router } from '@angular/router';
 export class SearchHeaderComponent {
   movieName: string = '';
   selectedItem: string = '';
-  movies: Movie[] = [];
+  movies: Movie[] | null = [];
 
-  constructor(private movieService: MovieService, private router: Router) {}
+  constructor(private store: Store, private router: Router) {}
 
   onSubmit(form: any) {
     console.log(form);
@@ -35,13 +37,13 @@ export class SearchHeaderComponent {
 
   input(event: any) {
     const searchValue = event.query;
-
-    this.movieService.getMoviesBySearchValue(searchValue).subscribe((value) => {
-      console.log(value);
-      this.movies = value;
+    this.store.dispatch(loadSearchingMovies({ searchValue: searchValue }));
+    this.store.select(selectSearchingMovies).subscribe((movies) => {
+      this.movies = movies;
     });
   }
   onSelect(event: any) {
+    this.selectedItem = '';
     this.router.navigate(['/movie', event.value.id]);
   }
 }
