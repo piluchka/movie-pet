@@ -17,7 +17,9 @@
     >
       <ng-template let-movie pTemplate="item">
         <div>
-          <p>{{ movie.title }}</p>
+          <p>
+            {{ movie.title }} ({{ movie.release_date | reduceReleaseDate }})
+          </p>
         </div>
       </ng-template>
     </p-autoComplete>

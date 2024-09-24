@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { loadSearchingMovies } from '../../store/movie-store/actions';
 import { selectSearchingMovies } from '../../store/movie-store/selectors';
 import { Subscription, take } from 'rxjs';
+import { ReduceReleaseDatePipe } from '../../pipes/reduceReleaseDate/reduce-release-date.pipe';
 
 @Component({
   selector: 'app-search-header',
@@ -21,6 +22,7 @@ import { Subscription, take } from 'rxjs';
     AutoCompleteModule,
     RouterLink,
     RouterLinkActive,
+    ReduceReleaseDatePipe,
   ],
   templateUrl: './search-header.component.html',
   styleUrl: './search-header.component.scss',
