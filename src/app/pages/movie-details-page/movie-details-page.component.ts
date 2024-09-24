@@ -4,7 +4,7 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
 import { ActivatedRoute, Route } from '@angular/router';
 import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
 import { FormatingTimePipe } from '../../pipes/formatingTime/formating-time.pipe';
-import { Subscription } from 'rxjs';
+import { skip, Subscription } from 'rxjs';
 import { MovieDetails } from '../../models/movie-details.model';
 import { Store } from '@ngrx/store';
 import { loadMovieById } from '../../store/movie-store/actions';
@@ -34,6 +34,7 @@ export class MovieDetailsPageComponent implements OnInit, OnDestroy {
 
     this.movieSubscribtion = this.store
       .select(selectMovieById)
+      .pipe(skip(1))
       .subscribe((movie) => {
         if (movie) {
           this.movieData = movie;
