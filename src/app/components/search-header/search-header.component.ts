@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { loadSearchingMovies } from '../../store/movie-store/actions';
 import { selectSearchingMovies } from '../../store/movie-store/selectors';
+import { Subscription, take } from 'rxjs';
 
-// ! отписка от подписки
 @Component({
   selector: 'app-search-header',
   standalone: true,
@@ -28,12 +28,14 @@ import { selectSearchingMovies } from '../../store/movie-store/selectors';
 export class SearchHeaderComponent {
   movieName: string = '';
   selectedItem: string = '';
-  movies: Movie[] | null = [];
+  movies: Movie[] = [];
+  subscription: Subscription = new Subscription();
 
   constructor(private store: Store, private router: Router) {}
 
   onSubmit(form: any) {
     const searchValue = form.form.value['search'];
+    this.selectedItem = '';
     this.store.dispatch(loadSearchingMovies({ searchValue: searchValue }));
     this.router.navigate(['search']);
   }
@@ -41,9 +43,12 @@ export class SearchHeaderComponent {
   input(event: any) {
     const searchValue = event.query;
     this.store.dispatch(loadSearchingMovies({ searchValue: searchValue }));
-    this.store.select(selectSearchingMovies).subscribe((movies) => {
-      this.movies = movies;
-    });
+    this.store
+      .select(selectSearchingMovies)
+      .pipe(take(1))
+      .subscribe((movies) => {
+        this.movies = movies;
+      });
   }
   onSelect(event: any) {
     this.selectedItem = '';
