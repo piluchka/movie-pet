@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { loadSearchingMovies } from '../../store/movie-store/actions';
 import { selectSearchingMovies } from '../../store/movie-store/selectors';
-import { Subscription, take } from 'rxjs';
+import { skip, Subscription, take } from 'rxjs';
 import { ReduceReleaseDatePipe } from '../../pipes/reduceReleaseDate/reduce-release-date.pipe';
 
 @Component({
@@ -47,7 +47,7 @@ export class SearchHeaderComponent {
     this.store.dispatch(loadSearchingMovies({ searchValue: searchValue }));
     this.store
       .select(selectSearchingMovies)
-      .pipe(take(1))
+      .pipe(skip(1))
       .subscribe((movies) => {
         this.movies = movies;
       });
