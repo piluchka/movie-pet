@@ -3,7 +3,11 @@
   <ng-template pTemplate="header">
     <img
       class="movie-card__img"
-      [src]="STATIC_IMAGE_PATH + movie.poster_path"
+      [src]="
+        movie.poster_path
+          ? STATIC_IMAGE_PATH + movie.poster_path
+          : 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'
+      "
       alt="Card"
       alt="movie"
     />

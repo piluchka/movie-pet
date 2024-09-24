@@ -2,7 +2,11 @@
 <div class="detail-page">
   <img
     class="detail-page__img"
-    [src]="STATIC_IMAGE_PATH + movieData.poster_path"
+    [src]="
+      movieData.poster_path
+        ? STATIC_IMAGE_PATH + movieData.poster_path
+        : 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'
+    "
     [alt]="movieData.title"
   />
   <div class="detail-page__content">
