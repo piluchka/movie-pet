@@ -94,4 +94,17 @@
     max-width: toREM(600);
     margin-right: toREM(20);
   }
+
+  &.error {
+    animation: form-error 2s linear;
+  }
+}
+
+@keyframes form-error {
+  0% {
+    outline: 1px solid red;
+  }
+  100% {
+    outline: 1px solid #4b4b4b;
+  }
 }

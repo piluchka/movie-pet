@@ -32,17 +32,25 @@ export class SearchHeaderComponent {
   selectedItem: string = '';
   movies: Movie[] = [];
   subscription: Subscription = new Subscription();
+  isThereAValueInSearch: boolean = true;
 
   constructor(private store: Store, private router: Router) {}
 
   onSubmit(form: any) {
     const searchValue = form.form.value['search'];
-    this.selectedItem = '';
-    this.store.dispatch(loadSearchingMovies({ searchValue: searchValue }));
-    this.router.navigate(['search']);
+
+    if (searchValue.length < 1) {
+      this.isThereAValueInSearch = false;
+      setTimeout(() => (this.isThereAValueInSearch = true), 2100);
+    } else {
+      this.isThereAValueInSearch = true;
+      this.selectedItem = '';
+      this.store.dispatch(loadSearchingMovies({ searchValue: searchValue }));
+      this.router.navigate(['search']);
+    }
   }
 
-  input(event: any) {
+  onInput(event: any) {
     const searchValue = event.query;
     this.store.dispatch(loadSearchingMovies({ searchValue: searchValue }));
     this.store

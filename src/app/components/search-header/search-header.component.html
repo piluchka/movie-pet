@@ -7,11 +7,14 @@
     <label class="search__label" for="search">Search a movie </label>
 
     <p-autoComplete
+      [ngClass]="{ error: !isThereAValueInSearch }"
+      placeholder="Enter something"
       class="searching"
       [(ngModel)]="selectedItem"
       [suggestions]="movies"
-      (completeMethod)="input($event)"
+      (completeMethod)="onInput($event)"
       name="search"
+      [minLength]="1"
       id="search"
       [field]="'title'"
       (onSelect)="onSelect($event)"
