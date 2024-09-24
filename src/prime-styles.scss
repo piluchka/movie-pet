@@ -82,3 +82,16 @@
     gap: toREM(15);
   }
 }
+
+// Searching
+.searching {
+  input {
+    font-size: toREM(16);
+    padding: toREM(7);
+  }
+
+  .p-autocomplete-panel {
+    max-width: toREM(600);
+    margin-right: toREM(20);
+  }
+}

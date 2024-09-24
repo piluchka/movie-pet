@@ -7,6 +7,7 @@
     <label class="search__label" for="search">Search a movie </label>
 
     <p-autoComplete
+      class="searching"
       [(ngModel)]="selectedItem"
       [suggestions]="movies"
       (completeMethod)="input($event)"
@@ -16,14 +17,14 @@
       (onSelect)="onSelect($event)"
     >
       <ng-template let-movie pTemplate="item">
-        <div>
-          <p>
+        <div class="result">
+          <p class="result__text">
             {{ movie.title }} ({{ movie.release_date | reduceReleaseDate }})
           </p>
         </div>
       </ng-template>
     </p-autoComplete>
 
-    <p-button label="Submit" type="Submit" />
+    <p-button label="Search" type="Submit" />
   </form>
 </header>

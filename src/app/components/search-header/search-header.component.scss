@@ -6,10 +6,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    row-gap: toREM(10);
   }
   &__label {
     color: var(--text-color);
     font-size: toREM(36);
+    margin-right: toREM(20);
   }
   &__input {
     padding: toREM(7) toREM(5);
