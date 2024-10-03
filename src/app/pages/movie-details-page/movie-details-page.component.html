@@ -18,6 +18,14 @@
       <p><span>Release:</span> {{ movieData.release_date }}</p>
       <p><span>Rating:</span> {{ movieData.vote_average | mathRound }}</p>
       <p><span>Age:</span> @if (movieData.adult) { 18+}@else{ 0+}</p>
+      @if (movieData.genres.length > 0) {
+      <p>
+        <span>Genres:</span>
+        <ng-container *ngFor="let genre of movieData.genres; let i = index">
+          {{ genre.name }}<span *ngIf="i < movieData.genres.length - 1">,</span>
+        </ng-container>
+      </p>
+      }
       <p><span>Original language:</span> {{ movieData.original_language }}</p>
       <p><span>Duration:</span> {{ movieData.runtime | formatingTime }}</p>
     </div>

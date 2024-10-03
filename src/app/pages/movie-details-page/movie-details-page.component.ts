@@ -8,7 +8,10 @@ import { skip, Subscription, takeUntil } from 'rxjs';
 import { MovieDetails } from '../../models/movie-details.model';
 import { Store } from '@ngrx/store';
 import { loadMovieById } from '../../store/movie-store/actions';
-import { selectMovieById } from '../../store/movie-store/selectors';
+import {
+  selectMovieById,
+  selectMovieGenres,
+} from '../../store/movie-store/selectors';
 import { ClearObservable } from '../../directives/clear-observable.directive';
 
 @Component({
@@ -44,5 +47,9 @@ export class MovieDetailsPageComponent
           this.movieData = movie;
         }
       });
+
+    setTimeout(() => {
+      console.log(this.movieData);
+    }, 2000);
   }
 }
