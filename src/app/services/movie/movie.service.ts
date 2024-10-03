@@ -203,7 +203,7 @@ export class MovieService {
   getMovieGenres(): Observable<MovieGenre[]> {
     return this.http
       .get<MovieGenreList>(
-        `${environment.apiBaseUrl}/genre/movie`,
+        `${environment.apiBaseUrl}/genre/movie/list`,
         this.getParams()
       )
       .pipe(map((data) => data.genres));

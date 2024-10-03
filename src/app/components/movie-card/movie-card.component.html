@@ -42,6 +42,14 @@
       <span class="movie-card__underline-text">Release:</span>
       {{ movie.release_date }}
     </p>
+    @if (this.movieGenres.length > 0 && this.movieGenres) {
+    <p class="movie-card__genre">
+      <span class="movie-card__underline-text">Genres:</span>
+      <ng-container *ngFor="let genre of movieGenres; let i = index">
+        {{ genre }}<span *ngIf="i < movieGenres.length - 1">,</span>
+      </ng-container>
+    </p>
+    }
     <p class="movie-card__rating">
       <span class="movie-card__underline-text">Rating:</span>
       {{ movie.vote_average | mathRound }}

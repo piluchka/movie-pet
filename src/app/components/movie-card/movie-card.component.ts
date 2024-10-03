@@ -7,7 +7,7 @@ import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
 import { ReduceStringPipe } from '../../pipes/reduceString/reduce-string.pipe';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Movie } from '../../models/movie.model';
-import { of, switchMap, takeUntil } from 'rxjs';
+import { filter, map, of, switchMap, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   deleteMovieFromFavoriteMovies,
@@ -18,10 +18,12 @@ import {
 import {
   isInFavoriteList,
   isInWatchLaterList,
+  selectMovieGenres,
 } from '../../store/movie-store/selectors';
 import { ClearObservable } from '../../directives/clear-observable.directive';
 import { selectAccountId } from '../../store/auth-store/selectors';
 import { showAuthPopup } from '../../store/auth-store/actions';
+import { MovieGenre } from '../../models/movie-genres.model';
 
 @Component({
   selector: 'app-movie-card',
@@ -47,6 +49,8 @@ export class MovieCardComponent
 
   public isInFavoriteList: boolean = false;
   public isInWatchList: boolean = false;
+
+  public movieGenres: string[] = [];
 
   @Input() movie: Movie | null = null;
   @Input() isShortDescriptionNeeded: boolean = true;
@@ -76,9 +80,27 @@ export class MovieCardComponent
         .subscribe(
           (isInWatchLaterList) => (this.isInWatchList = isInWatchLaterList)
         );
+
+      this.store
+        .select(selectMovieGenres)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((value) => {
+          this.filterMovieGenres(value, this.movie?.genre_ids);
+          console.log(this.movieGenres);
+        });
     }
   }
 
+  filterMovieGenres(
+    allGenres: MovieGenre[] | null,
+    currentGenres: number[] | undefined
+  ): void {
+    if (allGenres && currentGenres) {
+      this.movieGenres = allGenres
+        .filter((genre) => currentGenres.includes(genre.id))
+        .map((genre) => genre.name);
+    }
+  }
   // Funcs for favorites
   setToFavoriteMovieList() {
     this.authStore
