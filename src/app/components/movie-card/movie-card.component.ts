@@ -86,7 +86,6 @@ export class MovieCardComponent
         .pipe(takeUntil(this.destroy$))
         .subscribe((value) => {
           this.filterMovieGenres(value, this.movie?.genre_ids);
-          console.log(this.movieGenres);
         });
     }
   }

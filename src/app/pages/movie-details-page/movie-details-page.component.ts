@@ -47,9 +47,5 @@ export class MovieDetailsPageComponent
           this.movieData = movie;
         }
       });
-
-    setTimeout(() => {
-      console.log(this.movieData);
-    }, 2000);
   }
 }
