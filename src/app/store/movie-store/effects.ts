@@ -26,6 +26,9 @@ import {
   loadMovieById,
   loadMovieByIdFailure,
   loadMovieByIdSuccess,
+  loadMovieGenres,
+  loadMovieGenresFailure,
+  loadMovieGenresSuccess,
   loadNowPlayingMovies,
   loadNowPlayingMoviesFailure,
   loadNowPlayingMoviesSuccess,
@@ -441,6 +444,18 @@ export class MovieEffects {
           catchError((error) =>
             of(loadSearchingMoviesFailure({ error: error }))
           )
+        );
+      })
+    )
+  );
+
+  loadMovieGenres$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadMovieGenres),
+      switchMap(() => {
+        return this.movieService.getMovieGenres().pipe(
+          map((genres) => loadMovieGenresSuccess({ movieGenres: genres })),
+          catchError((error) => of(loadMovieGenresFailure({ error: error })))
         );
       })
     )

@@ -79,3 +79,9 @@ export const selectSearchingMovies = createSelector(
   selectState,
   (state) => state.searchingMovies
 );
+
+// Genres
+export const selectMovieGenres = createSelector(
+  selectState,
+  (state) => state.movieGenres
+);

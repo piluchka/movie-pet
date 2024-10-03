@@ -5,6 +5,7 @@ import { Movie, MovieList } from '../../models/movie.model';
 import { environment } from '../../../environments/environment';
 import { MovieDetails } from '../../models/movie-details.model';
 import { Store } from '@ngrx/store';
+import { MovieGenre, MovieGenreList } from '../../models/movie-genres.model';
 
 @Injectable({
   providedIn: 'root',
@@ -180,7 +181,7 @@ export class MovieService {
     );
   }
 
-  // Func for get movie by id for details page
+  // Func to get movie by id for details page
   getMovieById(id: number): Observable<MovieDetails> {
     return this.http.get<MovieDetails>(
       `${environment.apiBaseUrl}/movie/${id}`,
@@ -196,5 +197,15 @@ export class MovieService {
         this.getParams(undefined, value)
       )
       .pipe(map((movies) => movies.results));
+  }
+
+  // Func to get movie genres
+  getMovieGenres(): Observable<MovieGenre[]> {
+    return this.http
+      .get<MovieGenreList>(
+        `${environment.apiBaseUrl}/genre/movie`,
+        this.getParams()
+      )
+      .pipe(map((data) => data.genres));
   }
 }

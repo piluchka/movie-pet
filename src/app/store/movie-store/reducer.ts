@@ -9,6 +9,8 @@ import {
   loadFavoriteMoviesSuccess,
   loadMovieByIdFailure,
   loadMovieByIdSuccess,
+  loadMovieGenresFailure,
+  loadMovieGenresSuccess,
   loadNowPlayingMoviesFailure,
   loadNowPlayingMoviesSuccess,
   loadPopularMoviesFailure,
@@ -201,6 +203,23 @@ export const MovieReducer = createReducer(
 
   //Failure
   on(loadSearchingMoviesFailure, (state, { error }) => {
+    return {
+      ...state,
+      error: error,
+    };
+  }),
+
+  // Listening to Genres actions
+  // Success
+  on(loadMovieGenresSuccess, (state, { movieGenres }) => {
+    return {
+      ...state,
+      movieGenres: movieGenres,
+    };
+  }),
+
+  // Failure
+  on(loadMovieGenresFailure, (state, { error }) => {
     return {
       ...state,
       error: error,

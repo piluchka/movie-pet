@@ -1,4 +1,5 @@
 import { MovieDetails } from '../../models/movie-details.model';
+import { MovieGenre } from '../../models/movie-genres.model';
 import { Movie } from '../../models/movie.model';
 
 export interface MovieState {
@@ -7,6 +8,8 @@ export interface MovieState {
   nowPlayingMoviesList: Movie[] | null;
   topRatedMoviesList: Movie[] | null;
   upcomingMoviesList: Movie[] | null;
+
+  movieGenres: MovieGenre[] | null;
 
   favoriteMoviesList: Movie[] | null;
   watchLaterMoviesList: Movie[] | null;
@@ -22,6 +25,8 @@ export const initialState: MovieState = {
   nowPlayingMoviesList: null,
   topRatedMoviesList: null,
   upcomingMoviesList: null,
+
+  movieGenres: null,
 
   favoriteMoviesList: null,
   watchLaterMoviesList: null,
