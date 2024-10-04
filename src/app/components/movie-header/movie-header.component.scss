@@ -18,6 +18,7 @@
     max-width: toREM(1350);
     padding: toREM(0) toREM(15);
     margin: 0 auto;
+    align-items: center;
 
     @media (max-width: toEM(425.98)) {
       flex-direction: column;

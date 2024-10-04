@@ -111,3 +111,10 @@
     outline: 1px solid #4b4b4b;
   }
 }
+
+.header {
+  p-sidebar {
+    position: relative;
+    z-index: 500;
+  }
+}

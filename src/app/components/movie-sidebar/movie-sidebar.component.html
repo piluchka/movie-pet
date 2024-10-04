@@ -1,4 +1,4 @@
-<p-sidebar [(visible)]="sidebarVisible">
+<p-sidebar [(visible)]="sidebarVisible" blockScroll="true" autoZIndex="false">
   <nav class="sidebar">
     <ul class="sidebar__list">
       <li class="sidebar__item">
@@ -19,4 +19,4 @@
     </ul>
   </nav>
 </p-sidebar>
-<p-button (click)="sidebarVisible = true" icon="pi pi-arrow-right" />
+<p-button (click)="sidebarVisible = true" icon="pi pi-arrow-left" />
