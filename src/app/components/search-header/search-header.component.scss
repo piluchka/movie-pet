@@ -3,6 +3,7 @@
 .search {
   padding: toREM(15) toREM(0);
   position: relative;
+  padding-top: toREM(100);
   &__body {
     display: flex;
     align-items: center;

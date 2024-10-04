@@ -2,13 +2,30 @@
 @import "../../../assets/styles/_functions.scss";
 
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: toREM(20);
-  padding: toREM(10) toREM(10);
+  padding: toREM(5) toREM(0);
   background-color: #343434;
-  justify-content: space-between;
+  z-index: 50;
+
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: toREM(20);
+    max-width: toREM(1350);
+    padding: toREM(0) toREM(15);
+    margin: 0 auto;
+
+    @media (max-width: toEM(425.98)) {
+      flex-direction: column;
+      align-items: center;
+      padding: toREM(5);
+      row-gap: toREM(10);
+    }
+  }
 
   &__top {
     display: flex;
@@ -20,11 +37,19 @@
     height: 100%;
     object-fit: contain;
     max-width: toREM(70);
+
+    @media (max-width: toEM(620.98)) {
+      max-width: toREM(40);
+    }
   }
 
   &__name {
     font-size: toREM(22);
     color: #d1d1d1;
+
+    @media (max-width: toEM(620.98)) {
+      font-size: toREM(20);
+    }
   }
 
   &__list {
@@ -35,6 +60,16 @@
     row-gap: toREM(10);
     align-items: center;
     justify-content: space-evenly;
+
+    @media (max-width: toEM(620.98)) {
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    @media (max-width: toEM(425.98)) {
+      flex-direction: row;
+      justify-content: center;
+    }
   }
 
   &__item {
@@ -42,10 +77,13 @@
     align-items: center;
     font-size: toREM(25);
     color: #dedede;
+
+    @media (max-width: toEM(425.98)) {
+      font-size: toREM(20);
+    }
   }
 
   &__link {
-    padding: toREM(10);
     transition: all 0.3s;
     @media (any-hover: hover) {
       &:hover {
@@ -70,8 +108,4 @@
       }
     }
   }
-}
-.pi-heart {
-}
-.pi-eye {
 }

@@ -1,9 +1,11 @@
 <div class="wrapper">
   <app-movie-header></app-movie-header>
   <app-search-header></app-search-header>
-  <main>
+  <main class="main">
     <app-auth-popup></app-auth-popup>
-    <app-movie-sidebar></app-movie-sidebar>
-    <router-outlet></router-outlet>
+    <div class="main__container">
+      <app-movie-sidebar></app-movie-sidebar>
+      <router-outlet></router-outlet>
+    </div>
   </main>
 </div>

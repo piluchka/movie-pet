@@ -7,20 +7,22 @@
   flex-direction: column;
   overflow: clip;
 
-  max-width: toREM(1350);
-  padding: toREM(0) toREM(15);
   margin: 0 auto;
 
   > main {
     flex-grow: 1;
   }
 }
-main {
+.main {
   flex: 1;
-
-  padding-top: toREM(50);
-
-  display: flex;
-  gap: toREM(10);
   width: 100%;
+
+  &__container {
+    padding-top: toREM(50);
+    gap: toREM(10);
+    max-width: toREM(1350);
+    padding: toREM(0) toREM(15);
+    width: 100%;
+    margin: 0 auto;
+  }
 }
