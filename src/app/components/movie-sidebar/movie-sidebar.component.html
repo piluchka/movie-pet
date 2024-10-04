@@ -1,22 +1,4 @@
 <p-sidebar [(visible)]="sidebarVisible" blockScroll="true" autoZIndex="false">
-  <nav class="sidebar">
-    <ul class="sidebar__list">
-      <li class="sidebar__item">
-        <a routerLink="" class="sidebar__link">All movies</a>
-      </li>
-      <li class="sidebar__item">
-        <a routerLink="now-playing" class="sidebar__link">Now Playing</a>
-      </li>
-      <li class="sidebar__item">
-        <a routerLink="popular" class="sidebar__link">Popular</a>
-      </li>
-      <li class="sidebar__item">
-        <a routerLink="top-rated" class="sidebar__link">Top Rated</a>
-      </li>
-      <li class="sidebar__item" icon="pi pi-arrow-right">
-        <a routerLink="upcoming" class="sidebar__link">Upcoming</a>
-      </li>
-    </ul>
-  </nav>
+  <app-panel-menu></app-panel-menu>
 </p-sidebar>
 <p-button (click)="sidebarVisible = true" icon="pi pi-arrow-left" />

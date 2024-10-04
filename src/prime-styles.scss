@@ -112,9 +112,34 @@
   }
 }
 
+// Header
 .header {
   p-sidebar {
     position: relative;
     z-index: 500;
+  }
+}
+
+// Panel menu in sidebar
+.p-menuitem-link {
+  width: 100%;
+}
+.p-panelmenu-header-action {
+  font-size: toREM(22);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: toREM(10);
+  span {
+    display: inline-block;
+  }
+}
+.p-menuitem-link {
+  display: flex;
+  align-items: center;
+  gap: toREM(10);
+  font-size: toREM(20);
+  span {
+    display: inline-block;
   }
 }
