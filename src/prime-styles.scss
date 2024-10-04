@@ -92,7 +92,10 @@
 
   .p-autocomplete-panel {
     max-width: toREM(600);
-    margin-right: toREM(20);
+  }
+
+  .p-autocomplete-item {
+    padding: toREM(10) toREM(5);
   }
 
   &.error {

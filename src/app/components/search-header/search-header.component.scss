@@ -4,16 +4,39 @@
   padding: toREM(15) toREM(0);
   position: relative;
   padding-top: toREM(100);
+
+  @media (max-width: toEM(425.98)) {
+    padding-top: toREM(120);
+  }
+  @media (max-width: toEM(323.98)) {
+    padding-top: toREM(150);
+  }
+
   &__body {
     display: flex;
     align-items: center;
     justify-content: center;
     row-gap: toREM(10);
+    flex-wrap: wrap;
+    column-gap: toREM(20);
+
+    @media (max-width: toEM(526.98)) {
+      flex-direction: column;
+    }
   }
   &__label {
     color: var(--text-color);
-    font-size: toREM(36);
-    margin-right: toREM(20);
+    font-size: toREM(30);
+
+    @media (max-width: toEM(768.98)) {
+      font-size: toREM(24);
+    }
+    @media (max-width: toEM(425.98)) {
+      display: none;
+    }
+  }
+
+  &__inner {
   }
   &__input {
     padding: toREM(7) toREM(5);
