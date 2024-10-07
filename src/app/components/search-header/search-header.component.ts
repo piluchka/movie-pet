@@ -31,7 +31,6 @@ export class SearchHeaderComponent {
   movieName: string = '';
   selectedItem: string = '';
   movies: Movie[] = [];
-  subscription: Subscription = new Subscription();
   isThereAValueInSearch: boolean = true;
 
   constructor(private store: Store, private router: Router) {}
@@ -55,7 +54,7 @@ export class SearchHeaderComponent {
     this.store.dispatch(loadSearchingMovies({ searchValue: searchValue }));
     this.store
       .select(selectSearchingMovies)
-      .pipe(skip(1))
+      .pipe(skip(1), take(1))
       .subscribe((movies) => {
         this.movies = movies;
       });

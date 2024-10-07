@@ -3,9 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieHeaderComponent } from '../../components/movie-header/movie-header.component';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { Movie } from '../../models/movie.model';
-import { Subscription } from 'rxjs';
+import { Subscription, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectNowPlayingMovies } from '../../store/movie-store/selectors';
+import { ClearObservable } from '../../directives/clear-observable.directive';
 
 @Component({
   selector: 'app-movie-now-playing-page',
@@ -14,25 +15,24 @@ import { selectNowPlayingMovies } from '../../store/movie-store/selectors';
   templateUrl: './movie-now-playing-page.component.html',
   styleUrl: './movie-now-playing-page.component.scss',
 })
-export class MovieNowPlayingPageComponent implements OnInit, OnDestroy {
+export class MovieNowPlayingPageComponent
+  extends ClearObservable
+  implements OnInit, OnDestroy
+{
   public nowPlayingMovieList: Movie[] | null = null;
-  private subscription: Subscription = new Subscription();
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.subscription = this.store
+    this.store
       .select(selectNowPlayingMovies)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((nowPlayingMovieList) => {
         if (nowPlayingMovieList) {
           this.nowPlayingMovieList = nowPlayingMovieList;
         }
       });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

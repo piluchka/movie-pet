@@ -4,7 +4,8 @@ import { Movie } from '../../models/movie.model';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { Store } from '@ngrx/store';
 import { selectSearchingMovies } from '../../store/movie-store/selectors';
-import { Subscription } from 'rxjs';
+import { Subscription, takeUntil } from 'rxjs';
+import { ClearObservable } from '../../directives/clear-observable.directive';
 
 @Component({
   selector: 'app-search-movie-page',
@@ -13,21 +14,20 @@ import { Subscription } from 'rxjs';
   templateUrl: './search-movie-page.component.html',
   styleUrl: './search-movie-page.component.scss',
 })
-export class SearchMoviePageComponent implements OnInit, OnDestroy {
+export class SearchMoviePageComponent
+  extends ClearObservable
+  implements OnInit, OnDestroy
+{
   selectedMovies: Movie[] | null = null;
-  subscription: Subscription = new Subscription();
 
-  constructor(private store: Store) {}
-
-  ngOnInit(): void {
-    this.subscription = this.store
-      .select(selectSearchingMovies)
-      .subscribe((movies) => (this.selectedMovies = movies));
+  constructor(private store: Store) {
+    super();
   }
 
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+  ngOnInit(): void {
+    this.store
+      .select(selectSearchingMovies)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((movies) => (this.selectedMovies = movies));
   }
 }

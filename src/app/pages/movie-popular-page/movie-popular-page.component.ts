@@ -3,9 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { MovieHeaderComponent } from '../../components/movie-header/movie-header.component';
 import { Movie } from '../../models/movie.model';
-import { Subscription } from 'rxjs';
+import { Subscription, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectPopularMovies } from '../../store/movie-store/selectors';
+import { ClearObservable } from '../../directives/clear-observable.directive';
 @Component({
   selector: 'app-movie-popular-page',
   standalone: true,
@@ -13,25 +14,24 @@ import { selectPopularMovies } from '../../store/movie-store/selectors';
   templateUrl: './movie-popular-page.component.html',
   styleUrl: './movie-popular-page.component.scss',
 })
-export class MoviePopularPageComponent implements OnInit, OnDestroy {
+export class MoviePopularPageComponent
+  extends ClearObservable
+  implements OnInit, OnDestroy
+{
   public popularMovieList: Movie[] = [];
-  private subscription: Subscription = new Subscription();
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.subscription = this.store
+    this.store
       .select(selectPopularMovies)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((popularMoviesList) => {
         if (popularMoviesList) {
           this.popularMovieList = popularMoviesList;
         }
       });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }
