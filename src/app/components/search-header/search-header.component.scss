@@ -1,15 +1,12 @@
 @use "sass:math";
 @import "../../../assets/styles/_functions.scss";
 .search {
-  padding: toREM(15) toREM(0);
+  padding-bottom: toREM(15);
   position: relative;
   padding-top: toREM(100);
 
-  @media (max-width: toEM(425.98)) {
-    padding-top: toREM(120);
-  }
-  @media (max-width: toEM(323.98)) {
-    padding-top: toREM(150);
+  @media (max-width: toEM(620.98)) {
+    padding-top: toREM(70);
   }
 
   &__body {
@@ -19,10 +16,6 @@
     row-gap: toREM(10);
     flex-wrap: wrap;
     column-gap: toREM(20);
-
-    @media (max-width: toEM(526.98)) {
-      flex-direction: column;
-    }
   }
   &__label {
     color: var(--text-color);
@@ -31,7 +24,7 @@
     @media (max-width: toEM(768.98)) {
       font-size: toREM(24);
     }
-    @media (max-width: toEM(425.98)) {
+    @media (max-width: toEM(526.98)) {
       display: none;
     }
   }

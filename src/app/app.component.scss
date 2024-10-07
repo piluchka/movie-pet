@@ -19,11 +19,9 @@
 
   &__container {
     padding-top: toREM(150);
-    gap: toREM(10);
     max-width: toREM(1350);
     padding: toREM(0) toREM(15);
     width: 100%;
     margin: 0 auto;
-    display: flex;
   }
 }

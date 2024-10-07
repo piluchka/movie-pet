@@ -15,6 +15,10 @@ body {
   row-gap: toREM(40);
 
   width: 100%;
+
+  @media (max-width: toEM(768.98)) {
+    gap: toREM(15);
+  }
 }
 
 // Styles for page-components titles
@@ -24,6 +28,10 @@ body {
   text-align: center;
   margin-bottom: toREM(20);
   text-transform: capitalize;
+
+  @media (max-width: toEM(425.98)) {
+    margin-bottom: toREM(10);
+  }
 }
 
 // Styles for empty pages
