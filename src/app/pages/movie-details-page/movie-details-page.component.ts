@@ -13,13 +13,20 @@ import {
   selectMovieGenres,
 } from '../../store/movie-store/selectors';
 import { ClearObservable } from '../../directives/clear-observable.directive';
+import { ReduceReleaseDatePipe } from '../../pipes/reduceReleaseDate/reduce-release-date.pipe';
 
 @Component({
   selector: 'app-movie-details-page',
   standalone: true,
   templateUrl: './movie-details-page.component.html',
   styleUrl: './movie-details-page.component.scss',
-  imports: [CommonModule, MovieCardComponent, MathRoundPipe, FormatingTimePipe],
+  imports: [
+    ReduceReleaseDatePipe,
+    CommonModule,
+    MovieCardComponent,
+    MathRoundPipe,
+    FormatingTimePipe,
+  ],
 })
 export class MovieDetailsPageComponent
   extends ClearObservable

@@ -14,21 +14,36 @@
       <h1 class="detail-page__title">{{ movieData.title }}</h1>
       <p class="detail-page__tagline">{{ movieData.tagline }}</p>
     </div>
-    <div class="detail-page__body">
-      <p><span>Release:</span> {{ movieData.release_date }}</p>
-      <p><span>Rating:</span> {{ movieData.vote_average | mathRound }}</p>
-      <p><span>Age:</span> @if (movieData.adult) { 18+}@else{ 0+}</p>
+    <ul class="detail-page__list">
+      <li class="detail-page__item">
+        <p>
+          <span>Release:</span> {{ movieData.release_date | reduceReleaseDate }}
+        </p>
+      </li>
+      <li class="detail-page__item">
+        <p><span>Rating:</span> {{ movieData.vote_average | mathRound }}</p>
+      </li>
+      <li class="detail-page__item">
+        <p><span>Age:</span> @if (movieData.adult) { 18+}@else{ 0+}</p>
+      </li>
       @if (movieData.genres.length > 0) {
-      <p>
-        <span>Genres:</span>
-        <ng-container *ngFor="let genre of movieData.genres; let i = index">
-          {{ genre.name }}<span *ngIf="i < movieData.genres.length - 1">,</span>
-        </ng-container>
-      </p>
+      <li class="detail-page__item">
+        <p>
+          <span>Genres:</span>
+          <ng-container *ngFor="let genre of movieData.genres; let i = index">
+            {{ genre.name
+            }}<span *ngIf="i < movieData.genres.length - 1">,</span>
+          </ng-container>
+        </p>
+      </li>
       }
-      <p><span>Original language:</span> {{ movieData.original_language }}</p>
-      <p><span>Duration:</span> {{ movieData.runtime | formatingTime }}</p>
-    </div>
+      <li class="detail-page__item">
+        <p><span>Original language:</span> {{ movieData.original_language }}</p>
+      </li>
+      <li class="detail-page__item">
+        <p><span>Duration:</span> {{ movieData.runtime | formatingTime }}</p>
+      </li>
+    </ul>
     <div class="detail-page__footer">
       <p>{{ movieData.overview }}</p>
     </div>
