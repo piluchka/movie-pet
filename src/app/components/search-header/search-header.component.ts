@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -33,9 +33,22 @@ export class SearchHeaderComponent {
   movies: Movie[] = [];
   isThereAValueInSearch: boolean = true;
 
+  @ViewChild('searchForm') searchForm!: NgForm;
+
   constructor(private store: Store, private router: Router) {}
 
-  onSubmit(form: any) {
+  @HostListener('keydown.enter', ['$event'])
+  onEnterPress(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    const formElement = target.closest('form');
+
+    if (formElement && formElement.classList.contains('search__body')) {
+      event.preventDefault();
+      this.onSubmit(this.searchForm);
+    }
+  }
+
+  onSubmit(form: NgForm) {
     const searchValue = form.form.value['search'];
 
     if (searchValue.length < 1) {
