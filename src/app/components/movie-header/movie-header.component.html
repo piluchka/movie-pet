@@ -12,16 +12,18 @@
       <li class="header__item">
         <a routerLink="favorite" class="header__link">
           <p class="pi pi-heart-fill"></p>
-          Favorite Movies
+          <span>Favorite</span>
         </a>
       </li>
       <li class="header__item">
         <a routerLink="watch-later" class="header__link">
           <p class="pi pi-eye"></p>
-          Watch Later
+          <span>Watch Later</span>
         </a>
       </li>
+      <li class="header__item">
+        <app-movie-sidebar></app-movie-sidebar>
+      </li>
     </nav>
-    <app-movie-sidebar></app-movie-sidebar>
   </div>
 </header>
