@@ -17,6 +17,7 @@ export class PanelMenuComponent {
       {
         label: 'Movie lists',
         items: [
+          { label: 'All movies', routerLink: '/', icon: 'pi pi-circle-fill' },
           {
             label: 'Upcoming',
             routerLink: 'upcoming',
