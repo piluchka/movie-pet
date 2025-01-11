@@ -9,13 +9,11 @@ import { FavoriteMoviesPageComponent } from './pages/favorite-movies-page/favori
 import { WatchLaterPageComponent } from './pages/watch-later-page/watch-later-page.component';
 import { MovieGuard } from './guards/movie.guard';
 import { SearchMoviePageComponent } from './pages/search-movie-page/search-movie-page.component';
-import { MovieListResolver } from './guards/movie-list.resolver';
 
 export const routes: Routes = [
   {
     path: '',
     component: MovieListPageComponent,
-    resolve: { movieData: MovieListResolver },
   },
   {
     path: 'now-playing',
