@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { Movie } from '../../models/movie.model';
 import { takeUntil } from 'rxjs';
@@ -15,10 +15,7 @@ import { LoadingCardComponent } from '../../components/loading-card/loading-card
   styleUrl: './movie-list-page.component.scss',
   imports: [CommonModule, MovieCardComponent, LoadingCardComponent],
 })
-export class MovieListPageComponent
-  extends ClearObservable
-  implements OnInit, OnDestroy
-{
+export class MovieListPageComponent extends ClearObservable implements OnInit {
   constructor(private store: Store) {
     super();
   }

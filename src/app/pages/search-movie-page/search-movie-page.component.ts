@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Movie } from '../../models/movie.model';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { Store } from '@ngrx/store';
@@ -16,7 +16,7 @@ import { ClearObservable } from '../../directives/clear-observable.directive';
 })
 export class SearchMoviePageComponent
   extends ClearObservable
-  implements OnInit, OnDestroy
+  implements OnInit
 {
   constructor(private store: Store) {
     super();

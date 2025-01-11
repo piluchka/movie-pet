@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { CommonModule } from '@angular/common';
-import { Subscription, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { Movie } from '../../models/movie.model';
 import { Store } from '@ngrx/store';
 import { loadFavoriteMovies } from '../../store/movie-store/actions';
@@ -19,11 +19,11 @@ export class FavoriteMoviesPageComponent
   extends ClearObservable
   implements OnInit, OnDestroy
 {
-  public favoriteMovieList: Movie[] = [];
-
   constructor(private store: Store) {
     super();
   }
+
+  public favoriteMovieList: Movie[] = [];
 
   ngOnInit(): void {
     this.store.dispatch(loadFavoriteMovies());

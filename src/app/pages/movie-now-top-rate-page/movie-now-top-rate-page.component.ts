@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MovieHeaderComponent } from '../../components/movie-header/movie-header.component';
+import { Component, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { Movie } from '../../models/movie.model';
-import { Subscription, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectTopRatedMovies } from '../../store/movie-store/selectors';
 import { ClearObservable } from '../../directives/clear-observable.directive';
@@ -18,7 +17,7 @@ import { LoadingCardComponent } from '../../components/loading-card/loading-card
 })
 export class MovieNowTopRatePageComponent
   extends ClearObservable
-  implements OnInit, OnDestroy
+  implements OnInit
 {
   constructor(private store: Store) {
     super();

@@ -1,17 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
-import { ActivatedRoute, Route } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
 import { FormatingTimePipe } from '../../pipes/formatingTime/formating-time.pipe';
-import { skip, Subscription, takeUntil } from 'rxjs';
+import { skip, takeUntil } from 'rxjs';
 import { MovieDetails } from '../../models/movie-details.model';
 import { Store } from '@ngrx/store';
 import { loadMovieById } from '../../store/movie-store/actions';
-import {
-  selectMovieById,
-  selectMovieGenres,
-} from '../../store/movie-store/selectors';
+import { selectMovieById } from '../../store/movie-store/selectors';
 import { ClearObservable } from '../../directives/clear-observable.directive';
 import { ReduceReleaseDatePipe } from '../../pipes/reduceReleaseDate/reduce-release-date.pipe';
 
@@ -23,22 +19,21 @@ import { ReduceReleaseDatePipe } from '../../pipes/reduceReleaseDate/reduce-rele
   imports: [
     ReduceReleaseDatePipe,
     CommonModule,
-    MovieCardComponent,
     MathRoundPipe,
     FormatingTimePipe,
   ],
 })
 export class MovieDetailsPageComponent
   extends ClearObservable
-  implements OnInit, OnDestroy
+  implements OnInit
 {
-  movieData: MovieDetails | null = null;
-  STATIC_IMAGE_PATH: string = 'https://image.tmdb.org/t/p/w500/';
-  incomingMovieId: number = 0;
-
   constructor(private route: ActivatedRoute, private store: Store) {
     super();
   }
+
+  movieData: MovieDetails | null = null;
+  STATIC_IMAGE_PATH: string = 'https://image.tmdb.org/t/p/w500/';
+  incomingMovieId: number = 0;
 
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((data) => {

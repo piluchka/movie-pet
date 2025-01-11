@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { Movie } from '../../models/movie.model';
 import { takeUntil } from 'rxjs';
@@ -17,7 +17,7 @@ import { LoadingCardComponent } from '../../components/loading-card/loading-card
 })
 export class MovieNowPlayingPageComponent
   extends ClearObservable
-  implements OnInit, OnDestroy
+  implements OnInit
 {
   constructor(private store: Store) {
     super();
