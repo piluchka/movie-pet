@@ -8,10 +8,11 @@ import { Store } from '@ngrx/store';
 import { loadUpcomingMovies } from '../../store/movie-store/actions';
 import { selectUpcomingMovies } from '../../store/movie-store/selectors';
 import { ClearObservable } from '../../directives/clear-observable.directive';
+import { LoadingCardComponent } from '../../components/loading-card/loading-card.component';
 @Component({
   selector: 'app-movie-upcoming-page',
   standalone: true,
-  imports: [CommonModule, MovieCardComponent, MovieHeaderComponent],
+  imports: [CommonModule, MovieCardComponent, LoadingCardComponent],
   templateUrl: './movie-upcoming-page.component.html',
   styleUrl: './movie-upcoming-page.component.scss',
 })
@@ -19,11 +20,12 @@ export class MovieUpcomingPageComponent
   extends ClearObservable
   implements OnInit, OnDestroy
 {
-  public upcomingMovieList: Movie[] = [];
-
   constructor(private store: Store) {
     super();
   }
+
+  public upcomingMovieList: Movie[] | null = null;
+  public loadingCardsAmount = Array(5);
 
   ngOnInit(): void {
     this.store

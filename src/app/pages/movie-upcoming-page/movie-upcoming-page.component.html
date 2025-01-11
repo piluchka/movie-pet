@@ -2,8 +2,11 @@
   <h1 class="page-title">Upcoming Movies</h1>
 
   <div class="movie-list">
-    @for (movie of upcomingMovieList; track movie.id) {
+    @if (upcomingMovieList) { @for (movie of upcomingMovieList; track movie.id)
+    {
     <app-movie-card [movie]="movie"></app-movie-card>
-    }
+    } }@else { @for (item of loadingCardsAmount; track $index) {
+    <app-loading-card></app-loading-card>
+    } }
   </div>
 </div>

@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
-import { MovieHeaderComponent } from '../../components/movie-header/movie-header.component';
 import { Movie } from '../../models/movie.model';
-import { Subscription, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectPopularMovies } from '../../store/movie-store/selectors';
 import { ClearObservable } from '../../directives/clear-observable.directive';
+import { LoadingCardComponent } from '../../components/loading-card/loading-card.component';
 @Component({
   selector: 'app-movie-popular-page',
   standalone: true,
-  imports: [CommonModule, MovieCardComponent, MovieHeaderComponent],
+  imports: [CommonModule, MovieCardComponent, LoadingCardComponent],
   templateUrl: './movie-popular-page.component.html',
   styleUrl: './movie-popular-page.component.scss',
 })
@@ -18,11 +18,12 @@ export class MoviePopularPageComponent
   extends ClearObservable
   implements OnInit, OnDestroy
 {
-  public popularMovieList: Movie[] = [];
-
   constructor(private store: Store) {
     super();
   }
+
+  public popularMovieList: Movie[] | null = null;
+  public loadingCardsAmount = Array(5);
 
   ngOnInit(): void {
     this.store
@@ -31,7 +32,9 @@ export class MoviePopularPageComponent
       .subscribe((popularMoviesList) => {
         if (popularMoviesList) {
           this.popularMovieList = popularMoviesList;
+          console.log(this.popularMovieList);
         }
       });
+    console.log(this.popularMovieList);
   }
 }

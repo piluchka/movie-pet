@@ -4,7 +4,7 @@ import { Movie } from '../../models/movie.model';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { Store } from '@ngrx/store';
 import { selectSearchingMovies } from '../../store/movie-store/selectors';
-import { Subscription, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { ClearObservable } from '../../directives/clear-observable.directive';
 
 @Component({
@@ -18,11 +18,11 @@ export class SearchMoviePageComponent
   extends ClearObservable
   implements OnInit, OnDestroy
 {
-  selectedMovies: Movie[] | null = null;
-
   constructor(private store: Store) {
     super();
   }
+
+  public selectedMovies: Movie[] = [];
 
   ngOnInit(): void {
     this.store

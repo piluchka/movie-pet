@@ -7,11 +7,12 @@ import { Subscription, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectTopRatedMovies } from '../../store/movie-store/selectors';
 import { ClearObservable } from '../../directives/clear-observable.directive';
+import { LoadingCardComponent } from '../../components/loading-card/loading-card.component';
 
 @Component({
   selector: 'app-movie-now-top-rate-page',
   standalone: true,
-  imports: [CommonModule, MovieHeaderComponent, MovieCardComponent],
+  imports: [CommonModule, MovieCardComponent, LoadingCardComponent],
   templateUrl: './movie-now-top-rate-page.component.html',
   styleUrl: './movie-now-top-rate-page.component.scss',
 })
@@ -19,11 +20,12 @@ export class MovieNowTopRatePageComponent
   extends ClearObservable
   implements OnInit, OnDestroy
 {
-  public topRatedMovieList: Movie[] = [];
-
   constructor(private store: Store) {
     super();
   }
+
+  public topRatedMovieList: Movie[] = [];
+  public loadingCardsAmount = Array(5);
 
   ngOnInit(): void {
     this.store
