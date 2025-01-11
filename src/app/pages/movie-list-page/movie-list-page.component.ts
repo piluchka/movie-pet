@@ -9,23 +9,25 @@ import {
   selectMovieGenres,
 } from '../../store/movie-store/selectors';
 import { ClearObservable } from '../../directives/clear-observable.directive';
+import { LoadingCardComponent } from '../../components/loading-card/loading-card.component';
 
 @Component({
   selector: 'app-movie-list-page',
   standalone: true,
   templateUrl: './movie-list-page.component.html',
   styleUrl: './movie-list-page.component.scss',
-  imports: [CommonModule, MovieCardComponent],
+  imports: [CommonModule, MovieCardComponent, LoadingCardComponent],
 })
 export class MovieListPageComponent
   extends ClearObservable
   implements OnInit, OnDestroy
 {
-  public allMovieList: Movie[] | null = null;
-
   constructor(private store: Store) {
     super();
   }
+
+  public allMovieList: Movie[] | null = null;
+  public loadingCardsAmount = Array(5);
 
   ngOnInit(): void {
     this.store

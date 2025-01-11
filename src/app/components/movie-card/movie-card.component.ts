@@ -29,7 +29,6 @@ import { MovieGenre } from '../../models/movie-genres.model';
   selector: 'app-movie-card',
   standalone: true,
   imports: [
-    FormatingTimePipe,
     CommonModule,
     CardModule,
     ButtonModule,
@@ -85,12 +84,12 @@ export class MovieCardComponent
         .select(selectMovieGenres)
         .pipe(takeUntil(this.destroy$))
         .subscribe((value) => {
-          this.filterMovieGenres(value, this.movie?.genre_ids);
+          this.setFilteredMovieGenres(value, this.movie?.genre_ids);
         });
     }
   }
 
-  filterMovieGenres(
+  setFilteredMovieGenres(
     allGenres: MovieGenre[] | null,
     currentGenres: number[] | undefined
   ): void {
