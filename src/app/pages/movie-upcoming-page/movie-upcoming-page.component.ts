@@ -30,7 +30,7 @@ export class MovieUpcomingPageComponent
     this.store
       .select(selectUpcomingMovies)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((upcomingMovieList) => {
+      .subscribe((upcomingMovieList: Movie[] | null) => {
         if (upcomingMovieList && upcomingMovieList?.length) {
           this.upcomingMovieList = upcomingMovieList;
         }

@@ -28,6 +28,6 @@ export class SearchMoviePageComponent
     this.store
       .select(selectSearchingMovies)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((movies) => (this.selectedMovies = movies));
+      .subscribe((movies: Movie[]) => (this.selectedMovies = movies));
   }
 }

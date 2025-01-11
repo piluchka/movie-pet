@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
 import { FormatingTimePipe } from '../../pipes/formatingTime/formating-time.pipe';
 import { skip, takeUntil } from 'rxjs';
@@ -36,15 +36,17 @@ export class MovieDetailsPageComponent
   incomingMovieId: number = 0;
 
   ngOnInit(): void {
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe((data) => {
-      this.incomingMovieId = Number(data['id']);
-      this.store.dispatch(loadMovieById({ id: this.incomingMovieId }));
-    });
+    this.route.params
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: Params) => {
+        this.incomingMovieId = Number(data['id']);
+        this.store.dispatch(loadMovieById({ id: this.incomingMovieId }));
+      });
 
     this.store
       .select(selectMovieById)
       .pipe(skip(1), takeUntil(this.destroy$))
-      .subscribe((movie) => {
+      .subscribe((movie: MovieDetails | null) => {
         if (movie) {
           this.movieData = movie;
         }

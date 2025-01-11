@@ -27,7 +27,7 @@ export class MovieListPageComponent extends ClearObservable implements OnInit {
     this.store
       .select(selectAllMovies)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((allMovieList) => {
+      .subscribe((allMovieList: Movie[] | null) => {
         if (allMovieList && allMovieList?.length > 0) {
           this.allMovieList = allMovieList;
         }

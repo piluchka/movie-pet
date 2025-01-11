@@ -30,7 +30,7 @@ export class MovieNowPlayingPageComponent
     this.store
       .select(selectNowPlayingMovies)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((nowPlayingMovieList) => {
+      .subscribe((nowPlayingMovieList: Movie[] | null) => {
         if (nowPlayingMovieList && nowPlayingMovieList?.length > 0) {
           this.nowPlayingMovieList = nowPlayingMovieList;
         }

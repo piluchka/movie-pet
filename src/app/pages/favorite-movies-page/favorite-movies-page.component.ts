@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { CommonModule } from '@angular/common';
 import { takeUntil } from 'rxjs';
@@ -17,7 +17,7 @@ import { ClearObservable } from '../../directives/clear-observable.directive';
 })
 export class FavoriteMoviesPageComponent
   extends ClearObservable
-  implements OnInit, OnDestroy
+  implements OnInit
 {
   constructor(private store: Store) {
     super();
@@ -31,7 +31,7 @@ export class FavoriteMoviesPageComponent
     this.store
       .select(selectFavoriteMovies)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((movies) => {
+      .subscribe((movies: Movie[] | null) => {
         if (movies) {
           this.favoriteMovieList = movies;
         }
