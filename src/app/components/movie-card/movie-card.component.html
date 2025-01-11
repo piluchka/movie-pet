@@ -5,7 +5,7 @@
       class="movie-card__img"
       [src]="
         movie.poster_path
-          ? STATIC_IMAGE_PATH + movie.poster_path
+          ? imagePath + movie.poster_path
           : 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'
       "
       alt="Card"

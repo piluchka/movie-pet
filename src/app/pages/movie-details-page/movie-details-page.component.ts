@@ -10,6 +10,7 @@ import { loadMovieById } from '../../store/movie-store/actions';
 import { selectMovieById } from '../../store/movie-store/selectors';
 import { ClearObservable } from '../../directives/clear-observable.directive';
 import { ReduceReleaseDatePipe } from '../../pipes/reduceReleaseDate/reduce-release-date.pipe';
+import { PathsEnum } from '../../enums/path.enum';
 
 @Component({
   selector: 'app-movie-details-page',
@@ -32,7 +33,7 @@ export class MovieDetailsPageComponent
   }
 
   movieData: MovieDetails | null = null;
-  STATIC_IMAGE_PATH: string = 'https://image.tmdb.org/t/p/w500/';
+  imagePath: string = PathsEnum.STATIC_IMAGE_PATH;
   incomingMovieId: number = 0;
 
   ngOnInit(): void {

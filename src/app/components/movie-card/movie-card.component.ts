@@ -23,6 +23,7 @@ import { ClearObservable } from '../../directives/clear-observable.directive';
 import { selectAccountId } from '../../store/auth-store/selectors';
 import { showAuthPopup } from '../../store/auth-store/actions';
 import { MovieGenre } from '../../models/movie-genres.model';
+import { PathsEnum } from '../../enums/path.enum';
 
 @Component({
   selector: 'app-movie-card',
@@ -47,7 +48,7 @@ export class MovieCardComponent extends ClearObservable implements OnInit {
     super();
   }
 
-  public STATIC_IMAGE_PATH: string = 'https://image.tmdb.org/t/p/w500/';
+  public imagePath: string = PathsEnum.STATIC_IMAGE_PATH;
   public routePath: string | undefined = undefined;
 
   public isInFavoriteList: boolean = false;
