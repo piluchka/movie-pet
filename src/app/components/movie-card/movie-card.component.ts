@@ -1,5 +1,4 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormatingTimePipe } from '../../pipes/formatingTime/formating-time.pipe';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -7,7 +6,7 @@ import { MathRoundPipe } from '../../pipes/mathRound/math-round.pipe';
 import { ReduceStringPipe } from '../../pipes/reduceString/reduce-string.pipe';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Movie } from '../../models/movie.model';
-import { filter, map, of, switchMap, takeUntil } from 'rxjs';
+import { of, switchMap, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   deleteMovieFromFavoriteMovies,
@@ -43,6 +42,14 @@ export class MovieCardComponent
   extends ClearObservable
   implements OnInit, OnDestroy
 {
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private authStore: Store
+  ) {
+    super();
+  }
+
   public STATIC_IMAGE_PATH: string = 'https://image.tmdb.org/t/p/w500/';
   public routePath: string | undefined = undefined;
 
@@ -53,14 +60,6 @@ export class MovieCardComponent
 
   @Input() movie: Movie | null = null;
   @Input() isShortDescriptionNeeded: boolean = true;
-
-  constructor(
-    private store: Store,
-    private route: ActivatedRoute,
-    private authStore: Store
-  ) {
-    super();
-  }
 
   ngOnInit(): void {
     this.routePath = this.route.snapshot.routeConfig?.path;
@@ -99,6 +98,7 @@ export class MovieCardComponent
         .map((genre) => genre.name);
     }
   }
+
   // Funcs for favorites
   setToFavoriteMovieList() {
     this.authStore
@@ -122,6 +122,7 @@ export class MovieCardComponent
       )
       .subscribe();
   }
+
   deleteMovieFromFavoriteMovieList() {
     if (this.movie) {
       this.isInFavoriteList = false;
@@ -157,6 +158,7 @@ export class MovieCardComponent
       )
       .subscribe();
   }
+
   deleteMovieWatchLaterMovieList() {
     if (this.movie) {
       this.isInWatchList = false;

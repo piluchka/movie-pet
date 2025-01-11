@@ -4,7 +4,6 @@ import { MovieHeaderComponent } from './components/movie-header/movie-header.com
 import { Store } from '@ngrx/store';
 import { AuthPopupComponent } from './components/auth-popup/auth-popup.component';
 import { SearchHeaderComponent } from './components/search-header/search-header.component';
-import { ClearObservable } from './directives/clear-observable.directive';
 import { loadAllMovies, loadMovieGenres } from './store/movie-store/actions';
 
 @Component({

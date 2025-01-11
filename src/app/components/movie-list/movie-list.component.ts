@@ -24,6 +24,7 @@ export class MovieListComponent {
       movie.addedToFav = true;
     }
   }
+
   handleWatchList(movie: any) {
     const movieIndex = this.watchLaterList.findIndex((obj) => obj === movie);
     if (movieIndex !== -1) {

@@ -34,16 +34,16 @@ export class AuthPopupComponent
   extends ClearObservable
   implements OnInit, OnDestroy
 {
+  constructor(private authStore: Store) {
+    super();
+  }
+
   visible: boolean = true;
   isPasswordValid: boolean = true;
   isUserNameValid: boolean = true;
   isUserNameAndPasswordValid: boolean = true;
   errorMessages = ErrorMessages;
   authForm: FormGroup = new FormGroup({});
-
-  constructor(private authStore: Store) {
-    super();
-  }
 
   ngOnInit(): void {
     this.authStore
@@ -73,6 +73,7 @@ export class AuthPopupComponent
       this.logInValidation();
     }
   }
+
   logInValidation() {
     this.authStore.dispatch(getRequestToken());
 

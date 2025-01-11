@@ -11,7 +11,6 @@ import { MenuItem } from 'primeng/api';
   styleUrl: './panel-menu.component.scss',
 })
 export class PanelMenuComponent {
-  items: MenuItem[] = [];
   constructor() {
     this.items = [
       {
@@ -42,4 +41,6 @@ export class PanelMenuComponent {
       },
     ];
   }
+
+  items: MenuItem[] = [];
 }

@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Movie } from '../../models/movie.model';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { loadSearchingMovies } from '../../store/movie-store/actions';
 import { selectSearchingMovies } from '../../store/movie-store/selectors';
-import { skip, Subscription, take } from 'rxjs';
+import { skip, take } from 'rxjs';
 import { ReduceReleaseDatePipe } from '../../pipes/reduceReleaseDate/reduce-release-date.pipe';
 
 @Component({
@@ -20,22 +19,20 @@ import { ReduceReleaseDatePipe } from '../../pipes/reduceReleaseDate/reduce-rele
     ButtonModule,
     FormsModule,
     AutoCompleteModule,
-    RouterLink,
-    RouterLinkActive,
     ReduceReleaseDatePipe,
   ],
   templateUrl: './search-header.component.html',
   styleUrl: './search-header.component.scss',
 })
 export class SearchHeaderComponent {
+  constructor(private store: Store, private router: Router) {}
+
   movieName: string = '';
   selectedItem: string = '';
   movies: Movie[] = [];
   isThereAValueInSearch: boolean = true;
 
   @ViewChild('searchForm') searchForm!: NgForm;
-
-  constructor(private store: Store, private router: Router) {}
 
   @HostListener('keydown.enter', ['$event'])
   onEnterPress(event: KeyboardEvent) {
@@ -72,6 +69,7 @@ export class SearchHeaderComponent {
         this.movies = movies;
       });
   }
+
   onSelect(event: any) {
     this.selectedItem = '';
     this.router.navigate(['/movie', event.value.id]);
