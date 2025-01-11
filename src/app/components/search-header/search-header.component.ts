@@ -35,7 +35,7 @@ export class SearchHeaderComponent {
   @ViewChild('searchForm') searchForm!: NgForm;
 
   @HostListener('keydown.enter', ['$event'])
-  onEnterPress(event: KeyboardEvent) {
+  onEnterPress(event: KeyboardEvent): void {
     const target = event.target as HTMLElement;
     const formElement = target.closest('form');
 
@@ -45,7 +45,7 @@ export class SearchHeaderComponent {
     }
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit(form: NgForm): void {
     const searchValue = form.form.value['search'];
 
     if (searchValue.length < 1) {
@@ -59,7 +59,7 @@ export class SearchHeaderComponent {
     }
   }
 
-  onInput(event: any) {
+  onInput(event: any): void {
     const searchValue = event.query;
     this.store.dispatch(loadSearchingMovies({ searchValue: searchValue }));
     this.store
@@ -70,7 +70,7 @@ export class SearchHeaderComponent {
       });
   }
 
-  onSelect(event: any) {
+  onSelect(event: any): void {
     this.selectedItem = '';
     this.router.navigate(['/movie', event.value.id]);
   }

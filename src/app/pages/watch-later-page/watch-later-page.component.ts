@@ -28,7 +28,7 @@ export class WatchLaterPageComponent extends ClearObservable implements OnInit {
     this.store
       .select(selectWatchLaterMovies)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((movies) => {
+      .subscribe((movies: Movie[] | null) => {
         if (movies) {
           this.watchLaterMovieList = movies;
         }

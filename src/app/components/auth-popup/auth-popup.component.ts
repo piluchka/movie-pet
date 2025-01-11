@@ -30,15 +30,12 @@ import { ErrorMessages } from '../../enums/auth-popup.enum';
   templateUrl: './auth-popup.component.html',
   styleUrl: './auth-popup.component.scss',
 })
-export class AuthPopupComponent
-  extends ClearObservable
-  implements OnInit, OnDestroy
-{
+export class AuthPopupComponent extends ClearObservable implements OnInit {
   constructor(private authStore: Store) {
     super();
   }
 
-  visible: boolean = true;
+  isVisible: boolean = true;
   isPasswordValid: boolean = true;
   isUserNameValid: boolean = true;
   isUserNameAndPasswordValid: boolean = true;
@@ -49,7 +46,9 @@ export class AuthPopupComponent
     this.authStore
       .select(selectIsAuthPopupVisible)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((isAuthPopupVisible) => (this.visible = isAuthPopupVisible));
+      .subscribe(
+        (isAuthPopupVisible: boolean) => (this.isVisible = isAuthPopupVisible)
+      );
     this.createAuthForm();
   }
 
@@ -63,24 +62,26 @@ export class AuthPopupComponent
     });
   }
 
-  onSubmit() {
-    this.isPasswordValid =
-      this.authForm.controls['password'].status === 'INVALID' ? false : true;
-    this.isUserNameValid =
-      this.authForm.controls['userName'].status === 'INVALID' ? false : true;
+  onSubmit(): void {
+    this.isPasswordValid = !(
+      this.authForm.controls['password'].status === 'INVALID'
+    );
+    this.isUserNameValid = !(
+      this.authForm.controls['userName'].status === 'INVALID'
+    );
 
     if (this.authForm.status === 'VALID') {
       this.logInValidation();
     }
   }
 
-  logInValidation() {
+  logInValidation(): void {
     this.authStore.dispatch(getRequestToken());
 
     this.authStore
       .select(selectIsRequestTokenLoaded)
       .pipe(
-        filter((isLoaded) => isLoaded),
+        filter((isLoaded: boolean) => isLoaded),
         first()
       )
       .subscribe(() => {
@@ -92,7 +93,7 @@ export class AuthPopupComponent
         this.authStore
           .select(selectAuthError)
           .pipe(
-            filter((error) => error),
+            filter((error: any) => error),
             first()
           )
           .subscribe(() => {
@@ -101,7 +102,7 @@ export class AuthPopupComponent
       });
   }
 
-  closeDialog() {
+  closeDialog(): void {
     this.authStore.dispatch(hideAuthPopup());
   }
 }

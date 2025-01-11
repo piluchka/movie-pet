@@ -38,10 +38,7 @@ import { MovieGenre } from '../../models/movie-genres.model';
   templateUrl: './movie-card.component.html',
   styleUrl: './movie-card.component.scss',
 })
-export class MovieCardComponent
-  extends ClearObservable
-  implements OnInit, OnDestroy
-{
+export class MovieCardComponent extends ClearObservable implements OnInit {
   constructor(
     private store: Store,
     private route: ActivatedRoute,
@@ -69,20 +66,22 @@ export class MovieCardComponent
         .select(isInFavoriteList(this.movie))
         .pipe(takeUntil(this.destroy$))
         .subscribe(
-          (isInFavoriteList) => (this.isInFavoriteList = isInFavoriteList)
+          (isInFavoriteList: boolean) =>
+            (this.isInFavoriteList = isInFavoriteList)
         );
 
       this.store
         .select(isInWatchLaterList(this.movie))
         .pipe(takeUntil(this.destroy$))
         .subscribe(
-          (isInWatchLaterList) => (this.isInWatchList = isInWatchLaterList)
+          (isInWatchLaterList: boolean) =>
+            (this.isInWatchList = isInWatchLaterList)
         );
 
       this.store
         .select(selectMovieGenres)
         .pipe(takeUntil(this.destroy$))
-        .subscribe((value) => {
+        .subscribe((value: MovieGenre[] | null) => {
           this.setFilteredMovieGenres(value, this.movie?.genre_ids);
         });
     }
@@ -94,18 +93,18 @@ export class MovieCardComponent
   ): void {
     if (allGenres && currentGenres) {
       this.movieGenres = allGenres
-        .filter((genre) => currentGenres.includes(genre.id))
-        .map((genre) => genre.name);
+        .filter((genre: MovieGenre) => currentGenres.includes(genre.id))
+        .map((genre: MovieGenre) => genre.name);
     }
   }
 
   // Funcs for favorites
-  setToFavoriteMovieList() {
+  setToFavoriteMovieList(): void {
     this.authStore
       .select(selectAccountId)
       .pipe(
         takeUntil(this.destroy$),
-        switchMap((accountId) => {
+        switchMap((accountId: string | null) => {
           if (accountId) {
             if (this.movie) {
               this.isInFavoriteList = true;
@@ -123,7 +122,7 @@ export class MovieCardComponent
       .subscribe();
   }
 
-  deleteMovieFromFavoriteMovieList() {
+  deleteMovieFromFavoriteMovieList(): void {
     if (this.movie) {
       this.isInFavoriteList = false;
       this.store.dispatch(
@@ -136,12 +135,12 @@ export class MovieCardComponent
   }
 
   // Func for watch later
-  setToWatchLaterMovieList() {
+  setToWatchLaterMovieList(): void {
     this.authStore
       .select(selectAccountId)
       .pipe(
         takeUntil(this.destroy$),
-        switchMap((accountId) => {
+        switchMap((accountId: string | null) => {
           if (accountId) {
             if (this.movie) {
               this.isInWatchList = true;
@@ -159,7 +158,7 @@ export class MovieCardComponent
       .subscribe();
   }
 
-  deleteMovieWatchLaterMovieList() {
+  deleteMovieWatchLaterMovieList(): void {
     if (this.movie) {
       this.isInWatchList = false;
       this.store.dispatch(

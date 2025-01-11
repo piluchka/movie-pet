@@ -12,5 +12,9 @@ import { PanelMenuComponent } from '../panel-menu/panel-menu.component';
   styleUrl: './movie-sidebar.component.scss',
 })
 export class MovieSidebarComponent {
-  sidebarVisible = false;
+  sidebarVisible: boolean = false;
+
+  toggleSidebar(): void {
+    this.sidebarVisible = !this.sidebarVisible;
+  }
 }
