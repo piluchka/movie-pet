@@ -23,15 +23,15 @@ export class MovieNowTopRatePageComponent
     super();
   }
 
-  public topRatedMovieList: Movie[] = [];
+  public topRatedMovieList: Movie[] | null = null;
   public loadingCardsAmount = Array(5);
 
   ngOnInit(): void {
     this.store
       .select(selectTopRatedMovies)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((topRatedMovieList) => {
-        if (topRatedMovieList) {
+      .subscribe((topRatedMovieList: Movie[] | null) => {
+        if (topRatedMovieList && topRatedMovieList?.length > 0) {
           this.topRatedMovieList = topRatedMovieList;
         }
       });

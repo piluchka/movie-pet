@@ -31,7 +31,7 @@ export class MovieUpcomingPageComponent
       .select(selectUpcomingMovies)
       .pipe(takeUntil(this.destroy$))
       .subscribe((upcomingMovieList) => {
-        if (upcomingMovieList) {
+        if (upcomingMovieList && upcomingMovieList?.length) {
           this.upcomingMovieList = upcomingMovieList;
         }
       });

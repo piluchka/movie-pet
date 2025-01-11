@@ -31,7 +31,7 @@ export class MoviePopularPageComponent
       .select(selectPopularMovies)
       .pipe(takeUntil(this.destroy$))
       .subscribe((popularMoviesList) => {
-        if (popularMoviesList) {
+        if (popularMoviesList && popularMoviesList?.length) {
           this.popularMovieList = popularMoviesList;
         }
       });
