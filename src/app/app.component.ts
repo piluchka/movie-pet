@@ -1,21 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  RouterLink,
-  RouterLinkActive,
-  RouterModule,
-  RouterOutlet,
-} from '@angular/router';
-import { MovieListComponent } from './components/movie-list/movie-list.component';
-import { MovieCardComponent } from './components/movie-card/movie-card.component';
-import { MovieSidebarComponent } from './components/movie-sidebar/movie-sidebar.component';
+import { Component, OnInit } from '@angular/core';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { MovieHeaderComponent } from './components/movie-header/movie-header.component';
-import { MovieListPageComponent } from './pages/movie-list-page/movie-list-page.component';
-import { AuthService } from './services/auth/auth.service';
-import { MovieService } from './services/movie/movie.service';
-import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AuthPopupComponent } from './components/auth-popup/auth-popup.component';
 import { SearchHeaderComponent } from './components/search-header/search-header.component';
+import { ClearObservable } from './directives/clear-observable.directive';
+import { loadAllMovies, loadMovieGenres } from './store/movie-store/actions';
 
 @Component({
   selector: 'app-root',
@@ -23,21 +13,20 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   imports: [
-    MovieListComponent,
-    MovieCardComponent,
-    MovieSidebarComponent,
     MovieHeaderComponent,
     RouterOutlet,
     RouterModule,
-    RouterLink,
-    RouterLinkActive,
-    MovieListPageComponent,
     AuthPopupComponent,
-    SearchHeaderComponent
+    SearchHeaderComponent,
   ],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public title = 'P-Theatre';
 
-  constructor() {}
+  constructor(private store: Store) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(loadMovieGenres());
+    this.store.dispatch(loadAllMovies());
+  }
 }
