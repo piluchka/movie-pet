@@ -56,7 +56,7 @@
     animation: loading-animation 1.5s ease-in infinite;
   }
 
-  @media (max-width: 444px) {
+  @media (max-width: toEM(444)) {
     margin-bottom: 20px;
     row-gap: 10px;
     &__image,

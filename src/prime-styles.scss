@@ -7,6 +7,10 @@
   flex-direction: column;
   height: 100%;
   justify-content: stretch;
+
+  @media (max-width: toEM(444)) {
+    width: 300px;
+  }
 }
 
 // Cards

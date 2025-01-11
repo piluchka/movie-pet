@@ -19,6 +19,9 @@ body {
   @media (max-width: toEM(768.98)) {
     gap: toREM(15);
   }
+  @media (max-width: toEM(444)) {
+    justify-items: center;
+  }
 }
 
 // Styles for page-components titles
