@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuItem } from 'primeng/api';
+import { PagesPaths } from '../../enums/path.enum';
 
 @Component({
   selector: 'app-panel-menu',
@@ -12,27 +13,36 @@ import { MenuItem } from 'primeng/api';
 })
 export class PanelMenuComponent {
   constructor() {
+    this.pagePaths = PagesPaths;
     this.items = [
       {
         label: 'Movie lists',
         items: [
-          { label: 'All movies', routerLink: '/', icon: 'pi pi-circle-fill' },
+          {
+            label: 'All movies',
+            routerLink: PagesPaths.MAIN_PAGE,
+            icon: 'pi pi-circle-fill',
+          },
           {
             label: 'Upcoming',
-            routerLink: 'upcoming',
+            routerLink: PagesPaths.UPCOMING_PAGE,
             icon: 'pi pi-hourglass',
           },
           {
             label: 'Now playing',
-            routerLink: 'now-playing',
+            routerLink: PagesPaths.NOW_PLAYING_PAGE,
             icon: 'pi pi-play-circle',
           },
           {
             label: 'Top Rated',
-            routerLink: 'top-rated',
+            routerLink: PagesPaths.TOP_RATED_PAGE,
             icon: 'pi pi-thumbs-up-fill',
           },
-          { label: 'Popular', routerLink: 'popular', icon: 'pi pi-star-fill' },
+          {
+            label: 'Popular',
+            routerLink: PagesPaths.POPULAR_PAGE,
+            icon: 'pi pi-star-fill',
+          },
         ],
       },
       {
@@ -43,4 +53,5 @@ export class PanelMenuComponent {
   }
 
   items: MenuItem[] = [];
+  pagePaths: any;
 }
