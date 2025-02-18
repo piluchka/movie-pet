@@ -10,16 +10,16 @@
     </a>
     <nav class="header__list">
       <li class="header__item">
-        <a routerLink="favorite" class="header__link">
+        <button (click)="openSelectedList('fav')" class="header__btn btn">
           <p class="pi pi-heart-fill"></p>
           <span>Favorite</span>
-        </a>
+        </button>
       </li>
       <li class="header__item">
-        <a routerLink="watch-later" class="header__link">
+        <button (click)="openSelectedList('watch')" class="header__btn btn">
           <p class="pi pi-eye"></p>
           <span>Watch Later</span>
-        </a>
+        </button>
       </li>
       <li class="header__item">
         <app-movie-sidebar></app-movie-sidebar>

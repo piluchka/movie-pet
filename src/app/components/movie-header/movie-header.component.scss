@@ -71,7 +71,8 @@
     }
   }
 
-  &__link {
+  &__btn {
+    background-color: transparent;
     transition: all 0.3s;
     display: flex;
     align-items: center;
