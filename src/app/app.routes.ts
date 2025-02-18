@@ -9,27 +9,12 @@ import { FavoriteMoviesPageComponent } from './pages/favorite-movies-page/favori
 import { WatchLaterPageComponent } from './pages/watch-later-page/watch-later-page.component';
 import { MovieGuard } from './guards/movie.guard';
 import { SearchMoviePageComponent } from './pages/search-movie-page/search-movie-page.component';
+import { MoviesPageComponent } from './pages/movies-page/movies-page.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: MovieListPageComponent,
-  },
-  {
-    path: 'now-playing',
-    component: MovieNowPlayingPageComponent,
-  },
-  {
-    path: 'top-rated',
-    component: MovieNowTopRatePageComponent,
-  },
-  {
-    path: 'popular',
-    component: MoviePopularPageComponent,
-  },
-  {
-    path: 'upcoming',
-    component: MovieUpcomingPageComponent,
+    component: MoviesPageComponent,
   },
   { path: 'movie/:id', component: MovieDetailsPageComponent },
   {
@@ -43,4 +28,8 @@ export const routes: Routes = [
     canActivate: [MovieGuard],
   },
   { path: 'search', component: SearchMoviePageComponent },
+  {
+    path: ':category',
+    component: MoviesPageComponent,
+  },
 ];

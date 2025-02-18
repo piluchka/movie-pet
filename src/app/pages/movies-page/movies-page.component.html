@@ -1,1 +1,16 @@
-<p>movies-page works!</p>
+<div class="all-movies">
+  <h1 class="page-title">{{pageTitle}}</h1>
+
+  <div class="movie-list">
+    @if (currentMovieList) { 
+      @for (movie of currentMovieList; track movie.id) {
+    <app-movie-card [movie]="movie"></app-movie-card>
+      } 
+    } @else 
+      { 
+        @for (item of loadingCardsAmount; track $index) {
+    <app-loading-card></app-loading-card>
+      } 
+    }
+  </div>
+</div>
