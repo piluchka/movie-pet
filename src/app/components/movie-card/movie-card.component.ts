@@ -115,7 +115,7 @@ export class MovieCardComponent extends ClearObservable implements OnInit {
             }
             return of(true);
           } else {
-            this.authStore.dispatch(showAuthPopup());
+            this.authStore.dispatch(showAuthPopup({}));
             return of(false);
           }
         })
@@ -151,7 +151,7 @@ export class MovieCardComponent extends ClearObservable implements OnInit {
             }
             return of(true);
           } else {
-            this.authStore.dispatch(showAuthPopup());
+            this.authStore.dispatch(showAuthPopup({}));
             return of(false);
           }
         })

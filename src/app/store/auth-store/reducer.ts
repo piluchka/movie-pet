@@ -74,10 +74,11 @@ export const AuthReducer = createReducer(
   }),
 
   // Popup
-  on(showAuthPopup, (state) => {
+  on(showAuthPopup, (state, { redirectUrl }) => {
     return {
       ...state,
       isAuthPopupVisible: true,
+      redirectUrl,
     };
   }),
 

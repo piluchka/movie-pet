@@ -52,5 +52,8 @@ export const getAccountIdFailure = createAction(
 );
 
 // Popup
-export const showAuthPopup = createAction(AuthTypes.SHOW_AUTH_POPUP);
+export const showAuthPopup = createAction(
+  AuthTypes.SHOW_AUTH_POPUP,
+  props<{ redirectUrl?: string }>()
+);
 export const hideAuthPopup = createAction(AuthTypes.HIDE_AUTH_POPUP);

@@ -16,11 +16,16 @@ import {
 import { AuthService } from '../../services/auth/auth.service';
 import { catchError, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectRequestToken, selectSessionId } from './selectors';
+import {
+  selectAuthState,
+  selectRequestToken,
+  selectSessionId,
+} from './selectors';
 import {
   loadFavoriteMovies,
   loadWatchLaterMovies,
 } from '../movie-store/actions';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
@@ -89,9 +94,14 @@ export class AuthEffects {
   closeAuthPopup$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getAccountIdSuccess),
-      tap(() => {
+      withLatestFrom(this.authStore.select(selectAuthState)),
+      tap(([_, authState]) => {
         this.movieStore.dispatch(loadFavoriteMovies());
         this.movieStore.dispatch(loadWatchLaterMovies());
+
+        if (authState.redirectUrl) {
+          this.router.navigate([authState.redirectUrl]);
+        }
       }),
       map(() => hideAuthPopup())
     )
@@ -101,6 +111,7 @@ export class AuthEffects {
     private actions$: Actions,
     private authService: AuthService,
     private authStore: Store,
-    private movieStore: Store
+    private movieStore: Store,
+    private router: Router
   ) {}
 }
