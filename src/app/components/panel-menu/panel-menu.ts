@@ -1,7 +1,7 @@
 import { PagesPaths } from '../../enums/path.enum';
 import { MenuMainItems } from '../../models/panel-menu.model';
 
-export const panelMenuSettings: MenuMainItems[] = [
+export const basePanelMenuSettings: MenuMainItems[] = [
   {
     label: 'Movie lists',
     items: [
@@ -34,6 +34,6 @@ export const panelMenuSettings: MenuMainItems[] = [
   },
   {
     label: 'Genres',
-    items: [{ label: 'Cinema' }, { label: 'Horror' }, { label: 'Comedy' }],
+    items: [],
   },
 ];
