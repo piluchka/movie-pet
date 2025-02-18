@@ -24,3 +24,5 @@ export interface MovieList {
   total_pages: number;
   total_results: number;
 }
+
+export type movieLoadingState = 'loading' | 'loaded' | 'error'

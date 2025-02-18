@@ -7,10 +7,11 @@ import {
   selectAllMovies,
   selectNowPlayingMovies,
   selectPopularMovies,
+  selectSearchingMovies,
   selectTopRatedMovies,
   selectUpcomingMovies,
 } from '../../store/movie-store/selectors';
-import { Movie } from '../../models/movie.model';
+import { Movie, movieLoadingState } from '../../models/movie.model';
 import { MovieCardComponent } from "../../components/movie-card/movie-card.component";
 import { LoadingCardComponent } from "../../components/loading-card/loading-card.component";
 
@@ -27,12 +28,14 @@ export class MoviesPageComponent extends ClearObservable implements OnInit {
 
   pageTitle = '';
   loadingCardsAmount = Array(5);
+  loadingState: movieLoadingState = 'loading'
   private listsNamesAndTriggers = new Map<string, any>([
     ['all-movies', selectAllMovies],
     ['upcoming', selectUpcomingMovies],
     ['now-playing', selectNowPlayingMovies],
     ['top-rated', selectTopRatedMovies],
     ['popular', selectPopularMovies],
+    ['search', selectSearchingMovies],
   ]);
 
   private categoryTitles: { [key: string]: string } = {
@@ -41,6 +44,7 @@ export class MoviesPageComponent extends ClearObservable implements OnInit {
     'now-playing': 'Now playing',
     'top-rated': 'Top Rated',
     popular: 'Popular',
+    search: 'Searching Movies'
   };
 
   constructor(private route: ActivatedRoute, private store: Store) {
@@ -48,15 +52,6 @@ export class MoviesPageComponent extends ClearObservable implements OnInit {
   }
 
   ngOnInit() {
-    this.store
-      .select(selectAllMovies)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((allMovieList: Movie[] | null) => {
-        if (allMovieList && allMovieList?.length > 0) {
-          this.currentMovieList = allMovieList;
-        }
-      });
-
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.category = params.get('category') ?? '';
       this.getCurrentMovieList(this.category);
@@ -70,6 +65,8 @@ export class MoviesPageComponent extends ClearObservable implements OnInit {
       selector = this.listsNamesAndTriggers.get('all-movies')
     }
 
+    this.loadingState = 'loading'
+
     if (selector) {
       this.store
         .select(selector)
@@ -77,6 +74,9 @@ export class MoviesPageComponent extends ClearObservable implements OnInit {
         .subscribe((movieList: any) => {
           if (movieList && movieList.length > 0) {
             this.currentMovieList = movieList;
+            this.loadingState = 'loaded'
+          }else{
+            this.loadingState = 'error'
           }
         });
     }

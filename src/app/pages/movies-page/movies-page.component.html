@@ -2,15 +2,20 @@
   <h1 class="page-title">{{pageTitle}}</h1>
 
   <div class="movie-list">
-    @if (currentMovieList) { 
+    @if (currentMovieList && loadingState === 'loaded') { 
       @for (movie of currentMovieList; track movie.id) {
     <app-movie-card [movie]="movie"></app-movie-card>
       } 
-    } @else 
-      { 
+    } @else if(loadingState === 'loading') { 
         @for (item of loadingCardsAmount; track $index) {
     <app-loading-card></app-loading-card>
       } 
     }
   </div>
+   @if(loadingState === 'error') {
+    <div class="no-movies">
+      <img src="../../../assets/icons/empty-icon.svg" alt="empty" />
+      <p>No movies found</p>
+    </div>
+  }
 </div>
