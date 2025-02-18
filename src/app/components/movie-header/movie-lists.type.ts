@@ -1,1 +1,1 @@
-export type movieSelectedListType = 'fav' | 'watch'
+export type movieSelectedListType = 'favorite' | 'watch-later';
